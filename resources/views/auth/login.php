@@ -13,13 +13,12 @@
         <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
         <label>
             <span>ログインID</span>
-            <input type="text" name="email" value="system-admin" required autocomplete="username">
+            <input type="text" name="email" required autocomplete="username">
         </label>
         <label>
             <span>パスワード</span>
-            <input type="password" name="password" value="password" required autocomplete="current-password">
+            <input type="password" name="password" required autocomplete="current-password">
         </label>
         <button class="button primary" type="submit">ログイン</button>
     </form>
-    <p class="hint">初期全体管理者: system-admin / password</p>
 </section>

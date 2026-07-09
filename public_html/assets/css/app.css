@@ -1850,21 +1850,68 @@ a.list-row:hover {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .topbar,
     .inline-actions,
     .knowledge-card {
         align-items: stretch;
         flex-direction: column;
     }
 
+    .topbar {
+        align-items: center;
+        flex-direction: row;
+        padding: 12px 10px;
+    }
+
     .topbar-left {
-        align-items: flex-start;
-        flex-direction: column;
+        align-items: center;
+        flex-direction: row;
+        flex: 1 1 auto;
         gap: 8px;
+        min-width: 0;
     }
 
     .topbar-logo img {
-        width: 118px;
+        width: 82px;
+    }
+
+    .top-portal-title {
+        align-items: baseline;
+        flex-wrap: nowrap;
+        gap: 6px;
+    }
+
+    .top-portal-title strong {
+        font-size: 15px;
+    }
+
+    .top-portal-title span {
+        font-size: 11px;
+    }
+
+    .app-shell.is-staff-shell .main {
+        width: 100%;
+    }
+
+    .page-header,
+    .panel,
+    .knowledge-list,
+    .dashboard-grid,
+    .module-grid,
+    .detail-layout,
+    .editor-layout,
+    .admin-grid,
+    .portal-hero,
+    .portal-board {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    .user-menu {
+        flex: 0 0 auto;
+        gap: 8px;
+        justify-content: flex-end;
+        width: auto;
+        font-size: 12px;
     }
 
     .filter-bar {
@@ -1913,5 +1960,20 @@ a.list-row:hover {
     .link-row-head,
     .file-row-head {
         display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .topbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .topbar-left {
+        width: 100%;
+    }
+
+    .user-menu {
+        width: 100%;
     }
 }
