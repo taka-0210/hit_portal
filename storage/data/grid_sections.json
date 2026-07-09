@@ -1,0 +1,905 @@
+[
+    {
+        "id": 1,
+        "title": "リンク集",
+        "tone": "orange",
+        "column": 1,
+        "sort_order": 10,
+        "scope_type": "all",
+        "registration_type": "links",
+        "display_type": "grouped",
+        "status": "published",
+        "groups": [
+            {
+                "label": "基幹システム",
+                "entries": [
+                    {
+                        "label": "厨房君HYPER",
+                        "url": "https:\/\/rise-up.net\/rubs\/login.php",
+                        "created_at": "2026-07-08 23:32:31"
+                    }
+                ]
+            },
+            {
+                "label": "運営サイト",
+                "entries": [
+                    {
+                        "label": "プロ厨房ヒット",
+                        "url": "https:\/\/pro-chubo.com\/",
+                        "created_at": "2026-07-08 23:32:31"
+                    },
+                    {
+                        "label": "企業ページ",
+                        "url": "https:\/\/rise-up.net\/",
+                        "created_at": "2026-07-08 23:32:31"
+                    },
+                    {
+                        "label": "厨房君",
+                        "url": "https:\/\/chubo-kun.com\/",
+                        "created_at": "2026-07-08 23:32:31"
+                    },
+                    {
+                        "label": "厨房君 利用者専用画面",
+                        "url": "https:\/\/chubo-kun.com\/improvement-login.php",
+                        "created_at": "2026-07-08 23:32:31"
+                    },
+                    {
+                        "label": "pro-chubo.com",
+                        "url": "https:\/\/pro-chubo.com\/cps\/login.php",
+                        "created_at": "2026-07-08 23:32:31"
+                    }
+                ]
+            },
+            {
+                "label": "SNS",
+                "entries": [
+                    {
+                        "label": "Instagram",
+                        "url": "https:\/\/www.instagram.com\/pro_chubo_hit\/",
+                        "created_at": "2026-07-08 23:32:31"
+                    },
+                    {
+                        "label": "X",
+                        "url": "#",
+                        "created_at": "2026-07-08 23:32:31"
+                    },
+                    {
+                        "label": "Facebook",
+                        "url": "https:\/\/www.facebook.com\/prochubohit",
+                        "created_at": "2026-07-08 23:32:31"
+                    }
+                ]
+            },
+            {
+                "label": "ヤフオク",
+                "entries": [
+                    {
+                        "label": "播磨店",
+                        "url": "#",
+                        "created_at": "2026-07-08 23:32:31"
+                    },
+                    {
+                        "label": "姫路店",
+                        "url": "#",
+                        "created_at": "2026-07-08 23:32:31"
+                    },
+                    {
+                        "label": "高松店",
+                        "url": "#",
+                        "created_at": "2026-07-08 23:32:31"
+                    }
+                ]
+            }
+        ],
+        "scope_target": "",
+        "updated_at": "2026-07-08 23:32:31",
+        "expand_type": "collapsed"
+    },
+    {
+        "id": 2,
+        "title": "商品登録",
+        "tone": "gold",
+        "column": 1,
+        "sort_order": 20,
+        "scope_type": "all",
+        "registration_type": "links",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "商品登録管理データ",
+                        "url": "#"
+                    }
+                ]
+            }
+        ],
+        "scope_target": "",
+        "updated_at": "2026-07-08 01:27:31"
+    },
+    {
+        "id": 3,
+        "title": "厨房用品データ",
+        "tone": "orange",
+        "column": 1,
+        "sort_order": 30,
+        "scope_type": "all",
+        "registration_type": "links",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "播磨店データ",
+                        "url": "#"
+                    },
+                    {
+                        "label": "姫路店データ",
+                        "url": "#"
+                    },
+                    {
+                        "label": "高松店データ",
+                        "url": "#"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "title": "有給休暇管理表",
+        "tone": "rose",
+        "column": 1,
+        "sort_order": 40,
+        "scope_type": "all",
+        "registration_type": "files",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "有給休暇管理一覧表",
+                        "url": "#"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "title": "申請書 \/ 個人面談用準備資料",
+        "tone": "blue",
+        "column": 1,
+        "sort_order": 50,
+        "scope_type": "all",
+        "registration_type": "files",
+        "display_type": "grouped",
+        "status": "published",
+        "groups": [
+            {
+                "label": "有給休暇\/フリー休暇届",
+                "entries": [
+                    {
+                        "label": "Word",
+                        "url": "#"
+                    },
+                    {
+                        "label": "PDF",
+                        "url": "#"
+                    }
+                ]
+            },
+            {
+                "label": "社会人基礎力チェックシート",
+                "entries": [
+                    {
+                        "label": "PDF",
+                        "url": "#"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "title": "インフォメーション",
+        "tone": "green",
+        "column": 2,
+        "sort_order": 20,
+        "scope_type": "all",
+        "registration_type": "links",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "売上成績報告",
+                        "url": "#"
+                    },
+                    {
+                        "label": "社内共有資料",
+                        "url": "#"
+                    },
+                    {
+                        "label": "キャンペーン資料",
+                        "url": "#"
+                    },
+                    {
+                        "label": "営業連絡",
+                        "url": "#"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "title": "広報発信情報",
+        "tone": "pink",
+        "column": 2,
+        "sort_order": 30,
+        "scope_type": "all",
+        "registration_type": "links",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "広告掲載情報",
+                        "url": "#"
+                    },
+                    {
+                        "label": "SNS投稿素材",
+                        "url": "#"
+                    },
+                    {
+                        "label": "キャンペーン案内",
+                        "url": "#"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "title": "厨房君仕様変更\/改善報告",
+        "tone": "cyan",
+        "column": 2,
+        "sort_order": 40,
+        "scope_type": "all",
+        "registration_type": "links",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "仕様変更",
+                        "url": "#"
+                    },
+                    {
+                        "label": "改善報告",
+                        "url": "#"
+                    },
+                    {
+                        "label": "不具合共有",
+                        "url": "#"
+                    }
+                ]
+            }
+        ],
+        "scope_target": "",
+        "updated_at": "2026-07-08 03:34:23"
+    },
+    {
+        "id": 9,
+        "title": "環境整備関連",
+        "tone": "lime",
+        "column": 2,
+        "sort_order": 50,
+        "scope_type": "all",
+        "registration_type": "files",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "環境整備資料",
+                        "url": "#"
+                    },
+                    {
+                        "label": "ロープの巻き方",
+                        "url": "#"
+                    },
+                    {
+                        "label": "店舗別確認事項",
+                        "url": "#"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "title": "その他",
+        "tone": "stone",
+        "column": 3,
+        "sort_order": 60,
+        "scope_type": "all",
+        "registration_type": "links",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "月次会議進捗状況",
+                        "url": "#"
+                    },
+                    {
+                        "label": "共有メモ",
+                        "url": "#"
+                    },
+                    {
+                        "label": "一時置き資料",
+                        "url": "#"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "title": "重要なお知らせ",
+        "tone": "blue",
+        "column": 3,
+        "sort_order": 10,
+        "scope_type": "all",
+        "registration_type": "files",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "2023.11.25  コンプライアンスマニュアルについて",
+                        "url": "#",
+                        "file_id": "6b1d333093e44c9bf419ee73",
+                        "original_name": "コンプライアンスマニュアルについて.pdf",
+                        "storage_path": "storage\/private\/grids\/6b1d333093e44c9bf419ee73.pdf",
+                        "mime_type": "application\/pdf",
+                        "file_size": 77749
+                    },
+                    {
+                        "label": "2023.8.19  福利厚生サービス運用開始について",
+                        "url": "#",
+                        "file_id": "b8ac2bb6abeacaa6f28cb836",
+                        "original_name": "福利厚生サービス利用開始のお知らせ.pdf",
+                        "storage_path": "storage\/private\/grids\/b8ac2bb6abeacaa6f28cb836.pdf",
+                        "mime_type": "application\/pdf",
+                        "file_size": 283271
+                    }
+                ]
+            }
+        ],
+        "scope_target": "",
+        "updated_at": "2026-07-08 03:34:33"
+    },
+    {
+        "id": 12,
+        "title": "行動計画表",
+        "tone": "gray",
+        "column": 3,
+        "sort_order": 30,
+        "scope_type": "all",
+        "registration_type": "files",
+        "display_type": "grouped",
+        "status": "published",
+        "groups": [
+            {
+                "label": "部門別",
+                "entries": [
+                    {
+                        "label": "営業部",
+                        "url": "#",
+                        "file_id": "4d464950caeaa72920693d31",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/4d464950caeaa72920693d31.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    },
+                    {
+                        "label": "商品管理部",
+                        "url": "#",
+                        "file_id": "4a0c8aa24c07ff6197d6e4a3",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/4a0c8aa24c07ff6197d6e4a3.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    },
+                    {
+                        "label": "総務部",
+                        "url": "#",
+                        "file_id": "d2729d8a50ee30087098505f",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/d2729d8a50ee30087098505f.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    }
+                ]
+            },
+            {
+                "label": "店舗別",
+                "entries": [
+                    {
+                        "label": "再生センター",
+                        "url": "#",
+                        "file_id": "f2e73ceb46adea11b4f8ea74",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/f2e73ceb46adea11b4f8ea74.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    },
+                    {
+                        "label": "播磨店",
+                        "url": "#",
+                        "file_id": "6e62365377929700019a879a",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/6e62365377929700019a879a.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    },
+                    {
+                        "label": "姫路店",
+                        "url": "#",
+                        "file_id": "cf807c839ef11d069bd2fb2e",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/cf807c839ef11d069bd2fb2e.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    },
+                    {
+                        "label": "高松店",
+                        "url": "#",
+                        "file_id": "de0f635688f3908f7e798b8b",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/de0f635688f3908f7e798b8b.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    }
+                ]
+            }
+        ],
+        "scope_target": "",
+        "updated_at": "2026-07-08 02:14:41"
+    },
+    {
+        "id": 13,
+        "title": "業務マニュアル及びフローチャート",
+        "tone": "teal",
+        "column": 3,
+        "sort_order": 40,
+        "scope_type": "all",
+        "registration_type": "files",
+        "display_type": "grouped",
+        "status": "published",
+        "groups": [
+            {
+                "label": "部門別",
+                "entries": [
+                    {
+                        "label": "営業部",
+                        "url": "#"
+                    },
+                    {
+                        "label": "商品管理部",
+                        "url": "#"
+                    },
+                    {
+                        "label": "総務部",
+                        "url": "#"
+                    }
+                ]
+            },
+            {
+                "label": "店舗別",
+                "entries": [
+                    {
+                        "label": "加西再生センター",
+                        "url": "#"
+                    },
+                    {
+                        "label": "播磨店",
+                        "url": "#"
+                    },
+                    {
+                        "label": "姫路店",
+                        "url": "#"
+                    },
+                    {
+                        "label": "高松店",
+                        "url": "#"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "title": "顧客向け店内の掲示物",
+        "tone": "indigo",
+        "column": 3,
+        "sort_order": 50,
+        "scope_type": "all",
+        "registration_type": "files",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "プレハブ冷庫車1",
+                        "url": "#",
+                        "file_id": "5b1afb548ba133278d06005e",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/5b1afb548ba133278d06005e.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    },
+                    {
+                        "label": "プレハブ冷庫車2",
+                        "url": "#",
+                        "file_id": "84856208363cff1bf2ffeba1",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/84856208363cff1bf2ffeba1.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    },
+                    {
+                        "label": "喫茶イス",
+                        "url": "#",
+                        "file_id": "f4869253c83cf36b1118097b",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/f4869253c83cf36b1118097b.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    }
+                ]
+            }
+        ],
+        "scope_target": "",
+        "updated_at": "2026-07-08 02:15:37"
+    },
+    {
+        "id": 16,
+        "title": "PDCAチームからのお知らせ",
+        "tone": "purple",
+        "column": 3,
+        "sort_order": 20,
+        "scope_type": "all",
+        "scope_target": "",
+        "registration_type": "files",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "営業部",
+                        "url": "#",
+                        "file_id": "c886557c44df750dad795615",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/c886557c44df750dad795615.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    },
+                    {
+                        "label": "商品管理部",
+                        "url": "#",
+                        "file_id": "0b6f2df24ff88007fe866713",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/0b6f2df24ff88007fe866713.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    },
+                    {
+                        "label": "総務部",
+                        "url": "#",
+                        "file_id": "51ebe4193219401a64a5d8e3",
+                        "original_name": "スクリーンショット 2026-07-08 091338.png",
+                        "storage_path": "storage\/private\/grids\/51ebe4193219401a64a5d8e3.png",
+                        "mime_type": "image\/png",
+                        "file_size": 459
+                    }
+                ]
+            }
+        ],
+        "created_at": "2026-07-08 02:42:27",
+        "updated_at": "2026-07-08 02:42:27"
+    },
+    {
+        "id": 17,
+        "title": "値上げ情報",
+        "tone": "lime",
+        "column": 2,
+        "sort_order": 10,
+        "scope_type": "all",
+        "scope_target": "",
+        "registration_type": "manual",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "フクシマガリレイ：9月より値上げ",
+                        "url": "#"
+                    },
+                    {
+                        "label": "ホシザキ：8月より値上げ（7月中に発注しておけば、年内納品であれば旧価格となります。）",
+                        "url": "#"
+                    },
+                    {
+                        "label": "下野金属：7月より値上げ",
+                        "url": "#"
+                    }
+                ]
+            }
+        ],
+        "created_at": "2026-07-08 03:16:32",
+        "updated_at": "2026-07-08 03:29:56"
+    },
+    {
+        "id": 18,
+        "title": "店舗間移動後処理",
+        "tone": "yellow",
+        "column": 2,
+        "sort_order": 10,
+        "scope_type": "store_shared",
+        "scope_target": "",
+        "registration_type": "todo",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "播磨店から入荷",
+                        "url": "#",
+                        "description": "2026.7.4",
+                        "progress": "in_progress",
+                        "store_id": 1,
+                        "created_at": "2026-07-09 00:33:39",
+                        "updated_at": "2026-07-09 00:40:20"
+                    },
+                    {
+                        "label": "2026.7.7",
+                        "url": "#",
+                        "store_id": 3,
+                        "description": "播磨店から入荷",
+                        "progress": "not_started",
+                        "created_at": "2026-07-08 06:29:07"
+                    },
+                    {
+                        "label": "2026.6.30",
+                        "url": "#",
+                        "store_id": 3,
+                        "description": "高松店から入荷",
+                        "progress": "not_started",
+                        "created_at": "2026-07-08 23:31:36",
+                        "file_id": "41359d8ffb0d74e01ea2ac31",
+                        "original_name": "IMG_7143.jpg",
+                        "storage_path": "storage\/private\/grids\/41359d8ffb0d74e01ea2ac31.webp",
+                        "mime_type": "image\/webp",
+                        "file_size": 141344
+                    },
+                    {
+                        "label": "2026.7.2",
+                        "url": "#",
+                        "store_id": 3,
+                        "description": "センターから入荷",
+                        "progress": "done",
+                        "created_at": "2026-07-08 23:31:36"
+                    }
+                ]
+            }
+        ],
+        "created_at": "2026-07-08 03:41:28",
+        "updated_at": "2026-07-08 23:31:36",
+        "expand_type": "open"
+    },
+    {
+        "id": 19,
+        "title": "簡易清掃商品登録",
+        "tone": "teal",
+        "column": 1,
+        "sort_order": 10,
+        "scope_type": "store_shared",
+        "scope_target": "",
+        "registration_type": "todo",
+        "display_type": "list",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "レジスター（センター）",
+                        "url": "#",
+                        "description": "123456",
+                        "progress": "done",
+                        "file_id": "cacffaaed1d04080cd47b43a",
+                        "original_name": "スクリーンショット 2026-07-03 073350.png",
+                        "storage_path": "storage\/private\/grids\/cacffaaed1d04080cd47b43a.webp",
+                        "mime_type": "image\/webp",
+                        "file_size": 1496,
+                        "store_id": 1,
+                        "created_at": "2026-07-09 00:35:00",
+                        "updated_at": "2026-07-09 00:35:14"
+                    },
+                    {
+                        "label": "インバーター",
+                        "url": "#",
+                        "store_id": 3,
+                        "description": "124797",
+                        "progress": "not_started",
+                        "created_at": "2026-07-08 06:28:15",
+                        "file_id": "a439b2095716ae9feeaa2984",
+                        "original_name": "スクリーンショット 2026-07-08 132804.png",
+                        "storage_path": "storage\/private\/grids\/a439b2095716ae9feeaa2984.webp",
+                        "mime_type": "image\/webp",
+                        "file_size": 81272
+                    },
+                    {
+                        "label": "BOSE スピーカー",
+                        "url": "#",
+                        "store_id": 3,
+                        "description": "125588",
+                        "progress": "not_started",
+                        "created_at": "2026-07-08 23:31:24",
+                        "file_id": "3134571d06a4e77db1b385de",
+                        "original_name": "スクリーンショット 2026-07-08 124017.png",
+                        "storage_path": "storage\/private\/grids\/3134571d06a4e77db1b385de.webp",
+                        "mime_type": "image\/webp",
+                        "file_size": 192874
+                    },
+                    {
+                        "label": "エスプーマ＋ガス充填セット",
+                        "url": "#",
+                        "store_id": 3,
+                        "description": "125599",
+                        "progress": "not_started",
+                        "created_at": "2026-07-08 23:31:24"
+                    },
+                    {
+                        "label": "ベルスター 呼び出しチャイム",
+                        "url": "#",
+                        "store_id": 3,
+                        "description": "124799",
+                        "progress": "not_started",
+                        "created_at": "2026-07-08 23:31:24"
+                    }
+                ]
+            }
+        ],
+        "created_at": "2026-07-08 05:40:33",
+        "updated_at": "2026-07-08 23:31:24",
+        "expand_type": "open"
+    },
+    {
+        "id": 20,
+        "title": "商品センター専用グリッド（テスト用）",
+        "tone": "green",
+        "column": 3,
+        "sort_order": 10,
+        "scope_type": "store",
+        "scope_target": "商品センター",
+        "registration_type": "files",
+        "display_type": "grouped",
+        "status": "published",
+        "groups": [
+            {
+                "label": "テスト",
+                "entries": [
+                    {
+                        "label": "テスト",
+                        "url": "#",
+                        "file_id": "5259d2817a7dff7684501e55",
+                        "original_name": "スクリーンショット 2026-07-07 170534.png",
+                        "storage_path": "storage\/private\/grids\/5259d2817a7dff7684501e55.png",
+                        "mime_type": "image\/png",
+                        "file_size": 113949,
+                        "created_at": "2026-07-08 23:07:47"
+                    },
+                    {
+                        "label": "テスト",
+                        "url": "#",
+                        "file_id": "2b111e8f71f08e28114ddae8",
+                        "original_name": "スクリーンショット 2026-07-05 085821.png",
+                        "storage_path": "storage\/private\/grids\/2b111e8f71f08e28114ddae8.png",
+                        "mime_type": "image\/png",
+                        "file_size": 250062,
+                        "created_at": "2026-07-08 23:07:47"
+                    }
+                ]
+            },
+            {
+                "label": "テスト1",
+                "entries": [
+                    {
+                        "label": "テスト1",
+                        "url": "#",
+                        "file_id": "c5d701d9d4cea4f537a8c3d4",
+                        "original_name": "スクリーンショット 2026-07-05 115507.png",
+                        "storage_path": "storage\/private\/grids\/c5d701d9d4cea4f537a8c3d4.png",
+                        "mime_type": "image\/png",
+                        "file_size": 592923,
+                        "created_at": "2026-07-08 23:07:47"
+                    }
+                ]
+            }
+        ],
+        "created_at": "2026-07-08 23:05:39",
+        "updated_at": "2026-07-08 23:08:51"
+    },
+    {
+        "id": 21,
+        "title": "姫路店専用グリッド（テスト用）",
+        "tone": "lime",
+        "column": 3,
+        "sort_order": 0,
+        "scope_type": "store",
+        "scope_target": "姫路店",
+        "registration_type": "manual",
+        "display_type": "grouped",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "サンプル",
+                        "url": "サンプル",
+                        "created_at": "2026-07-08 23:15:10"
+                    },
+                    {
+                        "label": "サンプル",
+                        "url": "サンプル",
+                        "created_at": "2026-07-08 23:15:10"
+                    },
+                    {
+                        "label": "サンプル1",
+                        "url": "サンプル1",
+                        "created_at": "2026-07-08 23:15:10"
+                    },
+                    {
+                        "label": "サンプル1",
+                        "url": "サンプル1",
+                        "created_at": "2026-07-08 23:15:10"
+                    }
+                ]
+            }
+        ],
+        "created_at": "2026-07-08 23:14:46",
+        "updated_at": "2026-07-08 23:15:10"
+    }
+]

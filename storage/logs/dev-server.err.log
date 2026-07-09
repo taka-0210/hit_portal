@@ -1,0 +1,715 @@
+[Fri Jul  3 00:10:47 2026] PHP 8.3.30 Development Server (http://127.0.0.1:8080) started
+[Fri Jul  3 00:10:57 2026] 127.0.0.1:51014 Accepted
+[Fri Jul  3 00:10:58 2026] 127.0.0.1:51014 [200]: GET /index.php?r=login
+[Fri Jul  3 00:10:58 2026] 127.0.0.1:51014 Closing
+[Fri Jul  3 00:16:51 2026] 127.0.0.1:51816 Accepted
+[Fri Jul  3 00:16:51 2026] 127.0.0.1:51816 [200]: GET /index.php?r=login
+[Fri Jul  3 00:16:51 2026] 127.0.0.1:51816 Closing
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:63106 Accepted
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:63106 [200]: GET /index.php?r=login
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:63106 Closing
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:58263 Accepted
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:58263 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:58263 Closing
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:56402 Accepted
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:56402 [404]: GET /favicon.ico - No such file or directory
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:56402 Closing
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:59306 Accepted
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:59306 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:19:07 2026] 127.0.0.1:59306 Closing
+[Fri Jul  3 00:19:32 2026] 127.0.0.1:54403 Accepted
+[Fri Jul  3 00:19:32 2026] 127.0.0.1:54403 [302]: POST /index.php?r=login
+[Fri Jul  3 00:19:32 2026] 127.0.0.1:54403 Closing
+[Fri Jul  3 00:19:32 2026] 127.0.0.1:55217 Accepted
+[Fri Jul  3 00:19:33 2026] 127.0.0.1:55217 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:19:33 2026] 127.0.0.1:55217 Closing
+[Fri Jul  3 00:19:33 2026] 127.0.0.1:59601 Accepted
+[Fri Jul  3 00:19:33 2026] 127.0.0.1:59601 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:19:33 2026] 127.0.0.1:59601 Closing
+[Fri Jul  3 00:19:33 2026] 127.0.0.1:60393 Accepted
+[Fri Jul  3 00:19:33 2026] 127.0.0.1:60393 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:19:33 2026] 127.0.0.1:60393 Closing
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:59324 Accepted
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:59324 [302]: GET /index.php?r=dashboard
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:59324 Closing
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:57154 Accepted
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:57154 [200]: GET /index.php?r=login
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:57154 Closing
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:57491 Accepted
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:57491 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:57491 Closing
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:54290 Accepted
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:54290 [404]: GET /favicon.ico - No such file or directory
+[Fri Jul  3 00:19:48 2026] 127.0.0.1:54290 Closing
+[Fri Jul  3 00:19:57 2026] 127.0.0.1:64190 Accepted
+[Fri Jul  3 00:19:57 2026] 127.0.0.1:64190 [302]: POST /index.php?r=login
+[Fri Jul  3 00:19:57 2026] 127.0.0.1:64190 Closing
+[Fri Jul  3 00:19:57 2026] 127.0.0.1:59608 Accepted
+[Fri Jul  3 00:19:57 2026] 127.0.0.1:59608 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:19:57 2026] 127.0.0.1:59608 Closing
+[Fri Jul  3 00:19:57 2026] 127.0.0.1:56494 Accepted
+[Fri Jul  3 00:19:57 2026] 127.0.0.1:56494 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:19:57 2026] 127.0.0.1:56494 Closing
+[Fri Jul  3 00:20:00 2026] 127.0.0.1:55552 Accepted
+[Fri Jul  3 00:20:00 2026] 127.0.0.1:55552 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:20:00 2026] 127.0.0.1:55552 Closing
+[Fri Jul  3 00:20:00 2026] 127.0.0.1:59809 Accepted
+[Fri Jul  3 00:20:00 2026] 127.0.0.1:59809 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:20:00 2026] 127.0.0.1:59809 Closing
+[Fri Jul  3 00:20:03 2026] 127.0.0.1:64976 Accepted
+[Fri Jul  3 00:20:04 2026] 127.0.0.1:64976 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:20:04 2026] 127.0.0.1:64976 Closing
+[Fri Jul  3 00:20:04 2026] 127.0.0.1:62564 Accepted
+[Fri Jul  3 00:20:04 2026] 127.0.0.1:62564 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:20:04 2026] 127.0.0.1:62564 Closing
+[Fri Jul  3 00:20:04 2026] 127.0.0.1:52801 Accepted
+[Fri Jul  3 00:20:05 2026] 127.0.0.1:52801 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:20:05 2026] 127.0.0.1:52801 Closing
+[Fri Jul  3 00:20:05 2026] 127.0.0.1:54578 Accepted
+[Fri Jul  3 00:20:05 2026] 127.0.0.1:54578 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:20:05 2026] 127.0.0.1:54578 Closing
+[Fri Jul  3 00:20:06 2026] 127.0.0.1:53514 Accepted
+[Fri Jul  3 00:20:06 2026] 127.0.0.1:53514 [200]: GET /index.php?r=admin.users
+[Fri Jul  3 00:20:06 2026] 127.0.0.1:53514 Closing
+[Fri Jul  3 00:20:06 2026] 127.0.0.1:61872 Accepted
+[Fri Jul  3 00:20:06 2026] 127.0.0.1:61872 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:20:06 2026] 127.0.0.1:61872 Closing
+[Fri Jul  3 00:20:09 2026] 127.0.0.1:64659 Accepted
+[Fri Jul  3 00:20:10 2026] 127.0.0.1:64659 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:20:10 2026] 127.0.0.1:64659 Closing
+[Fri Jul  3 00:20:10 2026] 127.0.0.1:57898 Accepted
+[Fri Jul  3 00:20:10 2026] 127.0.0.1:57898 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:20:10 2026] 127.0.0.1:57898 Closing
+[Fri Jul  3 00:22:24 2026] 127.0.0.1:58313 Accepted
+[Fri Jul  3 00:22:24 2026] 127.0.0.1:58313 [200]: GET /index.php?r=login
+[Fri Jul  3 00:22:24 2026] 127.0.0.1:58313 Closing
+[Fri Jul  3 00:22:32 2026] 127.0.0.1:56826 Accepted
+[Fri Jul  3 00:22:33 2026] 127.0.0.1:56826 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:22:33 2026] 127.0.0.1:56826 Closing
+[Fri Jul  3 00:22:33 2026] 127.0.0.1:54448 Accepted
+[Fri Jul  3 00:22:33 2026] 127.0.0.1:54448 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:22:33 2026] 127.0.0.1:54448 Closing
+[Fri Jul  3 00:22:35 2026] 127.0.0.1:60332 Accepted
+[Fri Jul  3 00:22:36 2026] 127.0.0.1:60332 [200]: GET /index.php?r=improvements
+[Fri Jul  3 00:22:36 2026] 127.0.0.1:60332 Closing
+[Fri Jul  3 00:22:36 2026] 127.0.0.1:49784 Accepted
+[Fri Jul  3 00:22:36 2026] 127.0.0.1:49784 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:22:36 2026] 127.0.0.1:49784 Closing
+[Fri Jul  3 00:22:39 2026] 127.0.0.1:61900 Accepted
+[Fri Jul  3 00:22:40 2026] 127.0.0.1:61900 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:22:40 2026] 127.0.0.1:61900 Closing
+[Fri Jul  3 00:22:40 2026] 127.0.0.1:60766 Accepted
+[Fri Jul  3 00:22:40 2026] 127.0.0.1:60766 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:22:40 2026] 127.0.0.1:60766 Closing
+[Fri Jul  3 00:22:48 2026] 127.0.0.1:56881 Accepted
+[Fri Jul  3 00:22:49 2026] 127.0.0.1:56881 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:22:49 2026] 127.0.0.1:56881 Closing
+[Fri Jul  3 00:22:49 2026] 127.0.0.1:64229 Accepted
+[Fri Jul  3 00:22:49 2026] 127.0.0.1:64229 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:22:49 2026] 127.0.0.1:64229 Closing
+[Fri Jul  3 00:22:50 2026] 127.0.0.1:56448 Accepted
+[Fri Jul  3 00:22:51 2026] 127.0.0.1:56448 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:22:51 2026] 127.0.0.1:56448 Closing
+[Fri Jul  3 00:22:51 2026] 127.0.0.1:55193 Accepted
+[Fri Jul  3 00:22:51 2026] 127.0.0.1:55193 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:22:51 2026] 127.0.0.1:55193 Closing
+[Fri Jul  3 00:22:52 2026] 127.0.0.1:57220 Accepted
+[Fri Jul  3 00:22:53 2026] 127.0.0.1:57220 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:22:53 2026] 127.0.0.1:57220 Closing
+[Fri Jul  3 00:22:53 2026] 127.0.0.1:57695 Accepted
+[Fri Jul  3 00:22:53 2026] 127.0.0.1:57695 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:22:53 2026] 127.0.0.1:57695 Closing
+[Fri Jul  3 00:22:57 2026] 127.0.0.1:56226 Accepted
+[Fri Jul  3 00:22:58 2026] 127.0.0.1:56226 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:22:58 2026] 127.0.0.1:56226 Closing
+[Fri Jul  3 00:22:58 2026] 127.0.0.1:57101 Accepted
+[Fri Jul  3 00:22:58 2026] 127.0.0.1:57101 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:22:58 2026] 127.0.0.1:57101 Closing
+[Fri Jul  3 00:22:58 2026] 127.0.0.1:53722 Accepted
+[Fri Jul  3 00:22:58 2026] 127.0.0.1:53722 [200]: GET /index.php?r=knowledge.show&id=1
+[Fri Jul  3 00:22:58 2026] 127.0.0.1:53722 Closing
+[Fri Jul  3 00:22:58 2026] 127.0.0.1:60667 Accepted
+[Fri Jul  3 00:22:58 2026] 127.0.0.1:60667 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:22:58 2026] 127.0.0.1:60667 Closing
+[Fri Jul  3 00:22:59 2026] 127.0.0.1:61622 Accepted
+[Fri Jul  3 00:23:19 2026] 127.0.0.1:61622 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:23:19 2026] 127.0.0.1:61622 Closing
+[Fri Jul  3 00:23:19 2026] 127.0.0.1:54240 Accepted
+[Fri Jul  3 00:23:19 2026] 127.0.0.1:54240 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:23:19 2026] 127.0.0.1:54240 Closing
+[Fri Jul  3 00:23:36 2026] 127.0.0.1:60858 Accepted
+[Fri Jul  3 00:23:36 2026] 127.0.0.1:60858 [200]: GET /index.php?r=knowledge.create
+[Fri Jul  3 00:23:36 2026] 127.0.0.1:60858 Closing
+[Fri Jul  3 00:23:36 2026] 127.0.0.1:59312 Accepted
+[Fri Jul  3 00:23:36 2026] 127.0.0.1:59312 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:23:36 2026] 127.0.0.1:59312 Closing
+[Fri Jul  3 00:25:22 2026] 127.0.0.1:60565 Accepted
+[Fri Jul  3 00:25:22 2026] 127.0.0.1:60565 [302]: POST /index.php?r=knowledge.store
+[Fri Jul  3 00:25:22 2026] 127.0.0.1:60565 Closing
+[Fri Jul  3 00:25:22 2026] 127.0.0.1:60492 Accepted
+[Fri Jul  3 00:25:23 2026] 127.0.0.1:60492 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:25:23 2026] 127.0.0.1:60492 Closing
+[Fri Jul  3 00:25:23 2026] 127.0.0.1:59160 Accepted
+[Fri Jul  3 00:25:23 2026] 127.0.0.1:59160 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:25:23 2026] 127.0.0.1:59160 Closing
+[Fri Jul  3 00:25:32 2026] 127.0.0.1:49759 Accepted
+[Fri Jul  3 00:25:33 2026] 127.0.0.1:49759 [200]: GET /index.php?r=knowledge&q=&category_id=1&type=
+[Fri Jul  3 00:25:33 2026] 127.0.0.1:49759 Closing
+[Fri Jul  3 00:25:33 2026] 127.0.0.1:55228 Accepted
+[Fri Jul  3 00:25:33 2026] 127.0.0.1:55228 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:25:33 2026] 127.0.0.1:55228 Closing
+[Fri Jul  3 00:25:39 2026] 127.0.0.1:51931 Accepted
+[Fri Jul  3 00:25:39 2026] 127.0.0.1:51931 [200]: GET /index.php?r=knowledge&q=&category_id=2&type=
+[Fri Jul  3 00:25:39 2026] 127.0.0.1:51931 Closing
+[Fri Jul  3 00:25:39 2026] 127.0.0.1:63750 Accepted
+[Fri Jul  3 00:25:39 2026] 127.0.0.1:63750 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:25:39 2026] 127.0.0.1:63750 Closing
+[Fri Jul  3 00:25:43 2026] 127.0.0.1:63916 Accepted
+[Fri Jul  3 00:25:43 2026] 127.0.0.1:63916 [200]: GET /index.php?r=knowledge&q=&category_id=&type=
+[Fri Jul  3 00:25:43 2026] 127.0.0.1:63916 Closing
+[Fri Jul  3 00:25:43 2026] 127.0.0.1:64908 Accepted
+[Fri Jul  3 00:25:43 2026] 127.0.0.1:64908 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:25:43 2026] 127.0.0.1:64908 Closing
+[Fri Jul  3 00:25:47 2026] 127.0.0.1:61784 Accepted
+[Fri Jul  3 00:25:48 2026] 127.0.0.1:61784 [200]: GET /index.php?r=knowledge&q=&category_id=&type=product
+[Fri Jul  3 00:25:48 2026] 127.0.0.1:61784 Closing
+[Fri Jul  3 00:25:48 2026] 127.0.0.1:61334 Accepted
+[Fri Jul  3 00:25:48 2026] 127.0.0.1:61334 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:25:48 2026] 127.0.0.1:61334 Closing
+[Fri Jul  3 00:25:51 2026] 127.0.0.1:59600 Accepted
+[Fri Jul  3 00:25:52 2026] 127.0.0.1:59600 [200]: GET /index.php?r=knowledge&q=&category_id=&type=
+[Fri Jul  3 00:25:52 2026] 127.0.0.1:59600 Closing
+[Fri Jul  3 00:25:52 2026] 127.0.0.1:56013 Accepted
+[Fri Jul  3 00:25:52 2026] 127.0.0.1:56013 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:25:52 2026] 127.0.0.1:56013 Closing
+[Fri Jul  3 00:25:54 2026] 127.0.0.1:54333 Accepted
+[Fri Jul  3 00:25:55 2026] 127.0.0.1:54333 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:25:55 2026] 127.0.0.1:54333 Closing
+[Fri Jul  3 00:25:55 2026] 127.0.0.1:52621 Accepted
+[Fri Jul  3 00:25:55 2026] 127.0.0.1:52621 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:25:55 2026] 127.0.0.1:52621 Closing
+[Fri Jul  3 00:25:55 2026] 127.0.0.1:56783 Accepted
+[Fri Jul  3 00:25:56 2026] 127.0.0.1:56783 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:25:56 2026] 127.0.0.1:56783 Closing
+[Fri Jul  3 00:25:56 2026] 127.0.0.1:63986 Accepted
+[Fri Jul  3 00:25:56 2026] 127.0.0.1:63986 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:25:56 2026] 127.0.0.1:63986 Closing
+[Fri Jul  3 00:26:01 2026] 127.0.0.1:57445 Accepted
+[Fri Jul  3 00:26:01 2026] 127.0.0.1:57445 [200]: GET /index.php?r=knowledge.show&id=2
+[Fri Jul  3 00:26:01 2026] 127.0.0.1:57445 Closing
+[Fri Jul  3 00:26:01 2026] 127.0.0.1:63550 Accepted
+[Fri Jul  3 00:26:01 2026] 127.0.0.1:63550 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:26:01 2026] 127.0.0.1:63550 Closing
+[Fri Jul  3 00:26:03 2026] 127.0.0.1:63966 Accepted
+[Fri Jul  3 00:26:04 2026] 127.0.0.1:63966 [200]: GET /index.php?r=knowledge.show&id=1
+[Fri Jul  3 00:26:04 2026] 127.0.0.1:63966 Closing
+[Fri Jul  3 00:26:04 2026] 127.0.0.1:56021 Accepted
+[Fri Jul  3 00:26:04 2026] 127.0.0.1:56021 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:26:04 2026] 127.0.0.1:56021 Closing
+[Fri Jul  3 00:26:05 2026] 127.0.0.1:58964 Accepted
+[Fri Jul  3 00:26:07 2026] 127.0.0.1:58964 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:26:07 2026] 127.0.0.1:58964 Closing
+[Fri Jul  3 00:26:07 2026] 127.0.0.1:50902 Accepted
+[Fri Jul  3 00:26:07 2026] 127.0.0.1:50902 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:26:07 2026] 127.0.0.1:50902 Closing
+[Fri Jul  3 00:26:08 2026] 127.0.0.1:61331 Accepted
+[Fri Jul  3 00:26:09 2026] 127.0.0.1:61331 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:26:09 2026] 127.0.0.1:61331 Closing
+[Fri Jul  3 00:26:09 2026] 127.0.0.1:64146 Accepted
+[Fri Jul  3 00:26:09 2026] 127.0.0.1:64146 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:26:09 2026] 127.0.0.1:64146 Closing
+[Fri Jul  3 00:26:12 2026] 127.0.0.1:59478 Accepted
+[Fri Jul  3 00:26:13 2026] 127.0.0.1:59478 [200]: GET /index.php?r=improvements
+[Fri Jul  3 00:26:13 2026] 127.0.0.1:59478 Closing
+[Fri Jul  3 00:26:13 2026] 127.0.0.1:61982 Accepted
+[Fri Jul  3 00:26:13 2026] 127.0.0.1:61982 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:26:13 2026] 127.0.0.1:61982 Closing
+[Fri Jul  3 00:26:19 2026] 127.0.0.1:49670 Accepted
+[Fri Jul  3 00:26:20 2026] 127.0.0.1:49670 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:26:20 2026] 127.0.0.1:49670 Closing
+[Fri Jul  3 00:26:20 2026] 127.0.0.1:52163 Accepted
+[Fri Jul  3 00:26:20 2026] 127.0.0.1:52163 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:26:20 2026] 127.0.0.1:52163 Closing
+[Fri Jul  3 00:26:39 2026] 127.0.0.1:53513 Accepted
+[Fri Jul  3 00:26:40 2026] 127.0.0.1:53513 [200]: GET /index.php?r=knowledge.edit&id=2
+[Fri Jul  3 00:26:40 2026] 127.0.0.1:53513 Closing
+[Fri Jul  3 00:26:40 2026] 127.0.0.1:57731 Accepted
+[Fri Jul  3 00:26:40 2026] 127.0.0.1:57731 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:26:40 2026] 127.0.0.1:57731 Closing
+[Fri Jul  3 00:27:12 2026] 127.0.0.1:52922 Accepted
+[Fri Jul  3 00:27:12 2026] 127.0.0.1:52922 [302]: POST /index.php?r=knowledge.update
+[Fri Jul  3 00:27:12 2026] 127.0.0.1:52922 Closing
+[Fri Jul  3 00:27:12 2026] 127.0.0.1:53010 Accepted
+[Fri Jul  3 00:27:12 2026] 127.0.0.1:53010 [200]: GET /index.php?r=knowledge.show&id=2
+[Fri Jul  3 00:27:12 2026] 127.0.0.1:53010 Closing
+[Fri Jul  3 00:27:12 2026] 127.0.0.1:55540 Accepted
+[Fri Jul  3 00:27:12 2026] 127.0.0.1:55540 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:27:12 2026] 127.0.0.1:55540 Closing
+[Fri Jul  3 00:27:34 2026] 127.0.0.1:61760 Accepted
+[Fri Jul  3 00:27:34 2026] 127.0.0.1:61760 [302]: POST /index.php?r=improvements.storeFromKnowledge
+[Fri Jul  3 00:27:34 2026] 127.0.0.1:61760 Closing
+[Fri Jul  3 00:27:34 2026] 127.0.0.1:59900 Accepted
+[Fri Jul  3 00:27:35 2026] 127.0.0.1:59900 [200]: GET /index.php?r=knowledge.show&id=2&improvement=created
+[Fri Jul  3 00:27:35 2026] 127.0.0.1:59900 Closing
+[Fri Jul  3 00:27:35 2026] 127.0.0.1:56447 Accepted
+[Fri Jul  3 00:27:35 2026] 127.0.0.1:56447 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:27:35 2026] 127.0.0.1:56447 Closing
+[Fri Jul  3 00:27:43 2026] 127.0.0.1:63014 Accepted
+[Fri Jul  3 00:27:43 2026] 127.0.0.1:63014 [200]: GET /index.php?r=knowledge.edit&id=2
+[Fri Jul  3 00:27:43 2026] 127.0.0.1:63014 Closing
+[Fri Jul  3 00:27:43 2026] 127.0.0.1:65188 Accepted
+[Fri Jul  3 00:27:43 2026] 127.0.0.1:65188 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:27:43 2026] 127.0.0.1:65188 Closing
+[Fri Jul  3 00:27:46 2026] 127.0.0.1:60011 Accepted
+[Fri Jul  3 00:27:46 2026] 127.0.0.1:60011 [302]: POST /index.php?r=knowledge.update
+[Fri Jul  3 00:27:46 2026] 127.0.0.1:60011 Closing
+[Fri Jul  3 00:27:46 2026] 127.0.0.1:54166 Accepted
+[Fri Jul  3 00:27:46 2026] 127.0.0.1:54166 [200]: GET /index.php?r=knowledge.show&id=2
+[Fri Jul  3 00:27:46 2026] 127.0.0.1:54166 Closing
+[Fri Jul  3 00:27:46 2026] 127.0.0.1:62069 Accepted
+[Fri Jul  3 00:27:46 2026] 127.0.0.1:62069 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:27:46 2026] 127.0.0.1:62069 Closing
+[Fri Jul  3 00:27:54 2026] 127.0.0.1:62317 Accepted
+[Fri Jul  3 00:27:54 2026] 127.0.0.1:62317 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:27:54 2026] 127.0.0.1:62317 Closing
+[Fri Jul  3 00:27:54 2026] 127.0.0.1:49671 Accepted
+[Fri Jul  3 00:27:54 2026] 127.0.0.1:49671 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:27:54 2026] 127.0.0.1:49671 Closing
+[Fri Jul  3 00:27:56 2026] 127.0.0.1:50474 Accepted
+[Fri Jul  3 00:27:57 2026] 127.0.0.1:50474 [200]: GET /index.php?r=knowledge.show&id=2
+[Fri Jul  3 00:27:57 2026] 127.0.0.1:50474 Closing
+[Fri Jul  3 00:27:57 2026] 127.0.0.1:58386 Accepted
+[Fri Jul  3 00:27:57 2026] 127.0.0.1:58386 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:27:57 2026] 127.0.0.1:58386 Closing
+[Fri Jul  3 00:28:00 2026] 127.0.0.1:60395 Accepted
+[Fri Jul  3 00:28:01 2026] 127.0.0.1:60395 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:28:01 2026] 127.0.0.1:60395 Closing
+[Fri Jul  3 00:28:01 2026] 127.0.0.1:63876 Accepted
+[Fri Jul  3 00:28:01 2026] 127.0.0.1:63876 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:28:01 2026] 127.0.0.1:63876 Closing
+[Fri Jul  3 00:28:03 2026] 127.0.0.1:63933 Accepted
+[Fri Jul  3 00:28:03 2026] 127.0.0.1:63933 [200]: GET /index.php?r=knowledge.show&id=2
+[Fri Jul  3 00:28:03 2026] 127.0.0.1:63933 Closing
+[Fri Jul  3 00:28:03 2026] 127.0.0.1:63682 Accepted
+[Fri Jul  3 00:28:03 2026] 127.0.0.1:63682 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:28:03 2026] 127.0.0.1:63682 Closing
+[Fri Jul  3 00:28:07 2026] 127.0.0.1:52777 Accepted
+[Fri Jul  3 00:28:07 2026] 127.0.0.1:52777 [404]: GET /%22C:/Users/takaf/OneDrive/%E3%83%87%E3%82%B9%E3%82%AF%E3%83%88%E3%83%83%E3%83%97/%E8%A6%8B%E7%A9%8D%E4%BE%9D%E9%A0%BC.pdf%22 - No such file or directory
+[Fri Jul  3 00:28:07 2026] 127.0.0.1:52777 Closing
+[Fri Jul  3 00:28:07 2026] 127.0.0.1:64499 Accepted
+[Fri Jul  3 00:28:07 2026] 127.0.0.1:56375 Accepted
+[Fri Jul  3 00:30:00 2026] 127.0.0.1:64499 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri Jul  3 00:30:00 2026] 127.0.0.1:64499 Closing
+[Fri Jul  3 00:30:00 2026] 127.0.0.1:56375 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri Jul  3 00:30:00 2026] 127.0.0.1:56375 Closing
+[Fri Jul  3 00:30:00 2026] 127.0.0.1:52354 Accepted
+[Fri Jul  3 00:30:00 2026] 127.0.0.1:52354 [200]: GET /index.php?r=knowledge.show&id=2
+[Fri Jul  3 00:30:00 2026] 127.0.0.1:52354 Closing
+[Fri Jul  3 00:30:00 2026] 127.0.0.1:54177 Accepted
+[Fri Jul  3 00:30:00 2026] 127.0.0.1:54177 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:30:00 2026] 127.0.0.1:54177 Closing
+[Fri Jul  3 00:30:05 2026] 127.0.0.1:60797 Accepted
+[Fri Jul  3 00:30:06 2026] 127.0.0.1:60797 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:30:06 2026] 127.0.0.1:60797 Closing
+[Fri Jul  3 00:30:06 2026] 127.0.0.1:60636 Accepted
+[Fri Jul  3 00:30:06 2026] 127.0.0.1:60636 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:30:06 2026] 127.0.0.1:60636 Closing
+[Fri Jul  3 00:30:07 2026] 127.0.0.1:52039 Accepted
+[Fri Jul  3 00:30:08 2026] 127.0.0.1:52039 [200]: GET /index.php?r=knowledge.show&id=2
+[Fri Jul  3 00:30:08 2026] 127.0.0.1:52039 Closing
+[Fri Jul  3 00:30:08 2026] 127.0.0.1:51340 Accepted
+[Fri Jul  3 00:30:08 2026] 127.0.0.1:51340 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:30:08 2026] 127.0.0.1:51340 Closing
+[Fri Jul  3 00:30:14 2026] 127.0.0.1:61051 Accepted
+[Fri Jul  3 00:30:14 2026] 127.0.0.1:61051 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:30:14 2026] 127.0.0.1:61051 Closing
+[Fri Jul  3 00:30:14 2026] 127.0.0.1:58808 Accepted
+[Fri Jul  3 00:30:14 2026] 127.0.0.1:58808 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:30:14 2026] 127.0.0.1:58808 Closing
+[Fri Jul  3 00:30:22 2026] 127.0.0.1:52561 Accepted
+[Fri Jul  3 00:30:23 2026] 127.0.0.1:52561 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:30:23 2026] 127.0.0.1:52561 Closing
+[Fri Jul  3 00:30:23 2026] 127.0.0.1:60821 Accepted
+[Fri Jul  3 00:30:23 2026] 127.0.0.1:60821 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:30:23 2026] 127.0.0.1:60821 Closing
+[Fri Jul  3 00:30:25 2026] 127.0.0.1:58395 Accepted
+[Fri Jul  3 00:30:25 2026] 127.0.0.1:58395 [200]: GET /index.php?r=knowledge.show&id=2
+[Fri Jul  3 00:30:25 2026] 127.0.0.1:58395 Closing
+[Fri Jul  3 00:30:25 2026] 127.0.0.1:51844 Accepted
+[Fri Jul  3 00:30:25 2026] 127.0.0.1:51844 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:30:25 2026] 127.0.0.1:51844 Closing
+[Fri Jul  3 00:31:52 2026] 127.0.0.1:57563 Accepted
+[Fri Jul  3 00:31:53 2026] 127.0.0.1:57563 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:31:53 2026] 127.0.0.1:57563 Closing
+[Fri Jul  3 00:31:53 2026] 127.0.0.1:57557 Accepted
+[Fri Jul  3 00:31:53 2026] 127.0.0.1:57557 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:31:53 2026] 127.0.0.1:57557 Closing
+[Fri Jul  3 00:31:58 2026] 127.0.0.1:63788 Accepted
+[Fri Jul  3 00:31:59 2026] 127.0.0.1:63788 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:31:59 2026] 127.0.0.1:63788 Closing
+[Fri Jul  3 00:31:59 2026] 127.0.0.1:61470 Accepted
+[Fri Jul  3 00:31:59 2026] 127.0.0.1:61470 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:31:59 2026] 127.0.0.1:61470 Closing
+[Fri Jul  3 00:31:59 2026] 127.0.0.1:53265 Accepted
+[Fri Jul  3 00:31:59 2026] 127.0.0.1:53265 [200]: GET /index.php?r=knowledge.show&id=2
+[Fri Jul  3 00:31:59 2026] 127.0.0.1:53265 Closing
+[Fri Jul  3 00:31:59 2026] 127.0.0.1:51671 Accepted
+[Fri Jul  3 00:31:59 2026] 127.0.0.1:51671 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:31:59 2026] 127.0.0.1:51671 Closing
+[Fri Jul  3 00:32:00 2026] 127.0.0.1:59888 Accepted
+[Fri Jul  3 00:32:01 2026] 127.0.0.1:59888 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:32:01 2026] 127.0.0.1:59888 Closing
+[Fri Jul  3 00:32:01 2026] 127.0.0.1:64591 Accepted
+[Fri Jul  3 00:32:01 2026] 127.0.0.1:64591 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:32:01 2026] 127.0.0.1:64591 Closing
+[Fri Jul  3 00:33:11 2026] 127.0.0.1:52553 Accepted
+[Fri Jul  3 00:33:12 2026] 127.0.0.1:52553 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:33:12 2026] 127.0.0.1:52553 Closing
+[Fri Jul  3 00:33:12 2026] 127.0.0.1:59725 Accepted
+[Fri Jul  3 00:33:12 2026] 127.0.0.1:59725 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:33:12 2026] 127.0.0.1:59725 Closing
+[Fri Jul  3 00:33:14 2026] 127.0.0.1:63937 Accepted
+[Fri Jul  3 00:33:15 2026] 127.0.0.1:63937 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:33:15 2026] 127.0.0.1:63937 Closing
+[Fri Jul  3 00:33:15 2026] 127.0.0.1:52056 Accepted
+[Fri Jul  3 00:33:15 2026] 127.0.0.1:52056 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:33:15 2026] 127.0.0.1:52056 Closing
+[Fri Jul  3 00:33:16 2026] 127.0.0.1:53534 Accepted
+[Fri Jul  3 00:33:17 2026] 127.0.0.1:53534 [200]: GET /index.php?r=knowledge.edit&id=2
+[Fri Jul  3 00:33:17 2026] 127.0.0.1:53534 Closing
+[Fri Jul  3 00:33:17 2026] 127.0.0.1:63141 Accepted
+[Fri Jul  3 00:33:17 2026] 127.0.0.1:63141 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:33:17 2026] 127.0.0.1:63141 Closing
+[Fri Jul  3 00:33:23 2026] 127.0.0.1:61310 Accepted
+[Fri Jul  3 00:33:23 2026] 127.0.0.1:61310 [200]: GET /index.php?r=login
+[Fri Jul  3 00:33:23 2026] 127.0.0.1:61310 Closing
+[Fri Jul  3 00:33:33 2026] 127.0.0.1:65151 Accepted
+[Fri Jul  3 00:33:34 2026] 127.0.0.1:62205 Accepted
+[Fri Jul  3 00:33:34 2026] 127.0.0.1:65151 [302]: POST /index.php?r=knowledge.update
+[Fri Jul  3 00:33:34 2026] 127.0.0.1:65151 Closing
+[Fri Jul  3 00:33:34 2026] 127.0.0.1:62205 [200]: GET /index.php?r=knowledge.show&id=2
+[Fri Jul  3 00:33:34 2026] 127.0.0.1:62205 Closing
+[Fri Jul  3 00:33:34 2026] 127.0.0.1:54770 Accepted
+[Fri Jul  3 00:33:34 2026] 127.0.0.1:54770 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:33:34 2026] 127.0.0.1:54770 Closing
+[Fri Jul  3 00:33:34 2026] 127.0.0.1:64369 Accepted
+[Fri Jul  3 00:33:35 2026] 127.0.0.1:64369 [200]: GET /index.php?r=knowledge.file&id=1
+[Fri Jul  3 00:33:35 2026] 127.0.0.1:64369 Closing
+[Fri Jul  3 00:33:35 2026] 127.0.0.1:61817 Accepted
+[Fri Jul  3 00:33:44 2026] 127.0.0.1:55920 Accepted
+[Fri Jul  3 00:33:44 2026] 127.0.0.1:55920 [200]: GET /index.php?r=knowledge.file&id=1
+[Fri Jul  3 00:33:44 2026] 127.0.0.1:55920 Closing
+[Fri Jul  3 00:33:44 2026] 127.0.0.1:53232 Accepted
+[Fri Jul  3 00:33:52 2026] 127.0.0.1:53232 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:33:52 2026] 127.0.0.1:53232 Closing
+[Fri Jul  3 00:33:52 2026] 127.0.0.1:55226 Accepted
+[Fri Jul  3 00:33:52 2026] 127.0.0.1:55226 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:33:52 2026] 127.0.0.1:55226 Closing
+[Fri Jul  3 00:33:54 2026] 127.0.0.1:49990 Accepted
+[Fri Jul  3 00:33:54 2026] 127.0.0.1:49990 [200]: GET /index.php?r=knowledge.show&id=2
+[Fri Jul  3 00:33:54 2026] 127.0.0.1:49990 Closing
+[Fri Jul  3 00:33:54 2026] 127.0.0.1:52096 Accepted
+[Fri Jul  3 00:33:54 2026] 127.0.0.1:52096 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:33:54 2026] 127.0.0.1:52096 Closing
+[Fri Jul  3 00:33:54 2026] 127.0.0.1:50893 Accepted
+[Fri Jul  3 00:33:55 2026] 127.0.0.1:50893 [200]: GET /index.php?r=knowledge.file&id=1
+[Fri Jul  3 00:33:55 2026] 127.0.0.1:50893 Closing
+[Fri Jul  3 00:35:14 2026] 127.0.0.1:61817 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri Jul  3 00:35:14 2026] 127.0.0.1:61817 Closing
+[Fri Jul  3 00:35:14 2026] 127.0.0.1:55552 Accepted
+[Fri Jul  3 00:35:14 2026] 127.0.0.1:55552 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:35:14 2026] 127.0.0.1:55552 Closing
+[Fri Jul  3 00:35:14 2026] 127.0.0.1:50131 Accepted
+[Fri Jul  3 00:35:14 2026] 127.0.0.1:50131 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:35:14 2026] 127.0.0.1:50131 Closing
+[Fri Jul  3 00:35:15 2026] 127.0.0.1:53618 Accepted
+[Fri Jul  3 00:35:15 2026] 127.0.0.1:53618 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:35:15 2026] 127.0.0.1:53618 Closing
+[Fri Jul  3 00:35:15 2026] 127.0.0.1:57949 Accepted
+[Fri Jul  3 00:35:15 2026] 127.0.0.1:57949 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:35:15 2026] 127.0.0.1:57949 Closing
+[Fri Jul  3 00:35:18 2026] 127.0.0.1:51455 Accepted
+[Fri Jul  3 00:35:18 2026] 127.0.0.1:51455 [200]: GET /index.php?r=knowledge.create
+[Fri Jul  3 00:35:18 2026] 127.0.0.1:51455 Closing
+[Fri Jul  3 00:35:18 2026] 127.0.0.1:58573 Accepted
+[Fri Jul  3 00:35:18 2026] 127.0.0.1:58573 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:35:18 2026] 127.0.0.1:58573 Closing
+[Fri Jul  3 00:36:30 2026] 127.0.0.1:62781 Accepted
+[Fri Jul  3 00:36:30 2026] 127.0.0.1:60310 Accepted
+[Fri Jul  3 00:36:31 2026] 127.0.0.1:62781 [302]: POST /index.php?r=knowledge.store
+[Fri Jul  3 00:36:31 2026] 127.0.0.1:62781 Closing
+[Fri Jul  3 00:36:31 2026] 127.0.0.1:60310 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:36:31 2026] 127.0.0.1:60310 Closing
+[Fri Jul  3 00:36:31 2026] 127.0.0.1:56369 Accepted
+[Fri Jul  3 00:36:31 2026] 127.0.0.1:56369 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:36:31 2026] 127.0.0.1:56369 Closing
+[Fri Jul  3 00:36:33 2026] 127.0.0.1:56031 Accepted
+[Fri Jul  3 00:36:33 2026] 127.0.0.1:56031 [200]: GET /index.php?r=knowledge.show&id=3
+[Fri Jul  3 00:36:33 2026] 127.0.0.1:56031 Closing
+[Fri Jul  3 00:36:33 2026] 127.0.0.1:57467 Accepted
+[Fri Jul  3 00:36:33 2026] 127.0.0.1:57467 [200]: GET /index.php?r=knowledge.file&id=2
+[Fri Jul  3 00:36:33 2026] 127.0.0.1:57467 Closing
+[Fri Jul  3 00:36:33 2026] 127.0.0.1:56092 Accepted
+[Fri Jul  3 00:36:33 2026] 127.0.0.1:56092 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:36:33 2026] 127.0.0.1:56092 Closing
+[Fri Jul  3 00:36:37 2026] 127.0.0.1:54102 Accepted
+[Fri Jul  3 00:36:37 2026] 127.0.0.1:54102 [200]: GET /index.php?r=knowledge.file&id=2
+[Fri Jul  3 00:36:37 2026] 127.0.0.1:54102 Closing
+[Fri Jul  3 00:36:37 2026] 127.0.0.1:55173 Accepted
+[Fri Jul  3 00:36:54 2026] 127.0.0.1:55173 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:36:54 2026] 127.0.0.1:55173 Closing
+[Fri Jul  3 00:36:54 2026] 127.0.0.1:63305 Accepted
+[Fri Jul  3 00:36:54 2026] 127.0.0.1:63305 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:36:54 2026] 127.0.0.1:63305 Closing
+[Fri Jul  3 00:38:13 2026] 127.0.0.1:54979 Accepted
+[Fri Jul  3 00:38:14 2026] 127.0.0.1:54979 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:38:14 2026] 127.0.0.1:54979 Closing
+[Fri Jul  3 00:38:14 2026] 127.0.0.1:53201 Accepted
+[Fri Jul  3 00:38:14 2026] 127.0.0.1:53201 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:38:14 2026] 127.0.0.1:53201 Closing
+[Fri Jul  3 00:38:15 2026] 127.0.0.1:53375 Accepted
+[Fri Jul  3 00:38:15 2026] 127.0.0.1:53375 [200]: GET /index.php?r=knowledge.create
+[Fri Jul  3 00:38:15 2026] 127.0.0.1:53375 Closing
+[Fri Jul  3 00:38:15 2026] 127.0.0.1:59750 Accepted
+[Fri Jul  3 00:38:15 2026] 127.0.0.1:59750 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:38:15 2026] 127.0.0.1:59750 Closing
+[Fri Jul  3 00:39:27 2026] 127.0.0.1:58053 Accepted
+[Fri Jul  3 00:39:27 2026] 127.0.0.1:60792 Accepted
+[Fri Jul  3 00:39:32 2026] 127.0.0.1:58053 [302]: POST /index.php?r=knowledge.store
+[Fri Jul  3 00:39:32 2026] 127.0.0.1:58053 Closing
+[Fri Jul  3 00:39:33 2026] 127.0.0.1:60792 [200]: GET /index.php?r=knowledge
+[Fri Jul  3 00:39:33 2026] 127.0.0.1:60792 Closing
+[Fri Jul  3 00:39:33 2026] 127.0.0.1:62178 Accepted
+[Fri Jul  3 00:39:33 2026] 127.0.0.1:62178 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:39:33 2026] 127.0.0.1:62178 Closing
+[Fri Jul  3 00:39:35 2026] 127.0.0.1:65461 Accepted
+[Fri Jul  3 00:39:35 2026] 127.0.0.1:65461 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:39:35 2026] 127.0.0.1:65461 Closing
+[Fri Jul  3 00:39:35 2026] 127.0.0.1:61437 Accepted
+[Fri Jul  3 00:39:35 2026] 127.0.0.1:61437 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:39:35 2026] 127.0.0.1:61437 Closing
+[Fri Jul  3 00:39:37 2026] 127.0.0.1:58259 Accepted
+[Fri Jul  3 00:39:37 2026] 127.0.0.1:58259 [200]: GET /index.php?r=knowledge.show&id=4
+[Fri Jul  3 00:39:37 2026] 127.0.0.1:58259 Closing
+[Fri Jul  3 00:39:37 2026] 127.0.0.1:51438 Accepted
+[Fri Jul  3 00:39:37 2026] 127.0.0.1:51438 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:39:37 2026] 127.0.0.1:51438 Closing
+[Fri Jul  3 00:39:37 2026] 127.0.0.1:56928 Accepted
+[Fri Jul  3 00:39:38 2026] 127.0.0.1:56928 [200]: GET /index.php?r=knowledge.file&id=3
+[Fri Jul  3 00:39:38 2026] 127.0.0.1:56928 Closing
+[Fri Jul  3 00:39:38 2026] 127.0.0.1:52777 Accepted
+[Fri Jul  3 00:39:38 2026] 127.0.0.1:52777 [200]: GET /index.php?r=knowledge.file&id=3
+[Fri Jul  3 00:39:38 2026] 127.0.0.1:52777 Closing
+[Fri Jul  3 00:39:42 2026] 127.0.0.1:58331 Accepted
+[Fri Jul  3 00:39:42 2026] 127.0.0.1:58331 [200]: GET /index.php?r=knowledge.file&id=3
+[Fri Jul  3 00:39:42 2026] 127.0.0.1:58331 Closing
+[Fri Jul  3 00:39:42 2026] 127.0.0.1:65263 Accepted
+[Fri Jul  3 00:39:42 2026] 127.0.0.1:65263 [404]: GET /favicon.ico - No such file or directory
+[Fri Jul  3 00:39:42 2026] 127.0.0.1:65263 Closing
+[Fri Jul  3 00:39:42 2026] 127.0.0.1:61985 Accepted
+[Fri Jul  3 00:39:43 2026] 127.0.0.1:61985 [200]: GET /index.php?r=knowledge.file&id=3
+[Fri Jul  3 00:39:43 2026] 127.0.0.1:61985 Closing
+[Fri Jul  3 00:40:03 2026] 127.0.0.1:59842 Accepted
+[Fri Jul  3 00:40:04 2026] 127.0.0.1:59842 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 00:40:04 2026] 127.0.0.1:59842 Closing
+[Fri Jul  3 00:40:04 2026] 127.0.0.1:60034 Accepted
+[Fri Jul  3 00:40:04 2026] 127.0.0.1:60034 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:40:04 2026] 127.0.0.1:60034 Closing
+[Fri Jul  3 00:45:23 2026] 127.0.0.1:54069 Accepted
+[Fri Jul  3 00:45:23 2026] 127.0.0.1:54069 [200]: GET /index.php?r=login
+[Fri Jul  3 00:45:23 2026] 127.0.0.1:54069 Closing
+[Fri Jul  3 00:45:49 2026] 127.0.0.1:63085 Accepted
+[Fri Jul  3 00:45:50 2026] 127.0.0.1:63085 [200]: GET /index.php?r=admin.users
+[Fri Jul  3 00:45:50 2026] 127.0.0.1:63085 Closing
+[Fri Jul  3 00:45:50 2026] 127.0.0.1:58655 Accepted
+[Fri Jul  3 00:45:50 2026] 127.0.0.1:58655 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:45:50 2026] 127.0.0.1:58655 Closing
+[Fri Jul  3 00:46:16 2026] 127.0.0.1:54860 Accepted
+[Fri Jul  3 00:46:16 2026] 127.0.0.1:54860 [200]: GET /index.php?r=admin.departments
+[Fri Jul  3 00:46:16 2026] 127.0.0.1:54860 Closing
+[Fri Jul  3 00:46:16 2026] 127.0.0.1:51128 Accepted
+[Fri Jul  3 00:46:16 2026] 127.0.0.1:51128 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:46:16 2026] 127.0.0.1:51128 Closing
+[Fri Jul  3 00:46:25 2026] 127.0.0.1:53854 Accepted
+[Fri Jul  3 00:46:25 2026] 127.0.0.1:53854 [200]: GET /index.php?r=admin.users
+[Fri Jul  3 00:46:25 2026] 127.0.0.1:53854 Closing
+[Fri Jul  3 00:46:25 2026] 127.0.0.1:58762 Accepted
+[Fri Jul  3 00:46:25 2026] 127.0.0.1:58762 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:46:25 2026] 127.0.0.1:58762 Closing
+[Fri Jul  3 00:49:36 2026] 127.0.0.1:57852 Accepted
+[Fri Jul  3 00:49:36 2026] 127.0.0.1:57852 [200]: GET /index.php?r=login
+[Fri Jul  3 00:49:36 2026] 127.0.0.1:57852 Closing
+[Fri Jul  3 00:49:44 2026] 127.0.0.1:49672 Accepted
+[Fri Jul  3 00:49:44 2026] 127.0.0.1:49672 [200]: GET /index.php?r=admin.users
+[Fri Jul  3 00:49:44 2026] 127.0.0.1:49672 Closing
+[Fri Jul  3 00:49:44 2026] 127.0.0.1:52420 Accepted
+[Fri Jul  3 00:49:44 2026] 127.0.0.1:52420 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:49:44 2026] 127.0.0.1:52420 Closing
+[Fri Jul  3 00:49:47 2026] 127.0.0.1:53522 Accepted
+[Fri Jul  3 00:49:48 2026] 127.0.0.1:53522 [200]: GET /index.php?r=admin.users.edit&id=3
+[Fri Jul  3 00:49:48 2026] 127.0.0.1:53522 Closing
+[Fri Jul  3 00:49:48 2026] 127.0.0.1:64506 Accepted
+[Fri Jul  3 00:49:48 2026] 127.0.0.1:64506 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:49:48 2026] 127.0.0.1:64506 Closing
+[Fri Jul  3 00:50:03 2026] 127.0.0.1:64632 Accepted
+[Fri Jul  3 00:50:03 2026] 127.0.0.1:64632 [302]: POST /index.php?r=admin.users.update
+[Fri Jul  3 00:50:03 2026] 127.0.0.1:64632 Closing
+[Fri Jul  3 00:50:03 2026] 127.0.0.1:60025 Accepted
+[Fri Jul  3 00:50:03 2026] 127.0.0.1:60025 [200]: GET /index.php?r=admin.users
+[Fri Jul  3 00:50:03 2026] 127.0.0.1:60025 Closing
+[Fri Jul  3 00:50:03 2026] 127.0.0.1:56219 Accepted
+[Fri Jul  3 00:50:03 2026] 127.0.0.1:56219 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:50:03 2026] 127.0.0.1:56219 Closing
+[Fri Jul  3 00:50:05 2026] 127.0.0.1:61957 Accepted
+[Fri Jul  3 00:50:05 2026] 127.0.0.1:61957 [200]: GET /index.php?r=admin.roles
+[Fri Jul  3 00:50:05 2026] 127.0.0.1:61957 Closing
+[Fri Jul  3 00:50:05 2026] 127.0.0.1:49670 Accepted
+[Fri Jul  3 00:50:05 2026] 127.0.0.1:49670 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:50:05 2026] 127.0.0.1:49670 Closing
+[Fri Jul  3 00:50:12 2026] 127.0.0.1:57154 Accepted
+[Fri Jul  3 00:50:12 2026] 127.0.0.1:57154 [200]: GET /index.php?r=admin.users
+[Fri Jul  3 00:50:12 2026] 127.0.0.1:57154 Closing
+[Fri Jul  3 00:50:12 2026] 127.0.0.1:53559 Accepted
+[Fri Jul  3 00:50:12 2026] 127.0.0.1:53559 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:50:12 2026] 127.0.0.1:53559 Closing
+[Fri Jul  3 00:50:13 2026] 127.0.0.1:62036 Accepted
+[Fri Jul  3 00:50:14 2026] 127.0.0.1:62036 [200]: GET /index.php?r=admin.departments
+[Fri Jul  3 00:50:14 2026] 127.0.0.1:62036 Closing
+[Fri Jul  3 00:50:14 2026] 127.0.0.1:50067 Accepted
+[Fri Jul  3 00:50:14 2026] 127.0.0.1:50067 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 00:50:14 2026] 127.0.0.1:50067 Closing
+[Fri Jul  3 01:01:46 2026] 127.0.0.1:63960 Accepted
+[Fri Jul  3 01:01:47 2026] 127.0.0.1:63960 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 01:01:47 2026] 127.0.0.1:63960 Closing
+[Fri Jul  3 01:01:47 2026] 127.0.0.1:52587 Accepted
+[Fri Jul  3 01:01:47 2026] 127.0.0.1:52587 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:01:47 2026] 127.0.0.1:52587 Closing
+[Fri Jul  3 01:01:49 2026] 127.0.0.1:58429 Accepted
+[Fri Jul  3 01:01:49 2026] 127.0.0.1:58429 [200]: GET /index.php?r=admin.departments
+[Fri Jul  3 01:01:49 2026] 127.0.0.1:58429 Closing
+[Fri Jul  3 01:01:49 2026] 127.0.0.1:63232 Accepted
+[Fri Jul  3 01:01:49 2026] 127.0.0.1:63232 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:01:49 2026] 127.0.0.1:63232 Closing
+[Fri Jul  3 01:03:15 2026] 127.0.0.1:56934 Accepted
+[Fri Jul  3 01:03:15 2026] 127.0.0.1:56934 [200]: GET /index.php?r=admin.departments
+[Fri Jul  3 01:03:15 2026] 127.0.0.1:56934 Closing
+[Fri Jul  3 01:03:15 2026] 127.0.0.1:58161 Accepted
+[Fri Jul  3 01:03:15 2026] 127.0.0.1:58161 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:03:15 2026] 127.0.0.1:58161 Closing
+[Fri Jul  3 01:03:17 2026] 127.0.0.1:51777 Accepted
+[Fri Jul  3 01:03:18 2026] 127.0.0.1:51777 [200]: GET /index.php?r=improvements
+[Fri Jul  3 01:03:18 2026] 127.0.0.1:51777 Closing
+[Fri Jul  3 01:03:18 2026] 127.0.0.1:59043 Accepted
+[Fri Jul  3 01:03:18 2026] 127.0.0.1:59043 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:03:18 2026] 127.0.0.1:59043 Closing
+[Fri Jul  3 01:03:20 2026] 127.0.0.1:63751 Accepted
+[Fri Jul  3 01:04:43 2026] 127.0.0.1:63751 Closed without sending a request; it was probably just an unused speculative preconnection
+[Fri Jul  3 01:04:43 2026] 127.0.0.1:63751 Closing
+[Fri Jul  3 01:04:43 2026] 127.0.0.1:51843 Accepted
+[Fri Jul  3 01:04:43 2026] 127.0.0.1:51843 [302]: POST /index.php?r=admin.departments.store
+[Fri Jul  3 01:04:43 2026] 127.0.0.1:51843 Closing
+[Fri Jul  3 01:04:43 2026] 127.0.0.1:63669 Accepted
+[Fri Jul  3 01:04:44 2026] 127.0.0.1:63669 [200]: GET /index.php?r=admin.departments
+[Fri Jul  3 01:04:44 2026] 127.0.0.1:63669 Closing
+[Fri Jul  3 01:04:44 2026] 127.0.0.1:53088 Accepted
+[Fri Jul  3 01:04:44 2026] 127.0.0.1:53088 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:04:44 2026] 127.0.0.1:53088 Closing
+[Fri Jul  3 01:04:55 2026] 127.0.0.1:64303 Accepted
+[Fri Jul  3 01:04:55 2026] 127.0.0.1:64303 [302]: POST /index.php?r=admin.departments.store
+[Fri Jul  3 01:04:55 2026] 127.0.0.1:64303 Closing
+[Fri Jul  3 01:04:55 2026] 127.0.0.1:50133 Accepted
+[Fri Jul  3 01:04:56 2026] 127.0.0.1:50133 [200]: GET /index.php?r=admin.departments
+[Fri Jul  3 01:04:56 2026] 127.0.0.1:50133 Closing
+[Fri Jul  3 01:04:56 2026] 127.0.0.1:59851 Accepted
+[Fri Jul  3 01:04:56 2026] 127.0.0.1:59851 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:04:56 2026] 127.0.0.1:59851 Closing
+[Fri Jul  3 01:05:03 2026] 127.0.0.1:49670 Accepted
+[Fri Jul  3 01:05:03 2026] 127.0.0.1:49670 [302]: POST /index.php?r=admin.departments.store
+[Fri Jul  3 01:05:03 2026] 127.0.0.1:49670 Closing
+[Fri Jul  3 01:05:03 2026] 127.0.0.1:60230 Accepted
+[Fri Jul  3 01:05:03 2026] 127.0.0.1:60230 [200]: GET /index.php?r=admin.departments
+[Fri Jul  3 01:05:03 2026] 127.0.0.1:60230 Closing
+[Fri Jul  3 01:05:03 2026] 127.0.0.1:57518 Accepted
+[Fri Jul  3 01:05:03 2026] 127.0.0.1:57518 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:05:03 2026] 127.0.0.1:57518 Closing
+[Fri Jul  3 01:05:17 2026] 127.0.0.1:54011 Accepted
+[Fri Jul  3 01:05:18 2026] 127.0.0.1:54011 [200]: GET /index.php?r=admin.departments
+[Fri Jul  3 01:05:18 2026] 127.0.0.1:54011 Closing
+[Fri Jul  3 01:05:18 2026] 127.0.0.1:62014 Accepted
+[Fri Jul  3 01:05:18 2026] 127.0.0.1:62014 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:05:18 2026] 127.0.0.1:62014 Closing
+[Fri Jul  3 01:05:20 2026] 127.0.0.1:53780 Accepted
+[Fri Jul  3 01:05:20 2026] 127.0.0.1:53780 [200]: GET /index.php?r=admin.users
+[Fri Jul  3 01:05:20 2026] 127.0.0.1:53780 Closing
+[Fri Jul  3 01:05:20 2026] 127.0.0.1:53993 Accepted
+[Fri Jul  3 01:05:20 2026] 127.0.0.1:53993 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:05:20 2026] 127.0.0.1:53993 Closing
+[Fri Jul  3 01:05:23 2026] 127.0.0.1:53346 Accepted
+[Fri Jul  3 01:05:24 2026] 127.0.0.1:53346 [200]: GET /index.php?r=admin.stores
+[Fri Jul  3 01:05:24 2026] 127.0.0.1:53346 Closing
+[Fri Jul  3 01:05:24 2026] 127.0.0.1:57010 Accepted
+[Fri Jul  3 01:05:24 2026] 127.0.0.1:57010 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:05:24 2026] 127.0.0.1:57010 Closing
+[Fri Jul  3 01:05:35 2026] 127.0.0.1:63264 Accepted
+[Fri Jul  3 01:05:36 2026] 127.0.0.1:63264 [302]: POST /index.php?r=admin.stores.store
+[Fri Jul  3 01:05:36 2026] 127.0.0.1:63264 Closing
+[Fri Jul  3 01:05:36 2026] 127.0.0.1:61884 Accepted
+[Fri Jul  3 01:05:36 2026] 127.0.0.1:61884 [200]: GET /index.php?r=admin.stores
+[Fri Jul  3 01:05:36 2026] 127.0.0.1:61884 Closing
+[Fri Jul  3 01:05:36 2026] 127.0.0.1:62708 Accepted
+[Fri Jul  3 01:05:36 2026] 127.0.0.1:62708 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:05:36 2026] 127.0.0.1:62708 Closing
+[Fri Jul  3 01:05:53 2026] 127.0.0.1:57650 Accepted
+[Fri Jul  3 01:05:54 2026] 127.0.0.1:57650 [302]: POST /index.php?r=admin.stores.store
+[Fri Jul  3 01:05:54 2026] 127.0.0.1:57650 Closing
+[Fri Jul  3 01:05:54 2026] 127.0.0.1:62599 Accepted
+[Fri Jul  3 01:05:54 2026] 127.0.0.1:62599 [200]: GET /index.php?r=admin.stores
+[Fri Jul  3 01:05:54 2026] 127.0.0.1:62599 Closing
+[Fri Jul  3 01:05:54 2026] 127.0.0.1:52847 Accepted
+[Fri Jul  3 01:05:54 2026] 127.0.0.1:52847 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:05:54 2026] 127.0.0.1:52847 Closing
+[Fri Jul  3 01:06:04 2026] 127.0.0.1:63716 Accepted
+[Fri Jul  3 01:06:05 2026] 127.0.0.1:63716 [302]: POST /index.php?r=admin.stores.store
+[Fri Jul  3 01:06:05 2026] 127.0.0.1:63716 Closing
+[Fri Jul  3 01:06:05 2026] 127.0.0.1:61898 Accepted
+[Fri Jul  3 01:06:05 2026] 127.0.0.1:61898 [200]: GET /index.php?r=admin.stores
+[Fri Jul  3 01:06:05 2026] 127.0.0.1:61898 Closing
+[Fri Jul  3 01:06:05 2026] 127.0.0.1:52226 Accepted
+[Fri Jul  3 01:06:05 2026] 127.0.0.1:52226 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:06:05 2026] 127.0.0.1:52226 Closing
+[Fri Jul  3 01:06:18 2026] 127.0.0.1:49670 Accepted
+[Fri Jul  3 01:06:18 2026] 127.0.0.1:49670 [302]: POST /index.php?r=admin.stores.store
+[Fri Jul  3 01:06:18 2026] 127.0.0.1:49670 Closing
+[Fri Jul  3 01:06:18 2026] 127.0.0.1:50335 Accepted
+[Fri Jul  3 01:06:18 2026] 127.0.0.1:50335 [200]: GET /index.php?r=admin.stores
+[Fri Jul  3 01:06:18 2026] 127.0.0.1:50335 Closing
+[Fri Jul  3 01:06:18 2026] 127.0.0.1:52134 Accepted
+[Fri Jul  3 01:06:18 2026] 127.0.0.1:52134 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:06:18 2026] 127.0.0.1:52134 Closing
+[Fri Jul  3 01:06:24 2026] 127.0.0.1:62230 Accepted
+[Fri Jul  3 01:06:25 2026] 127.0.0.1:62230 [200]: GET /index.php?r=admin.users
+[Fri Jul  3 01:06:25 2026] 127.0.0.1:62230 Closing
+[Fri Jul  3 01:06:25 2026] 127.0.0.1:53144 Accepted
+[Fri Jul  3 01:06:25 2026] 127.0.0.1:53144 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:06:25 2026] 127.0.0.1:53144 Closing
+[Fri Jul  3 01:06:26 2026] 127.0.0.1:49689 Accepted
+[Fri Jul  3 01:06:27 2026] 127.0.0.1:49689 [200]: GET /index.php?r=admin.users.edit&id=3
+[Fri Jul  3 01:06:27 2026] 127.0.0.1:49689 Closing
+[Fri Jul  3 01:06:27 2026] 127.0.0.1:64697 Accepted
+[Fri Jul  3 01:06:27 2026] 127.0.0.1:64697 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:06:27 2026] 127.0.0.1:64697 Closing
+[Fri Jul  3 01:06:42 2026] 127.0.0.1:64539 Accepted
+[Fri Jul  3 01:06:42 2026] 127.0.0.1:64539 [302]: POST /index.php?r=admin.users.update
+[Fri Jul  3 01:06:42 2026] 127.0.0.1:64539 Closing
+[Fri Jul  3 01:06:42 2026] 127.0.0.1:62514 Accepted
+[Fri Jul  3 01:06:42 2026] 127.0.0.1:62514 [200]: GET /index.php?r=admin.users
+[Fri Jul  3 01:06:42 2026] 127.0.0.1:62514 Closing
+[Fri Jul  3 01:06:42 2026] 127.0.0.1:64088 Accepted
+[Fri Jul  3 01:06:42 2026] 127.0.0.1:64088 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:06:42 2026] 127.0.0.1:64088 Closing
+[Fri Jul  3 01:11:18 2026] 127.0.0.1:56592 Accepted
+[Fri Jul  3 01:11:19 2026] 127.0.0.1:56592 [200]: GET /index.php?r=dashboard
+[Fri Jul  3 01:11:19 2026] 127.0.0.1:56592 Closing
+[Fri Jul  3 01:11:19 2026] 127.0.0.1:55174 Accepted
+[Fri Jul  3 01:11:19 2026] 127.0.0.1:55174 [200]: GET /public/assets/css/app.css
+[Fri Jul  3 01:11:19 2026] 127.0.0.1:55174 Closing

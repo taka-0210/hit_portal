@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "message": "Knowledge Module v0.1 が利用できます。",
+        "target_role": "user"
+    },
+    {
+        "id": 2,
+        "message": "改善点は小さく記録してください。",
+        "target_role": "user"
+    }
+]

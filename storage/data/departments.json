@@ -1,0 +1,46 @@
+[
+    {
+        "id": 1,
+        "name": "商品センター",
+        "level": "store",
+        "parent_id": 0,
+        "description": "",
+        "sort_order": 1,
+        "status": "active",
+        "created_at": "2026-07-09 00:00:00",
+        "updated_at": "2026-07-09 00:00:00"
+    },
+    {
+        "id": 2,
+        "name": "播磨店",
+        "level": "store",
+        "parent_id": 0,
+        "description": "",
+        "sort_order": 2,
+        "status": "active",
+        "created_at": "2026-07-09 00:00:00",
+        "updated_at": "2026-07-09 00:00:00"
+    },
+    {
+        "id": 3,
+        "name": "姫路店",
+        "level": "store",
+        "parent_id": 0,
+        "description": "",
+        "sort_order": 3,
+        "status": "active",
+        "created_at": "2026-07-09 00:00:00",
+        "updated_at": "2026-07-09 00:00:00"
+    },
+    {
+        "id": 4,
+        "name": "高松店",
+        "level": "store",
+        "parent_id": 0,
+        "description": "",
+        "sort_order": 4,
+        "status": "active",
+        "created_at": "2026-07-09 00:00:00",
+        "updated_at": "2026-07-09 00:00:00"
+    }
+]
