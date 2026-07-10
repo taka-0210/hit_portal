@@ -641,34 +641,24 @@ h2 {
     color: var(--accent-dark);
 }
 
-.portal-link-card > span:not(.portal-new-badge) {
+.portal-link-card span {
     overflow-wrap: anywhere;
 }
 
 .portal-new-badge {
-    position: absolute;
-    top: 5px;
-    right: 6px;
-    z-index: 2;
     display: inline-flex;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: center;
     width: fit-content;
     border-radius: 999px;
     background: #e2533f;
     color: #fff;
-    padding: 1px 5px;
-    font-size: 9px;
+    padding: 2px 7px;
+    font-size: 10px;
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.2;
     letter-spacing: 0;
-    pointer-events: none;
-}
-
-.portal-link-card:has(.portal-new-badge),
-.portal-manual-row:has(.portal-new-badge),
-.portal-todo-card:has(.portal-new-badge) {
-    padding-right: 42px;
 }
 
 .portal-manual-list {
@@ -709,7 +699,7 @@ h2 {
     font-weight: 800;
 }
 
-.portal-manual-row > span:not(.portal-new-badge) {
+.portal-manual-row span {
     overflow-wrap: anywhere;
 }
 
@@ -737,7 +727,6 @@ h2 {
 }
 
 .portal-todo-card {
-    position: relative;
     display: grid;
     grid-template-columns: auto minmax(96px, 0.55fr) minmax(0, 1fr) auto;
     gap: 10px;
