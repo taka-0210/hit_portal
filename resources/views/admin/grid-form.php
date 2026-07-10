@@ -96,8 +96,8 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
                         <input name="link_url[]" value="<?= e($row['url']) ?>" placeholder="https://example.com">
                         <input type="hidden" name="link_created_at[]" value="<?= e($row['created_at'] ?? '') ?>">
                         <div class="row-actions">
-                            <button class="button ghost icon-button" type="button" data-move-link-row="up" aria-label="上へ移動">&uarr;</button>
-                            <button class="button ghost icon-button" type="button" data-move-link-row="down" aria-label="下へ移動">&darr;</button>
+                            <button class="button ghost icon-button" type="button" data-move-link-row="up" aria-label="上へ移動">&#9650;</button>
+                            <button class="button ghost icon-button" type="button" data-move-link-row="down" aria-label="下へ移動">&#9660;</button>
                             <button class="button ghost" type="button" data-remove-link-row>削除</button>
                         </div>
                     </div>
@@ -201,8 +201,8 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
         <input name="link_url[]" placeholder="https://example.com">
         <input type="hidden" name="link_created_at[]">
         <div class="row-actions">
-            <button class="button ghost icon-button" type="button" data-move-link-row="up" aria-label="上へ移動">&uarr;</button>
-            <button class="button ghost icon-button" type="button" data-move-link-row="down" aria-label="下へ移動">&darr;</button>
+            <button class="button ghost icon-button" type="button" data-move-link-row="up" aria-label="上へ移動">&#9650;</button>
+            <button class="button ghost icon-button" type="button" data-move-link-row="down" aria-label="下へ移動">&#9660;</button>
             <button class="button ghost" type="button" data-remove-link-row>削除</button>
         </div>
     </div>

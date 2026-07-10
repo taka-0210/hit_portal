@@ -859,6 +859,11 @@ h2 {
     padding: 0;
 }
 
+.portal-image-modal {
+    width: fit-content;
+    max-width: calc(100vw - 32px);
+}
+
 .portal-modal::backdrop {
     background: rgba(31, 41, 55, 0.42);
 }
@@ -972,6 +977,7 @@ h2 {
 
 .portal-qr-modal-body {
     justify-items: center;
+    padding: 12px;
 }
 
 .portal-qr-image {
