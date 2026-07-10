@@ -453,6 +453,11 @@ final class DashboardController
             $currentKey = ((string) ($group['label'] ?? '')) !== '' ? (string) $group['label'] : 'default';
             if ($currentKey === $groupKey) {
                 array_unshift($groups[$index]['entries'], $entry);
+                if (($grid['registration_type'] ?? '') === 'links' && $index > 0) {
+                    $updatedGroup = $groups[$index];
+                    array_splice($groups, $index, 1);
+                    array_unshift($groups, $updatedGroup);
+                }
                 $grid['groups'] = $groups;
                 return $grid;
             }
