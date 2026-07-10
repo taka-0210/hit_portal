@@ -541,6 +541,10 @@ final class DashboardController
 
     private function sortGridEntriesNewestFirst(array $grid): array
     {
+        if (($grid['registration_type'] ?? '') === 'links') {
+            return $grid;
+        }
+
         foreach (($grid['groups'] ?? []) as $groupIndex => $group) {
             $entries = $group['entries'] ?? [];
             usort($entries, fn (array $a, array $b): int => $this->entryTimestamp($b) <=> $this->entryTimestamp($a));
