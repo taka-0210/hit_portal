@@ -36,6 +36,7 @@ if ($companyId > 0) {
                 <a href="<?= route_url('guide') ?>">取扱説明</a>
                 <a href="<?= route_url('admin.grids') ?>">グリッド管理</a>
                 <?php if ($isSystemAdmin): ?>
+                    <a href="<?= route_url('admin.qrCodes') ?>">QRコード管理</a>
                     <a href="<?= route_url('admin.portalSettings') ?>">ポータル設定</a>
                     <a href="<?= route_url('admin.guide') ?>">取扱説明管理</a>
                     <a href="<?= route_url('admin.users') ?>">アカウント管理</a>

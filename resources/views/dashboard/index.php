@@ -200,7 +200,7 @@ $portalAreaTitles = [
                                     <?php endif; ?>
                                     <div class="portal-link-grid">
                                         <?php foreach (($group['entries'] ?? []) as $entry): ?>
-                                            <?php $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : ($entry['url'] ?? '#'); ?>
+                                            <?php $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : (($qrCodeUrlMap[(int) ($entry['qr_code_id'] ?? 0)] ?? null) ?: ($entry['url'] ?? '#')); ?>
                                             <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : 'is-link' ?>" href="<?= e($entryUrl) ?>">
                                                 <span><?= e($entry['label'] ?? '') ?></span>
                                                 <?php if ($isNewEntry($entry)): ?>
@@ -216,7 +216,7 @@ $portalAreaTitles = [
                         <div class="portal-link-list">
                             <?php foreach (($grid['groups'] ?? []) as $group): ?>
                                 <?php foreach (($group['entries'] ?? []) as $entry): ?>
-                                    <?php $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : ($entry['url'] ?? '#'); ?>
+                                    <?php $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : (($qrCodeUrlMap[(int) ($entry['qr_code_id'] ?? 0)] ?? null) ?: ($entry['url'] ?? '#')); ?>
                                     <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : 'is-link' ?>" href="<?= e($entryUrl) ?>">
                                         <span><?= e($entry['label'] ?? '') ?></span>
                                         <?php if ($isNewEntry($entry)): ?>
@@ -249,9 +249,22 @@ $portalAreaTitles = [
                                             <span>リンク名</span>
                                             <input name="entry_label" required>
                                         </label>
+                                        <?php if (!empty($qrCodes)): ?>
+                                            <label>
+                                                <span>登録QRコード</span>
+                                                <select name="entry_qr_code_id" data-qr-code-select>
+                                                    <option value="0" data-url="">直接URLを入力</option>
+                                                    <?php foreach ($qrCodes as $qrCode): ?>
+                                                        <option value="<?= (int) ($qrCode['id'] ?? 0) ?>" data-url="<?= e($qrCode['url'] ?? '') ?>" data-title="<?= e($qrCode['title'] ?? '') ?>">
+                                                            <?= e($qrCode['title'] ?? '') ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </label>
+                                        <?php endif; ?>
                                         <label>
                                             <span>URL</span>
-                                            <input name="entry_url" type="url" placeholder="https://example.com">
+                                            <input name="entry_url" type="url" placeholder="https://example.com" data-entry-url-input>
                                         </label>
                                     <?php elseif (($grid['registration_type'] ?? '') === 'files'): ?>
                                         <label>
@@ -346,6 +359,23 @@ $portalAreaTitles = [
     });
 
     document.addEventListener('change', (event) => {
+        const qrSelect = event.target.closest('[data-qr-code-select]');
+        if (qrSelect) {
+            const form = qrSelect.closest('form');
+            const selectedOption = qrSelect.selectedOptions[0];
+            const urlInput = form?.querySelector('[data-entry-url-input]');
+            const labelInput = form?.querySelector('[name="entry_label"]');
+            const selectedUrl = selectedOption?.dataset.url || '';
+            const selectedTitle = selectedOption?.dataset.title || '';
+            if (urlInput && selectedUrl !== '') {
+                urlInput.value = selectedUrl;
+            }
+            if (labelInput && labelInput.value.trim() === '' && selectedTitle !== '') {
+                labelInput.value = selectedTitle;
+            }
+            return;
+        }
+
         const progressSelect = event.target.closest('.portal-todo-progress-form select');
         if (!progressSelect) {
             return;

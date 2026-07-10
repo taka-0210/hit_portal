@@ -917,6 +917,33 @@ h2 {
     white-space: normal;
 }
 
+.qr-code-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    max-width: 100%;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 12px;
+}
+
+.qr-code-preview img,
+.qr-code-thumb {
+    display: block;
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+}
+
+.qr-code-thumb {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fff;
+    padding: 6px;
+}
+
 .delete-warning {
     margin: 0;
     border: 1px solid #e2a3a3;

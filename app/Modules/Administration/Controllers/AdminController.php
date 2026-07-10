@@ -375,6 +375,54 @@ final class AdminController
         redirect('admin.guide');
     }
 
+    public function qrCodes(): void
+    {
+        View::render('admin/qr-codes', [
+            'mode' => 'create',
+            'qrCode' => null,
+            'qrCodes' => $this->qrCodeRows(),
+        ]);
+    }
+
+    public function storeQrCode(): void
+    {
+        verify_csrf();
+
+        $this->store->save('qr_codes', $this->qrCodePayload());
+        $_SESSION['flash'] = 'QRコードを登録しました。';
+        redirect('admin.qrCodes');
+    }
+
+    public function editQrCode(): void
+    {
+        $qrCode = $this->store->find('qr_codes', (int) ($_GET['id'] ?? 0));
+        if ($qrCode === null) {
+            http_response_code(404);
+            exit('QR code not found.');
+        }
+
+        View::render('admin/qr-codes', [
+            'mode' => 'edit',
+            'qrCode' => $this->withQrCodeUrl($qrCode),
+            'qrCodes' => $this->qrCodeRows(),
+        ]);
+    }
+
+    public function updateQrCode(): void
+    {
+        verify_csrf();
+
+        $current = $this->store->find('qr_codes', (int) ($_POST['id'] ?? 0));
+        if ($current === null) {
+            http_response_code(404);
+            exit('QR code not found.');
+        }
+
+        $this->store->save('qr_codes', array_merge($current, $this->qrCodePayload($current)));
+        $_SESSION['flash'] = 'QRコードを更新しました。';
+        redirect('admin.qrCodes');
+    }
+
     public function grids(): void
     {
         $departments = $this->store->all('departments');
@@ -1244,6 +1292,75 @@ final class AdminController
             'sort_order' => (int) ($_POST['sort_order'] ?? 0),
             'status' => trim($_POST['status'] ?? 'active'),
         ];
+    }
+
+    private function qrCodePayload(?array $current = null): array
+    {
+        $payload = [
+            'id' => (int) ($_POST['id'] ?? 0),
+            'title' => trim((string) ($_POST['title'] ?? '')),
+            'description' => trim((string) ($_POST['description'] ?? '')),
+            'status' => trim((string) ($_POST['status'] ?? 'active')) === 'inactive' ? 'inactive' : 'active',
+        ];
+
+        if (!empty($_FILES['qr_image']['name'])) {
+            $payload['image_path'] = $this->saveQrCodeImage($_FILES['qr_image']);
+        } elseif ($current !== null && !empty($current['image_path'])) {
+            $payload['image_path'] = (string) $current['image_path'];
+        }
+
+        if (!empty($payload['image_path'])) {
+            $payload['url'] = asset_url((string) $payload['image_path']);
+        }
+
+        return $payload;
+    }
+
+    private function saveQrCodeImage(array $file): string
+    {
+        if (($file['error'] ?? UPLOAD_ERR_OK) !== UPLOAD_ERR_OK) {
+            throw new \RuntimeException('QRコード画像のアップロードに失敗しました。');
+        }
+
+        if ((int) ($file['size'] ?? 0) > 5242880) {
+            throw new \RuntimeException('QRコード画像は 5MB までアップロードできます。');
+        }
+
+        $originalName = (string) ($file['name'] ?? '');
+        $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        if (!in_array($extension, $allowedExtensions, true)) {
+            throw new \RuntimeException('QRコード画像は jpg, png, gif, webp のみ対応しています。');
+        }
+
+        $directory = BASE_PATH . '/public_html/uploads/qr-codes';
+        if (!is_dir($directory)) {
+            mkdir($directory, 0775, true);
+        }
+
+        $storedName = bin2hex(random_bytes(12)) . '.' . $extension;
+        $targetPath = $directory . '/' . $storedName;
+        if (!move_uploaded_file((string) ($file['tmp_name'] ?? ''), $targetPath)) {
+            throw new \RuntimeException('QRコード画像を保存できませんでした。');
+        }
+
+        return 'uploads/qr-codes/' . $storedName;
+    }
+
+    private function qrCodeRows(): array
+    {
+        return array_map(fn (array $qrCode): array => $this->withQrCodeUrl($qrCode), $this->store->all('qr_codes'));
+    }
+
+    private function withQrCodeUrl(array $qrCode): array
+    {
+        if (!empty($qrCode['image_path'])) {
+            $qrCode['generated_url'] = asset_url((string) $qrCode['image_path']);
+        } else {
+            $qrCode['generated_url'] = (string) ($qrCode['url'] ?? '');
+        }
+
+        return $qrCode;
     }
 
     private function saveCompanyLogo(array $file): string

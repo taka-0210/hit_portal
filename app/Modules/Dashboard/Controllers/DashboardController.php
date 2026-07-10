@@ -28,6 +28,8 @@ final class DashboardController
             'gridColumns' => $this->mergeGridAreaColumns($gridAreas),
             'portalSettings' => $portalSettings,
             'user' => $user,
+            'qrCodes' => $this->activeQrCodes($store),
+            'qrCodeUrlMap' => $this->qrCodeUrlMap($store),
         ]);
     }
 
@@ -105,7 +107,7 @@ final class DashboardController
             }
 
             $registrationType = (string) ($grid['registration_type'] ?? 'links');
-            $entry = $this->entryPayload($registrationType);
+            $entry = $this->entryPayload($registrationType, $store);
             if ($entry === null) {
                 redirect('dashboard');
             }
@@ -354,19 +356,36 @@ final class DashboardController
         return ['grids' => $grids, 'changed' => $changed];
     }
 
-    private function entryPayload(string $registrationType): ?array
+    private function entryPayload(string $registrationType, JsonStore $store): ?array
     {
         if ($registrationType === 'links') {
             $label = trim((string) ($_POST['entry_label'] ?? ''));
             $url = trim((string) ($_POST['entry_url'] ?? ''));
+            $qrCodeId = (int) ($_POST['entry_qr_code_id'] ?? 0);
+            if ($qrCodeId > 0) {
+                $qrCode = $store->find('qr_codes', $qrCodeId);
+                if ($qrCode !== null && ($qrCode['status'] ?? 'active') === 'active') {
+                    $url = $this->qrCodeUrl($qrCode) ?: $url;
+                    if ($label === '') {
+                        $label = (string) ($qrCode['title'] ?? $url);
+                    }
+                } else {
+                    $qrCodeId = 0;
+                }
+            }
             if ($label === '' && $url === '') {
                 return null;
             }
 
-            return [
+            $entry = [
                 'label' => $label !== '' ? $label : $url,
                 'url' => $url !== '' ? $url : '#',
             ];
+            if ($qrCodeId > 0) {
+                $entry['qr_code_id'] = $qrCodeId;
+            }
+
+            return $entry;
         }
 
         if ($registrationType === 'files') {
@@ -445,6 +464,46 @@ final class DashboardController
         ];
         $grid['groups'] = $groups;
         return $grid;
+    }
+
+    private function activeQrCodes(JsonStore $store): array
+    {
+        $qrCodes = [];
+        foreach ($store->all('qr_codes') as $qrCode) {
+            $url = $this->qrCodeUrl($qrCode);
+            if (($qrCode['status'] ?? 'active') !== 'active' || $url === '') {
+                continue;
+            }
+
+            $qrCode['generated_url'] = $url;
+            $qrCode['url'] = $url;
+            $qrCodes[] = $qrCode;
+        }
+
+        return $qrCodes;
+    }
+
+    private function qrCodeUrlMap(JsonStore $store): array
+    {
+        $map = [];
+        foreach ($store->all('qr_codes') as $qrCode) {
+            $id = (int) ($qrCode['id'] ?? 0);
+            $url = $this->qrCodeUrl($qrCode);
+            if ($id > 0 && $url !== '') {
+                $map[$id] = $url;
+            }
+        }
+
+        return $map;
+    }
+
+    private function qrCodeUrl(array $qrCode): string
+    {
+        if (!empty($qrCode['image_path'])) {
+            return asset_url((string) $qrCode['image_path']);
+        }
+
+        return (string) ($qrCode['url'] ?? '');
     }
 
     private function gridArea(array $grid): string

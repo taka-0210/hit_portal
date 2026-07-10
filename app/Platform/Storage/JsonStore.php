@@ -122,6 +122,7 @@ final class JsonStore
             'knowledge_articles' => [],
             'improvements' => [],
             'notifications' => [],
+            'qr_codes' => [],
         ];
 
         foreach ($seedFiles as $name => $records) {

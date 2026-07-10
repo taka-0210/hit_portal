@@ -45,6 +45,10 @@ $router->post('admin.companies.users.store', [AdminController::class, 'storeComp
 $router->get('admin.roles', [AdminController::class, 'roles'], true, 'system_admin');
 $router->get('admin.portalSettings', [AdminController::class, 'portalSettings'], true, 'system_admin');
 $router->post('admin.portalSettings.update', [AdminController::class, 'updatePortalSettings'], true, 'system_admin');
+$router->get('admin.qrCodes', [AdminController::class, 'qrCodes'], true, 'system_admin');
+$router->post('admin.qrCodes.store', [AdminController::class, 'storeQrCode'], true, 'system_admin');
+$router->get('admin.qrCodes.edit', [AdminController::class, 'editQrCode'], true, 'system_admin');
+$router->post('admin.qrCodes.update', [AdminController::class, 'updateQrCode'], true, 'system_admin');
 $router->get('admin.guide', [AdminController::class, 'guideSettings'], true, 'system_admin');
 $router->post('admin.guide.update', [AdminController::class, 'updateGuideSettings'], true, 'system_admin');
 $router->get('admin.grids', [AdminController::class, 'grids'], true, ['system_admin', 'company_admin', 'store_admin']);
