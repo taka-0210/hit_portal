@@ -205,7 +205,7 @@ $portalAreaTitles = [
                                             $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : (($qrCodeUrlMap[$qrCodeId] ?? null) ?: ($entry['url'] ?? '#'));
                                             $isQrEntry = !isset($entry['file_id']) && ($qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]) || strpos((string) $entryUrl, '/uploads/qr-codes/') !== false);
                                             ?>
-                                            <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '"' : '' ?>>
+                                            <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '" data-qr-tone="' . e($grid['tone'] ?? 'green') . '"' : '' ?>>
                                                 <span><?= e($entry['label'] ?? '') ?></span>
                                                 <?php if ($isNewEntry($entry)): ?>
                                                     <span class="portal-new-badge">NEW</span>
@@ -225,7 +225,7 @@ $portalAreaTitles = [
                                     $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : (($qrCodeUrlMap[$qrCodeId] ?? null) ?: ($entry['url'] ?? '#'));
                                     $isQrEntry = !isset($entry['file_id']) && ($qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]) || strpos((string) $entryUrl, '/uploads/qr-codes/') !== false);
                                     ?>
-                                    <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '"' : '' ?>>
+                                    <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '" data-qr-tone="' . e($grid['tone'] ?? 'green') . '"' : '' ?>>
                                         <span><?= e($entry['label'] ?? '') ?></span>
                                         <?php if ($isNewEntry($entry)): ?>
                                             <span class="portal-new-badge">NEW</span>
@@ -333,7 +333,7 @@ $portalAreaTitles = [
 
 <dialog class="portal-modal portal-image-modal" id="portal-qr-dialog">
     <div class="portal-modal-panel">
-        <div class="portal-modal-heading section-blue">
+        <div class="portal-modal-heading section-green" data-qr-modal-heading>
             <h3 data-qr-modal-title>QRコード</h3>
             <button type="button" aria-label="閉じる" data-close-dialog>×</button>
         </div>
@@ -366,12 +366,17 @@ $portalAreaTitles = [
             const dialog = document.getElementById('portal-qr-dialog');
             const image = dialog?.querySelector('[data-qr-modal-image]');
             const title = dialog?.querySelector('[data-qr-modal-title]');
+            const heading = dialog?.querySelector('[data-qr-modal-heading]');
             if (image) {
                 image.src = qrLink.dataset.qrImageUrl || '';
                 image.alt = qrLink.dataset.qrTitle || 'QR';
             }
             if (title) {
                 title.textContent = qrLink.dataset.qrTitle || 'QR';
+            }
+            if (heading) {
+                heading.className = `portal-modal-heading section-${qrLink.dataset.qrTone || 'green'}`;
+                heading.setAttribute('data-qr-modal-heading', '');
             }
             dialog?.showModal();
             return;

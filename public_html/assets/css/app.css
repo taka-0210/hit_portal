@@ -975,9 +975,9 @@ h2 {
 }
 
 .portal-qr-image {
-    width: min(72vw, 420px);
+    width: min(60vw, 320px);
     height: auto;
-    max-height: 72vh;
+    max-height: 60vh;
     object-fit: contain;
     background: #fff;
     padding: 16px;
