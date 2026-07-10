@@ -458,10 +458,17 @@ final class DashboardController
             }
         }
 
-        $groups[] = [
+        $newGroup = [
             'label' => $groupLabel,
             'entries' => [$entry],
         ];
+
+        if (($grid['registration_type'] ?? '') === 'links') {
+            array_unshift($groups, $newGroup);
+        } else {
+            $groups[] = $newGroup;
+        }
+
         $grid['groups'] = $groups;
         return $grid;
     }
