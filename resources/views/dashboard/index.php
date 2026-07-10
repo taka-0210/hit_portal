@@ -165,7 +165,7 @@ $portalAreaTitles = [
                                         <?php endif; ?>
                                     </button>
                                     <div class="portal-glossary-detail" id="<?= e($manufacturerDetailId) ?>" hidden>
-                                        <div data-glossary-detail-view>
+                                        <div class="portal-manufacturer-detail-view" data-glossary-detail-view>
                                             <div class="portal-glossary-detail-head">
                                                 <?php if ($canPostToGrid): ?>
                                                     <button class="button ghost" type="button" data-glossary-edit>編集</button>
@@ -173,11 +173,8 @@ $portalAreaTitles = [
                                                 <button class="button ghost" type="button" data-glossary-back>閉じる</button>
                                             </div>
                                             <h4><?= e($entry['label'] ?? '') ?></h4>
-                                            <?php if (($entry['reading'] ?? '') !== ''): ?>
-                                                <small><?= e($entry['reading']) ?></small>
-                                            <?php endif; ?>
                                             <?php if (($entry['url'] ?? '') !== '' && ($entry['url'] ?? '#') !== '#'): ?>
-                                                <a class="portal-manufacturer-url" href="<?= e($entry['url']) ?>" target="_blank" rel="noopener"><?= e($entry['url']) ?></a>
+                                                <a class="portal-manufacturer-url" href="<?= e($entry['url']) ?>" target="_blank" rel="noopener">メーカーサイトを開く</a>
                                             <?php endif; ?>
                                         </div>
                                         <?php if ($canPostToGrid): ?>
@@ -192,7 +189,7 @@ $portalAreaTitles = [
                                             </label>
                                             <label>
                                                 <span>読み</span>
-                                                <input name="manufacturer_reading" value="<?= e($entry['reading'] ?? '') ?>">
+                                                <input name="manufacturer_reading" value="<?= e($entry['reading'] ?? '') ?>" placeholder="例: フクシマガリレイ">
                                             </label>
                                             <label>
                                                 <span>URL</span>
@@ -302,7 +299,7 @@ $portalAreaTitles = [
                                             </label>
                                             <label>
                                                 <span>読み</span>
-                                                <input name="glossary_reading" value="<?= e($entry['reading'] ?? '') ?>">
+                                                <input name="glossary_reading" value="<?= e($entry['reading'] ?? '') ?>" placeholder="例: サキイレサキダシ">
                                             </label>
                                             <label>
                                                 <span>説明</span>
@@ -581,7 +578,7 @@ $portalAreaTitles = [
                                         </label>
                                         <label>
                                             <span>読み</span>
-                                            <input name="glossary_reading" placeholder="例: さきいれさきだし">
+                                            <input name="glossary_reading" placeholder="例: サキイレサキダシ">
                                         </label>
                                         <label>
                                             <span>説明</span>
@@ -598,7 +595,7 @@ $portalAreaTitles = [
                                         </label>
                                         <label>
                                             <span>読み</span>
-                                            <input name="manufacturer_reading" placeholder="例: ふくしまがりれい">
+                                            <input name="manufacturer_reading" placeholder="例: フクシマガリレイ">
                                         </label>
                                         <label>
                                             <span>URL</span>

@@ -199,7 +199,7 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
                         </label>
                         <label>
                             <span>読み</span>
-                            <input name="glossary_reading[]" value="<?= e($row['reading'] ?? '') ?>" placeholder="例: さきいれさきだし">
+                            <input name="glossary_reading[]" value="<?= e($row['reading'] ?? '') ?>" placeholder="例: サキイレサキダシ">
                         </label>
                         <label>
                             <span>説明</span>
@@ -236,7 +236,7 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
                         </label>
                         <label>
                             <span>読み</span>
-                            <input name="manufacturer_reading[]" value="<?= e($row['reading'] ?? '') ?>" placeholder="例: ふくしまがりれい">
+                            <input name="manufacturer_reading[]" value="<?= e($row['reading'] ?? '') ?>" placeholder="例: フクシマガリレイ">
                         </label>
                         <label>
                             <span>URL</span>
@@ -336,7 +336,7 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
         </label>
         <label>
             <span>読み</span>
-            <input name="glossary_reading[]" placeholder="例: さきいれさきだし">
+            <input name="glossary_reading[]" placeholder="例: サキイレサキダシ">
         </label>
         <label>
             <span>説明</span>
@@ -364,7 +364,7 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
         </label>
         <label>
             <span>読み</span>
-            <input name="manufacturer_reading[]" placeholder="例: ふくしまがりれい">
+            <input name="manufacturer_reading[]" placeholder="例: フクシマガリレイ">
         </label>
         <label>
             <span>URL</span>

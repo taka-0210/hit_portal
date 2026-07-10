@@ -835,6 +835,11 @@ h2 {
     display: none;
 }
 
+[data-glossary-detail-view][hidden],
+.portal-glossary-edit-form[hidden] {
+    display: none !important;
+}
+
 .portal-glossary-detail.is-editing {
     border-color: rgba(239, 121, 38, 0.42);
     border-left-color: #ef7926;
@@ -855,13 +860,30 @@ h2 {
 }
 
 .portal-manufacturer-url {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: fit-content;
     max-width: 100%;
+    border: 1px solid rgba(47, 102, 80, 0.26);
+    border-radius: 999px;
+    background: #fff;
     overflow-wrap: anywhere;
     color: var(--accent-dark);
+    padding: 8px 14px;
     font-size: 14px;
+    font-weight: 700;
     line-height: 1.6;
+}
+
+.portal-manufacturer-url:hover {
+    border-color: rgba(47, 102, 80, 0.44);
+    background: var(--surface-soft);
+}
+
+.portal-manufacturer-detail-view {
+    display: grid;
+    gap: 10px;
 }
 
 .portal-todo-list {
