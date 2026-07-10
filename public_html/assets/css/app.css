@@ -825,7 +825,7 @@ h2 {
     height: 42px;
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    background: #fff;
+    background: #fff url("../img/image-icon.png") center / 25px auto no-repeat;
     padding: 0;
     color: var(--muted);
     cursor: zoom-in;
@@ -833,16 +833,7 @@ h2 {
 
 .portal-todo-image-icon::before {
     content: "";
-    display: block;
-    width: 25px;
-    height: 20px;
-    border: 2px solid currentColor;
-    border-radius: 5px;
-    background:
-        radial-gradient(circle at 72% 30%, currentColor 0 2px, transparent 2.5px),
-        linear-gradient(135deg, transparent 47%, currentColor 48% 54%, transparent 55%),
-        linear-gradient(45deg, transparent 45%, currentColor 46% 53%, transparent 54%);
-    opacity: 0.9;
+    display: none;
 }
 
 .portal-expanded-image {
