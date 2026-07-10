@@ -19,6 +19,30 @@ $glossaryIndexKey = static function (string $term): string {
         return 'その他';
     }
 
+    $alphabetReading = function_exists('mb_convert_kana') ? mb_convert_kana($term, 'KVc', 'UTF-8') : $term;
+    $alphabetReadings = [
+        'えー' => 'A', 'えい' => 'A',
+        'びー' => 'B', 'しー' => 'C',
+        'でぃー' => 'D', 'でー' => 'D',
+        'いー' => 'E', 'えふ' => 'F', 'じー' => 'G',
+        'えいち' => 'H', 'えっち' => 'H',
+        'あい' => 'I', 'じぇー' => 'J',
+        'けー' => 'K', 'える' => 'L', 'えむ' => 'M', 'えぬ' => 'N',
+        'おー' => 'O', 'ぴー' => 'P', 'きゅー' => 'Q',
+        'あーる' => 'R', 'えす' => 'S',
+        'てぃー' => 'T', 'てぃ' => 'T', 'てー' => 'T',
+        'ゆー' => 'U', 'ぶい' => 'V', 'ヴぃー' => 'V',
+        'だぶりゅー' => 'W', 'だぶる' => 'W',
+        'えっくす' => 'X', 'わい' => 'Y', 'ぜっと' => 'Z',
+    ];
+    foreach ($alphabetReadings as $prefix => $letter) {
+        $length = function_exists('mb_strlen') ? mb_strlen($prefix, 'UTF-8') : strlen($prefix);
+        $start = function_exists('mb_substr') ? mb_substr($alphabetReading, 0, $length, 'UTF-8') : substr($alphabetReading, 0, $length);
+        if ($start === $prefix) {
+            return $letter;
+        }
+    }
+
     $first = function_exists('mb_substr') ? mb_substr($term, 0, 1, 'UTF-8') : substr($term, 0, 1);
     if (preg_match('/^[A-Za-z]/', $first) === 1) {
         return strtoupper($first);
@@ -86,7 +110,108 @@ $portalAreaTitles = [
                     </h2>
                     <div class="portal-section-body" id="<?= e($bodyId) ?>" <?= $isCollapsed ? 'hidden' : '' ?>>
 
-                    <?php if (($grid['registration_type'] ?? '') === 'glossary'): ?>
+                    <?php if (($grid['registration_type'] ?? '') === 'manufacturer_links'): ?>
+                        <?php
+                        $manufacturerEntries = [];
+                        foreach (($grid['groups'] ?? []) as $groupIndex => $group) {
+                            foreach (($group['entries'] ?? []) as $entryIndex => $entry) {
+                                $name = trim((string) ($entry['label'] ?? ''));
+                                if ($name === '') {
+                                    continue;
+                                }
+                                $reading = trim((string) ($entry['reading'] ?? ''));
+                                $entry['index_key'] = $glossaryIndexKey($reading !== '' ? $reading : $name);
+                                $entry['group_index'] = $groupIndex;
+                                $entry['entry_index'] = $entryIndex;
+                                $manufacturerEntries[] = $entry;
+                            }
+                        }
+                        usort($manufacturerEntries, static function (array $a, array $b): int {
+                            $aReading = trim((string) ($a['reading'] ?? ''));
+                            $bReading = trim((string) ($b['reading'] ?? ''));
+                            return strcmp($aReading !== '' ? $aReading : (string) ($a['label'] ?? ''), $bReading !== '' ? $bReading : (string) ($b['label'] ?? ''));
+                        });
+                        $availableManufacturerKeys = [];
+                        foreach ($manufacturerEntries as $entry) {
+                            $availableManufacturerKeys[(string) ($entry['index_key'] ?? 'その他')] = true;
+                        }
+                        $manufacturerGridId = (int) ($grid['id'] ?? 0);
+                        $manufacturerBrowserId = 'portal-manufacturer-browser-' . $manufacturerGridId;
+                        ?>
+                        <div class="portal-glossary" data-glossary-grid="<?= $manufacturerGridId ?>">
+                            <div class="portal-glossary-index">
+                                <button type="button" data-open-glossary-browser="<?= e($manufacturerBrowserId) ?>" data-glossary-filter="all">ALL</button>
+                                <?php foreach ($glossaryIndexLabels as $indexLabel): ?>
+                                    <button type="button" data-open-glossary-browser="<?= e($manufacturerBrowserId) ?>" data-glossary-filter="<?= e($indexLabel) ?>" <?= empty($availableManufacturerKeys[$indexLabel]) ? 'disabled' : '' ?>><?= e($indexLabel) ?></button>
+                                <?php endforeach; ?>
+                            </div>
+                            <dialog class="portal-modal portal-glossary-modal" id="<?= e($manufacturerBrowserId) ?>">
+                                <div class="portal-modal-panel">
+                                    <div class="portal-modal-heading section-<?= e($grid['tone'] ?? 'green') ?>">
+                                        <h3><span data-glossary-active-index>ALL</span> / <?= e($grid['title'] ?? '') ?></h3>
+                                        <button type="button" aria-label="閉じる" data-close-dialog>×</button>
+                                    </div>
+                                    <div class="portal-modal-body portal-glossary-browser">
+                                        <div class="portal-glossary-list" data-glossary-list>
+                                <?php foreach ($manufacturerEntries as $manufacturerIndex => $entry): ?>
+                                    <?php $manufacturerDetailId = 'portal-manufacturer-detail-' . $manufacturerGridId . '-' . $manufacturerIndex; ?>
+                                    <button class="portal-glossary-term" type="button" data-glossary-key="<?= e($entry['index_key'] ?? 'その他') ?>" data-glossary-detail="<?= e($manufacturerDetailId) ?>">
+                                        <span><?= e($entry['label'] ?? '') ?></span>
+                                        <?php if (($entry['reading'] ?? '') !== ''): ?>
+                                            <small><?= e($entry['reading']) ?></small>
+                                        <?php endif; ?>
+                                        <?php if ($isNewEntry($entry)): ?>
+                                            <span class="portal-new-badge">NEW</span>
+                                        <?php endif; ?>
+                                    </button>
+                                    <div class="portal-glossary-detail" id="<?= e($manufacturerDetailId) ?>" hidden>
+                                        <div data-glossary-detail-view>
+                                            <div class="portal-glossary-detail-head">
+                                                <?php if ($canPostToGrid): ?>
+                                                    <button class="button ghost" type="button" data-glossary-edit>編集</button>
+                                                <?php endif; ?>
+                                                <button class="button ghost" type="button" data-glossary-back>閉じる</button>
+                                            </div>
+                                            <h4><?= e($entry['label'] ?? '') ?></h4>
+                                            <?php if (($entry['reading'] ?? '') !== ''): ?>
+                                                <small><?= e($entry['reading']) ?></small>
+                                            <?php endif; ?>
+                                            <?php if (($entry['url'] ?? '') !== '' && ($entry['url'] ?? '#') !== '#'): ?>
+                                                <a class="portal-manufacturer-url" href="<?= e($entry['url']) ?>" target="_blank" rel="noopener"><?= e($entry['url']) ?></a>
+                                            <?php endif; ?>
+                                        </div>
+                                        <?php if ($canPostToGrid): ?>
+                                        <form class="portal-entry-form portal-glossary-edit-form" method="post" action="<?= route_url('grid.glossaryUpdate') ?>" hidden>
+                                            <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+                                            <input type="hidden" name="grid_id" value="<?= $manufacturerGridId ?>">
+                                            <input type="hidden" name="group_index" value="<?= (int) ($entry['group_index'] ?? 0) ?>">
+                                            <input type="hidden" name="entry_index" value="<?= (int) ($entry['entry_index'] ?? 0) ?>">
+                                            <label>
+                                                <span>メーカー名</span>
+                                                <input name="manufacturer_name" value="<?= e($entry['label'] ?? '') ?>" required>
+                                            </label>
+                                            <label>
+                                                <span>読み</span>
+                                                <input name="manufacturer_reading" value="<?= e($entry['reading'] ?? '') ?>">
+                                            </label>
+                                            <label>
+                                                <span>URL</span>
+                                                <input name="manufacturer_url" type="url" value="<?= e($entry['url'] ?? '') ?>" required>
+                                            </label>
+                                            <div class="form-actions">
+                                                <button class="button primary" type="submit">更新</button>
+                                                <button class="button ghost" type="button" data-glossary-edit-cancel>戻る</button>
+                                            </div>
+                                        </form>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </dialog>
+                        </div>
+                    <?php elseif (($grid['registration_type'] ?? '') === 'glossary'): ?>
                         <?php
                         $glossaryEntries = [];
                         foreach (($grid['groups'] ?? []) as $groupIndex => $group) {
@@ -149,10 +274,10 @@ $portalAreaTitles = [
                                     <div class="portal-glossary-detail" id="<?= e($glossaryDialogId) ?>" hidden>
                                         <div data-glossary-detail-view>
                                             <div class="portal-glossary-detail-head">
-                                                <button class="button ghost" type="button" data-glossary-back>閉じる</button>
                                                 <?php if ($canPostToGrid): ?>
                                                     <button class="button ghost" type="button" data-glossary-edit>編集</button>
                                                 <?php endif; ?>
+                                                <button class="button ghost" type="button" data-glossary-back>閉じる</button>
                                             </div>
                                             <h4><?= e($entry['label'] ?? '') ?></h4>
                                             <?php if (($entry['reading'] ?? '') !== ''): ?>
@@ -466,6 +591,19 @@ $portalAreaTitles = [
                                             <span>写真</span>
                                             <input type="file" name="glossary_image" accept="image/*">
                                         </label>
+                                    <?php elseif (($grid['registration_type'] ?? '') === 'manufacturer_links'): ?>
+                                        <label>
+                                            <span>メーカー名</span>
+                                            <input name="manufacturer_name" required>
+                                        </label>
+                                        <label>
+                                            <span>読み</span>
+                                            <input name="manufacturer_reading" placeholder="例: ふくしまがりれい">
+                                        </label>
+                                        <label>
+                                            <span>URL</span>
+                                            <input name="manufacturer_url" type="url" placeholder="https://example.com" required>
+                                        </label>
                                     <?php else: ?>
                                         <label>
                                             <span>内容</span>
@@ -553,9 +691,11 @@ $portalAreaTitles = [
             }
             dialog?.querySelectorAll('[data-glossary-key]').forEach((item) => {
                 item.hidden = key !== 'all' && item.dataset.glossaryKey !== key;
+                item.classList.remove('is-selected');
             });
             dialog?.querySelectorAll('.portal-glossary-detail').forEach((detail) => {
                 detail.hidden = true;
+                detail.classList.remove('is-editing');
             });
             dialog?.showModal();
             return;
@@ -566,10 +706,12 @@ $portalAreaTitles = [
             const dialog = glossaryTerm.closest('dialog');
             const detail = document.getElementById(glossaryTerm.dataset.glossaryDetail);
             dialog?.querySelectorAll('[data-glossary-key]').forEach((item) => {
-                item.hidden = true;
+                item.hidden = item !== glossaryTerm;
+                item.classList.toggle('is-selected', item === glossaryTerm);
             });
             dialog?.querySelectorAll('.portal-glossary-detail').forEach((item) => {
                 item.hidden = item !== detail;
+                item.classList.remove('is-editing');
             });
             detail?.querySelector('[data-glossary-detail-view]')?.removeAttribute('hidden');
             detail?.querySelector('.portal-glossary-edit-form')?.setAttribute('hidden', '');
@@ -582,9 +724,11 @@ $portalAreaTitles = [
             const key = dialog?.dataset.glossaryActiveKey || 'all';
             dialog?.querySelectorAll('.portal-glossary-detail').forEach((detail) => {
                 detail.hidden = true;
+                detail.classList.remove('is-editing');
             });
             dialog?.querySelectorAll('[data-glossary-key]').forEach((item) => {
                 item.hidden = key !== 'all' && item.dataset.glossaryKey !== key;
+                item.classList.remove('is-selected');
             });
             return;
         }
@@ -592,6 +736,7 @@ $portalAreaTitles = [
         const glossaryEdit = event.target.closest('[data-glossary-edit]');
         if (glossaryEdit) {
             const detail = glossaryEdit.closest('.portal-glossary-detail');
+            detail?.classList.add('is-editing');
             detail?.querySelector('[data-glossary-detail-view]')?.setAttribute('hidden', '');
             detail?.querySelector('.portal-glossary-edit-form')?.removeAttribute('hidden');
             return;
@@ -600,6 +745,7 @@ $portalAreaTitles = [
         const glossaryEditCancel = event.target.closest('[data-glossary-edit-cancel]');
         if (glossaryEditCancel) {
             const detail = glossaryEditCancel.closest('.portal-glossary-detail');
+            detail?.classList.remove('is-editing');
             detail?.querySelector('.portal-glossary-edit-form')?.setAttribute('hidden', '');
             detail?.querySelector('[data-glossary-detail-view]')?.removeAttribute('hidden');
             return;

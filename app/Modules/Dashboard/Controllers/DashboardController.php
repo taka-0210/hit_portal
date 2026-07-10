@@ -207,7 +207,7 @@ final class DashboardController
         $grids = $store->all('grid_sections');
 
         foreach ($grids as $gridIndex => $grid) {
-            if ((int) ($grid['id'] ?? 0) !== $gridId || ($grid['registration_type'] ?? '') !== 'glossary') {
+            if ((int) ($grid['id'] ?? 0) !== $gridId || !in_array(($grid['registration_type'] ?? ''), ['glossary', 'manufacturer_links'], true)) {
                 continue;
             }
 
@@ -222,10 +222,16 @@ final class DashboardController
             }
 
             $entry = $grids[$gridIndex]['groups'][$groupIndex]['entries'][$entryIndex];
-            $entry['label'] = trim((string) ($_POST['glossary_term'] ?? $entry['label'] ?? ''));
-            $entry['reading'] = trim((string) ($_POST['glossary_reading'] ?? $entry['reading'] ?? ''));
-            $entry['description'] = trim((string) ($_POST['glossary_description'] ?? $entry['description'] ?? ''));
-            $entry['url'] = '#';
+            if (($grid['registration_type'] ?? '') === 'manufacturer_links') {
+                $entry['label'] = trim((string) ($_POST['manufacturer_name'] ?? $entry['label'] ?? ''));
+                $entry['reading'] = trim((string) ($_POST['manufacturer_reading'] ?? $entry['reading'] ?? ''));
+                $entry['url'] = trim((string) ($_POST['manufacturer_url'] ?? $entry['url'] ?? '#')) ?: '#';
+            } else {
+                $entry['label'] = trim((string) ($_POST['glossary_term'] ?? $entry['label'] ?? ''));
+                $entry['reading'] = trim((string) ($_POST['glossary_reading'] ?? $entry['reading'] ?? ''));
+                $entry['description'] = trim((string) ($_POST['glossary_description'] ?? $entry['description'] ?? ''));
+                $entry['url'] = '#';
+            }
             $entry['updated_at'] = date('Y-m-d H:i:s');
 
             $upload = $_FILES['glossary_image'] ?? [];
@@ -498,6 +504,21 @@ final class DashboardController
             }
 
             return ($term === '' && $description === '' && !isset($entry['file_id'])) ? null : $entry;
+        }
+
+        if ($registrationType === 'manufacturer_links') {
+            $name = trim((string) ($_POST['manufacturer_name'] ?? ''));
+            $reading = trim((string) ($_POST['manufacturer_reading'] ?? ''));
+            $url = trim((string) ($_POST['manufacturer_url'] ?? ''));
+            if ($name === '' && $url === '') {
+                return null;
+            }
+
+            return [
+                'label' => $name !== '' ? $name : $url,
+                'url' => $url !== '' ? $url : '#',
+                'reading' => $reading,
+            ];
         }
 
         $label = trim((string) ($_POST['entry_content'] ?? ''));

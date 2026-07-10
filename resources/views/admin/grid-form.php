@@ -226,6 +226,31 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
             <small class="field-hint">業界用語集は、用語・説明・写真を登録できます。ポータルTOPでは索引から探せます。</small>
         </div>
 
+        <div class="grid-content-editor glossary-editor" data-registration-panel="manufacturer_links">
+            <div class="glossary-rows" data-manufacturer-rows>
+                <?php foreach (($manufacturerRows ?? []) as $row): ?>
+                    <div class="manufacturer-row glossary-row">
+                        <label>
+                            <span>メーカー名</span>
+                            <input name="manufacturer_name[]" value="<?= e($row['name'] ?? '') ?>" placeholder="例: フクシマガリレイ">
+                        </label>
+                        <label>
+                            <span>読み</span>
+                            <input name="manufacturer_reading[]" value="<?= e($row['reading'] ?? '') ?>" placeholder="例: ふくしまがりれい">
+                        </label>
+                        <label>
+                            <span>URL</span>
+                            <input name="manufacturer_url[]" type="url" value="<?= e($row['url'] ?? '') ?>" placeholder="https://example.com">
+                            <input type="hidden" name="manufacturer_created_at[]" value="<?= e($row['created_at'] ?? '') ?>">
+                        </label>
+                        <button class="button ghost" type="button" data-remove-manufacturer-row>削除</button>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <button class="button ghost" type="button" data-add-manufacturer-row>メーカーを追加</button>
+            <small class="field-hint">メーカーURLリンク集は、メーカー名・読み・URLを登録できます。ポータルTOPでは索引から探せます。</small>
+        </div>
+
         <label class="form-stack grid-content-editor" data-registration-panel="manual">
             <span>内容</span>
             <textarea name="content" rows="10" placeholder="表示名 | URL&#10;グループ名 | 表示名 | URL"><?= e($contentText) ?></textarea>
@@ -331,6 +356,25 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
     </div>
 </template>
 
+<template id="manufacturer-row-template">
+    <div class="manufacturer-row glossary-row">
+        <label>
+            <span>メーカー名</span>
+            <input name="manufacturer_name[]" placeholder="例: フクシマガリレイ">
+        </label>
+        <label>
+            <span>読み</span>
+            <input name="manufacturer_reading[]" placeholder="例: ふくしまがりれい">
+        </label>
+        <label>
+            <span>URL</span>
+            <input name="manufacturer_url[]" type="url" placeholder="https://example.com">
+            <input type="hidden" name="manufacturer_created_at[]">
+        </label>
+        <button class="button ghost" type="button" data-remove-manufacturer-row>削除</button>
+    </div>
+</template>
+
 <script>
 (() => {
     const registrationSelect = document.querySelector('[name="registration_type"]');
@@ -351,6 +395,9 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
     const glossaryRows = document.querySelector('[data-glossary-rows]');
     const glossaryTemplate = document.querySelector('#glossary-row-template');
     const addGlossaryButton = document.querySelector('[data-add-glossary-row]');
+    const manufacturerRows = document.querySelector('[data-manufacturer-rows]');
+    const manufacturerTemplate = document.querySelector('#manufacturer-row-template');
+    const addManufacturerButton = document.querySelector('[data-add-manufacturer-row]');
 
     const syncPanels = () => {
         const value = registrationSelect?.value || 'links';
@@ -359,7 +406,7 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
             panel.hidden = !isActive;
         });
         if (displayTypeSelect) {
-            const isListOnly = ['manual', 'todo', 'glossary'].includes(value);
+            const isListOnly = ['manual', 'todo', 'glossary', 'manufacturer_links'].includes(value);
             if (isListOnly) {
                 displayTypeSelect.value = 'list';
             }
@@ -408,6 +455,14 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
         }
 
         glossaryRows.appendChild(glossaryTemplate.content.cloneNode(true));
+    });
+
+    addManufacturerButton?.addEventListener('click', () => {
+        if (!manufacturerRows || !manufacturerTemplate) {
+            return;
+        }
+
+        manufacturerRows.appendChild(manufacturerTemplate.content.cloneNode(true));
     });
 
     linkRows?.addEventListener('click', (event) => {
@@ -492,6 +547,22 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
         }
 
         button.closest('.glossary-row')?.remove();
+    });
+
+    manufacturerRows?.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-remove-manufacturer-row]');
+        if (!button) {
+            return;
+        }
+
+        const rows = manufacturerRows.querySelectorAll('.manufacturer-row');
+        if (rows.length <= 1) {
+            const row = button.closest('.manufacturer-row');
+            row?.querySelectorAll('input').forEach((input) => input.value = '');
+            return;
+        }
+
+        button.closest('.manufacturer-row')?.remove();
     });
 
     registrationSelect?.addEventListener('change', syncPanels);

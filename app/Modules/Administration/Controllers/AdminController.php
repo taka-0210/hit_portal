@@ -513,6 +513,7 @@ final class AdminController
             'fileRows' => [['group' => '', 'label' => '', 'file_id' => '', 'original_name' => '', 'storage_path' => '', 'mime_type' => '', 'file_size' => 0, 'created_at' => '']],
             'todoRows' => [$this->emptyTodoRow()],
             'glossaryRows' => [$this->emptyGlossaryRow()],
+            'manufacturerRows' => [$this->emptyManufacturerRow()],
             'contentText' => '',
         ]);
     }
@@ -553,6 +554,7 @@ final class AdminController
             'fileRows' => $this->gridFileRows($grid),
             'todoRows' => $this->gridTodoRows($grid),
             'glossaryRows' => $this->gridGlossaryRows($grid),
+            'manufacturerRows' => $this->gridManufacturerRows($grid),
             'contentText' => $this->gridContentText($grid),
         ]);
     }
@@ -1401,7 +1403,7 @@ final class AdminController
         $registrationType = $lockedRegistrationType ?? trim($_POST['registration_type'] ?? 'links');
         $scopeType = $this->normalizeGridScopeType(trim($_POST['scope_type'] ?? 'all'));
         $scopeTarget = in_array($scopeType, ['company', 'store'], true) ? trim($_POST['scope_target'] ?? '') : '';
-        $displayType = in_array($registrationType, ['manual', 'todo', 'glossary'], true)
+        $displayType = in_array($registrationType, ['manual', 'todo', 'glossary', 'manufacturer_links'], true)
             ? 'list'
             : trim($_POST['display_type'] ?? 'list');
         if (!in_array($displayType, ['list', 'grouped'], true)) {
@@ -1454,6 +1456,10 @@ final class AdminController
 
         if ($registrationType === 'glossary') {
             return $this->parseGlossaryRows();
+        }
+
+        if ($registrationType === 'manufacturer_links') {
+            return $this->parseManufacturerRows();
         }
 
         return $this->parseGridContent((string) ($_POST['content'] ?? ''));
@@ -1734,6 +1740,41 @@ final class AdminController
         ]];
     }
 
+    private function parseManufacturerRows(): array
+    {
+        $entries = [];
+        $nameValues = $_POST['manufacturer_name'] ?? [];
+        $readingValues = $_POST['manufacturer_reading'] ?? [];
+        $urlValues = $_POST['manufacturer_url'] ?? [];
+        $createdAtValues = $_POST['manufacturer_created_at'] ?? [];
+        $now = date('Y-m-d H:i:s');
+
+        foreach ($nameValues as $index => $rawName) {
+            $name = trim((string) $rawName);
+            $reading = trim((string) ($readingValues[$index] ?? ''));
+            $url = trim((string) ($urlValues[$index] ?? ''));
+            if ($name === '' && $url === '') {
+                continue;
+            }
+
+            $entries[] = [
+                'label' => $name !== '' ? $name : $url,
+                'url' => $url !== '' ? $url : '#',
+                'reading' => $reading,
+                'created_at' => trim((string) ($createdAtValues[$index] ?? '')) ?: $now,
+            ];
+        }
+
+        if ($entries === []) {
+            return [];
+        }
+
+        return [[
+            'label' => '',
+            'entries' => $entries,
+        ]];
+    }
+
     private function normalizeUploadedFiles(array $files): array
     {
         $normalized = [];
@@ -1992,6 +2033,37 @@ final class AdminController
         ];
     }
 
+    private function gridManufacturerRows(?array $grid): array
+    {
+        if ($grid === null) {
+            return [$this->emptyManufacturerRow()];
+        }
+
+        $rows = [];
+        foreach (($grid['groups'] ?? []) as $group) {
+            foreach (($group['entries'] ?? []) as $entry) {
+                $rows[] = [
+                    'name' => (string) ($entry['label'] ?? ''),
+                    'reading' => (string) ($entry['reading'] ?? ''),
+                    'url' => (string) ($entry['url'] ?? ''),
+                    'created_at' => (string) ($entry['created_at'] ?? ''),
+                ];
+            }
+        }
+
+        return $rows !== [] ? $rows : [$this->emptyManufacturerRow()];
+    }
+
+    private function emptyManufacturerRow(): array
+    {
+        return [
+            'name' => '',
+            'reading' => '',
+            'url' => '',
+            'created_at' => '',
+        ];
+    }
+
     private function gridContentText(array $grid): string
     {
         $lines = [];
@@ -2035,6 +2107,7 @@ final class AdminController
             'manual' => '手入力',
             'todo' => 'TO DO',
             'glossary' => '業界用語集',
+            'manufacturer_links' => 'メーカーURLリンク集',
         ];
     }
 

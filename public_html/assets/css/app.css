@@ -758,7 +758,10 @@ h2 {
 
 .portal-glossary-list {
     display: grid;
-    gap: 8px;
+    gap: 4px;
+    align-content: start;
+    align-items: start;
+    grid-auto-rows: min-content;
 }
 
 .portal-glossary-modal {
@@ -766,23 +769,31 @@ h2 {
 }
 
 .portal-glossary-browser {
+    align-content: start;
     min-height: min(560px, calc(100vh - 170px));
 }
 
 .portal-glossary-term {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto auto auto;
-    gap: 8px;
+    gap: 6px;
     align-items: center;
-    min-height: 42px;
+    min-height: 30px;
     border: 1px solid var(--portal-line);
     border-radius: var(--radius);
     background: #fff;
     color: var(--text);
-    padding: 9px 10px;
+    padding: 5px 8px;
     cursor: pointer;
     font: inherit;
+    font-size: 13px;
+    line-height: 1.25;
     text-align: left;
+}
+
+.portal-glossary-term.is-selected {
+    border-color: var(--accent-dark);
+    background: var(--accent-soft);
 }
 
 .portal-glossary-term span:first-child {
@@ -793,6 +804,7 @@ h2 {
 .portal-glossary-detail small {
     color: var(--muted);
     font-size: 11px;
+    white-space: nowrap;
 }
 
 .portal-glossary-photo {
@@ -812,10 +824,21 @@ h2 {
 .portal-glossary-detail {
     display: grid;
     gap: 14px;
+    border: 1px solid rgba(47, 102, 80, 0.24);
+    border-left: 4px solid var(--accent-dark);
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+    padding: 12px;
 }
 
 .portal-glossary-detail[hidden] {
     display: none;
+}
+
+.portal-glossary-detail.is-editing {
+    border-color: rgba(239, 121, 38, 0.42);
+    border-left-color: #ef7926;
+    background: #fff7ed;
 }
 
 .portal-glossary-detail-head {
@@ -829,6 +852,16 @@ h2 {
     color: var(--text);
     font-size: 22px;
     line-height: 1.4;
+}
+
+.portal-manufacturer-url {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    color: var(--accent-dark);
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 .portal-todo-list {
