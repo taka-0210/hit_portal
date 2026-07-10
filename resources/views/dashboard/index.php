@@ -12,6 +12,34 @@ $isNewEntry = static function (array $entry) use ($newEntryDays): bool {
 
     return $createdAt >= strtotime('-' . $newEntryDays . ' days');
 };
+$glossaryIndexLabels = ['あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し', 'す', 'せ', 'そ', 'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ', 'ま', 'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'り', 'る', 'れ', 'ろ', 'わ', 'を', 'ん', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'その他'];
+$glossaryIndexKey = static function (string $term): string {
+    $term = trim($term);
+    if ($term === '') {
+        return 'その他';
+    }
+
+    $first = function_exists('mb_substr') ? mb_substr($term, 0, 1, 'UTF-8') : substr($term, 0, 1);
+    if (preg_match('/^[A-Za-z]/', $first) === 1) {
+        return strtoupper($first);
+    }
+
+    if (function_exists('mb_convert_kana')) {
+        $first = mb_convert_kana($first, 'KVc', 'UTF-8');
+    }
+
+    $map = [
+        'が' => 'か', 'ぎ' => 'き', 'ぐ' => 'く', 'げ' => 'け', 'ご' => 'こ',
+        'ざ' => 'さ', 'じ' => 'し', 'ず' => 'す', 'ぜ' => 'せ', 'ぞ' => 'そ',
+        'だ' => 'た', 'ぢ' => 'ち', 'づ' => 'つ', 'で' => 'て', 'ど' => 'と',
+        'ば' => 'は', 'び' => 'ひ', 'ぶ' => 'ふ', 'べ' => 'へ', 'ぼ' => 'ほ',
+        'ぱ' => 'は', 'ぴ' => 'ひ', 'ぷ' => 'ふ', 'ぺ' => 'へ', 'ぽ' => 'ほ',
+    ];
+    $first = $map[$first] ?? $first;
+    $kana = ['あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し', 'す', 'せ', 'そ', 'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ', 'ま', 'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'り', 'る', 'れ', 'ろ', 'わ', 'を', 'ん'];
+
+    return in_array($first, $kana, true) ? $first : 'その他';
+};
 ?>
 <?php if (($portalSettings['hero_message'] ?? '') !== ''): ?>
     <section class="portal-hero">
@@ -58,7 +86,70 @@ $portalAreaTitles = [
                     </h2>
                     <div class="portal-section-body" id="<?= e($bodyId) ?>" <?= $isCollapsed ? 'hidden' : '' ?>>
 
-                    <?php if (($grid['registration_type'] ?? '') === 'todo'): ?>
+                    <?php if (($grid['registration_type'] ?? '') === 'glossary'): ?>
+                        <?php
+                        $glossaryEntries = [];
+                        foreach (($grid['groups'] ?? []) as $group) {
+                            foreach (($group['entries'] ?? []) as $entry) {
+                                $term = trim((string) ($entry['label'] ?? ''));
+                                if ($term === '') {
+                                    continue;
+                                }
+                                $entry['index_key'] = $glossaryIndexKey($term);
+                                $glossaryEntries[] = $entry;
+                            }
+                        }
+                        usort($glossaryEntries, static function (array $a, array $b): int {
+                            return strcmp((string) ($a['label'] ?? ''), (string) ($b['label'] ?? ''));
+                        });
+                        $availableGlossaryKeys = [];
+                        foreach ($glossaryEntries as $entry) {
+                            $availableGlossaryKeys[(string) ($entry['index_key'] ?? 'その他')] = true;
+                        }
+                        $glossaryGridId = (int) ($grid['id'] ?? 0);
+                        ?>
+                        <div class="portal-glossary" data-glossary-grid="<?= $glossaryGridId ?>">
+                            <div class="portal-glossary-index">
+                                <button type="button" class="is-active" data-glossary-filter="all">ALL</button>
+                                <?php foreach ($glossaryIndexLabels as $indexLabel): ?>
+                                    <button type="button" data-glossary-filter="<?= e($indexLabel) ?>" <?= empty($availableGlossaryKeys[$indexLabel]) ? 'disabled' : '' ?>><?= e($indexLabel) ?></button>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="portal-glossary-list">
+                                <?php foreach ($glossaryEntries as $glossaryIndex => $entry): ?>
+                                    <?php
+                                    $glossaryDialogId = 'portal-glossary-dialog-' . $glossaryGridId . '-' . $glossaryIndex;
+                                    $glossaryImageUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => $glossaryGridId, 'file_id' => $entry['file_id']]) : '';
+                                    ?>
+                                    <button class="portal-glossary-term" type="button" data-glossary-key="<?= e($entry['index_key'] ?? 'その他') ?>" data-open-dialog="<?= e($glossaryDialogId) ?>">
+                                        <span><?= e($entry['label'] ?? '') ?></span>
+                                        <?php if ($isNewEntry($entry)): ?>
+                                            <span class="portal-new-badge">NEW</span>
+                                        <?php endif; ?>
+                                        <?php if ($glossaryImageUrl !== ''): ?>
+                                            <span class="portal-glossary-photo" aria-hidden="true"></span>
+                                        <?php endif; ?>
+                                    </button>
+                                    <dialog class="portal-modal" id="<?= e($glossaryDialogId) ?>">
+                                        <div class="portal-modal-panel">
+                                            <div class="portal-modal-heading section-<?= e($grid['tone'] ?? 'green') ?>">
+                                                <h3><?= e($entry['label'] ?? '') ?></h3>
+                                                <button type="button" aria-label="閉じる" data-close-dialog>×</button>
+                                            </div>
+                                            <div class="portal-modal-body portal-glossary-detail">
+                                                <?php if (($entry['description'] ?? '') !== ''): ?>
+                                                    <p><?= nl2br(e($entry['description'])) ?></p>
+                                                <?php endif; ?>
+                                                <?php if ($glossaryImageUrl !== ''): ?>
+                                                    <img class="portal-expanded-image portal-photo-image" src="<?= e($glossaryImageUrl) ?>" alt="">
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </dialog>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php elseif (($grid['registration_type'] ?? '') === 'todo'): ?>
                         <?php
                         $todoEntries = [];
                         foreach (($grid['groups'] ?? []) as $group) {
@@ -307,6 +398,19 @@ $portalAreaTitles = [
                                             <span>写真</span>
                                             <input type="file" name="todo_image" accept="image/*">
                                         </label>
+                                    <?php elseif (($grid['registration_type'] ?? '') === 'glossary'): ?>
+                                        <label>
+                                            <span>用語</span>
+                                            <input name="glossary_term" required>
+                                        </label>
+                                        <label>
+                                            <span>説明</span>
+                                            <textarea name="glossary_description" rows="5" required></textarea>
+                                        </label>
+                                        <label>
+                                            <span>写真</span>
+                                            <input type="file" name="glossary_image" accept="image/*">
+                                        </label>
                                     <?php else: ?>
                                         <label>
                                             <span>内容</span>
@@ -378,6 +482,19 @@ $portalAreaTitles = [
                 heading.setAttribute('data-qr-modal-heading', '');
             }
             dialog?.showModal();
+            return;
+        }
+
+        const glossaryFilter = event.target.closest('[data-glossary-filter]');
+        if (glossaryFilter) {
+            const glossary = glossaryFilter.closest('[data-glossary-grid]');
+            const key = glossaryFilter.dataset.glossaryFilter || 'all';
+            glossary?.querySelectorAll('[data-glossary-filter]').forEach((button) => {
+                button.classList.toggle('is-active', button === glossaryFilter);
+            });
+            glossary?.querySelectorAll('[data-glossary-key]').forEach((item) => {
+                item.hidden = key !== 'all' && item.dataset.glossaryKey !== key;
+            });
             return;
         }
 

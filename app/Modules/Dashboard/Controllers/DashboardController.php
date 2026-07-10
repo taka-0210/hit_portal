@@ -433,6 +433,23 @@ final class DashboardController
             return ($label === '' && $description === '' && !isset($entry['file_id'])) ? null : $entry;
         }
 
+        if ($registrationType === 'glossary') {
+            $term = trim((string) ($_POST['glossary_term'] ?? ''));
+            $description = trim((string) ($_POST['glossary_description'] ?? ''));
+            $entry = [
+                'label' => $term,
+                'url' => '#',
+                'description' => $description,
+            ];
+
+            $upload = $_FILES['glossary_image'] ?? [];
+            if (($upload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+                $entry = array_merge($entry, $this->saveGridImage($upload));
+            }
+
+            return ($term === '' && $description === '' && !isset($entry['file_id'])) ? null : $entry;
+        }
+
         $label = trim((string) ($_POST['entry_content'] ?? ''));
         if ($label === '') {
             return null;

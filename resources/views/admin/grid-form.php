@@ -189,6 +189,39 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
             <small class="field-hint">TO DOは複数登録できます。画像は各TO DOにつき1枚だけ登録できます。</small>
         </div>
 
+        <div class="grid-content-editor glossary-editor" data-registration-panel="glossary">
+            <div class="glossary-rows" data-glossary-rows>
+                <?php foreach (($glossaryRows ?? []) as $row): ?>
+                    <div class="glossary-row">
+                        <label>
+                            <span>用語</span>
+                            <input name="glossary_term[]" value="<?= e($row['term'] ?? '') ?>" placeholder="例: 先入れ先出し">
+                        </label>
+                        <label>
+                            <span>説明</span>
+                            <textarea name="glossary_description[]" rows="4" placeholder="用語の意味、使い方、注意点など"><?= e($row['description'] ?? '') ?></textarea>
+                        </label>
+                        <label>
+                            <span>写真</span>
+                            <?php if (($row['original_name'] ?? '') !== ''): ?>
+                                <small class="field-hint">登録済み: <?= e($row['original_name']) ?></small>
+                            <?php endif; ?>
+                            <input type="file" name="glossary_images[]" accept="image/*">
+                            <input type="hidden" name="existing_glossary_file_id[]" value="<?= e($row['file_id'] ?? '') ?>">
+                            <input type="hidden" name="existing_glossary_original_name[]" value="<?= e($row['original_name'] ?? '') ?>">
+                            <input type="hidden" name="existing_glossary_storage_path[]" value="<?= e($row['storage_path'] ?? '') ?>">
+                            <input type="hidden" name="existing_glossary_mime_type[]" value="<?= e($row['mime_type'] ?? '') ?>">
+                            <input type="hidden" name="existing_glossary_file_size[]" value="<?= (int) ($row['file_size'] ?? 0) ?>">
+                            <input type="hidden" name="glossary_created_at[]" value="<?= e($row['created_at'] ?? '') ?>">
+                        </label>
+                        <button class="button ghost" type="button" data-remove-glossary-row>削除</button>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <button class="button ghost" type="button" data-add-glossary-row>用語を追加</button>
+            <small class="field-hint">業界用語集は、用語・説明・写真を登録できます。ポータルTOPでは索引から探せます。</small>
+        </div>
+
         <label class="form-stack grid-content-editor" data-registration-panel="manual">
             <span>内容</span>
             <textarea name="content" rows="10" placeholder="表示名 | URL&#10;グループ名 | 表示名 | URL"><?= e($contentText) ?></textarea>
@@ -266,6 +299,30 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
     </div>
 </template>
 
+<template id="glossary-row-template">
+    <div class="glossary-row">
+        <label>
+            <span>用語</span>
+            <input name="glossary_term[]" placeholder="例: 先入れ先出し">
+        </label>
+        <label>
+            <span>説明</span>
+            <textarea name="glossary_description[]" rows="4" placeholder="用語の意味、使い方、注意点など"></textarea>
+        </label>
+        <label>
+            <span>写真</span>
+            <input type="file" name="glossary_images[]" accept="image/*">
+            <input type="hidden" name="existing_glossary_file_id[]">
+            <input type="hidden" name="existing_glossary_original_name[]">
+            <input type="hidden" name="existing_glossary_storage_path[]">
+            <input type="hidden" name="existing_glossary_mime_type[]">
+            <input type="hidden" name="existing_glossary_file_size[]" value="0">
+            <input type="hidden" name="glossary_created_at[]">
+        </label>
+        <button class="button ghost" type="button" data-remove-glossary-row>削除</button>
+    </div>
+</template>
+
 <script>
 (() => {
     const registrationSelect = document.querySelector('[name="registration_type"]');
@@ -283,6 +340,9 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
     const todoRows = document.querySelector('[data-todo-rows]');
     const todoTemplate = document.querySelector('#todo-row-template');
     const addTodoButton = document.querySelector('[data-add-todo-row]');
+    const glossaryRows = document.querySelector('[data-glossary-rows]');
+    const glossaryTemplate = document.querySelector('#glossary-row-template');
+    const addGlossaryButton = document.querySelector('[data-add-glossary-row]');
 
     const syncPanels = () => {
         const value = registrationSelect?.value || 'links';
@@ -291,7 +351,7 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
             panel.hidden = !isActive;
         });
         if (displayTypeSelect) {
-            const isListOnly = ['manual', 'todo'].includes(value);
+            const isListOnly = ['manual', 'todo', 'glossary'].includes(value);
             if (isListOnly) {
                 displayTypeSelect.value = 'list';
             }
@@ -332,6 +392,14 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
         }
 
         todoRows.appendChild(todoTemplate.content.cloneNode(true));
+    });
+
+    addGlossaryButton?.addEventListener('click', () => {
+        if (!glossaryRows || !glossaryTemplate) {
+            return;
+        }
+
+        glossaryRows.appendChild(glossaryTemplate.content.cloneNode(true));
     });
 
     linkRows?.addEventListener('click', (event) => {
@@ -400,6 +468,22 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
         }
 
         button.closest('.todo-row')?.remove();
+    });
+
+    glossaryRows?.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-remove-glossary-row]');
+        if (!button) {
+            return;
+        }
+
+        const rows = glossaryRows.querySelectorAll('.glossary-row');
+        if (rows.length <= 1) {
+            const row = button.closest('.glossary-row');
+            row?.querySelectorAll('input, textarea').forEach((input) => input.value = input.type === 'hidden' && input.name === 'existing_glossary_file_size[]' ? '0' : '');
+            return;
+        }
+
+        button.closest('.glossary-row')?.remove();
     });
 
     registrationSelect?.addEventListener('change', syncPanels);

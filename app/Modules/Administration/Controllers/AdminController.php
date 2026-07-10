@@ -512,6 +512,7 @@ final class AdminController
             'linkRows' => [['group' => '', 'label' => '', 'url' => '', 'created_at' => '']],
             'fileRows' => [['group' => '', 'label' => '', 'file_id' => '', 'original_name' => '', 'storage_path' => '', 'mime_type' => '', 'file_size' => 0, 'created_at' => '']],
             'todoRows' => [$this->emptyTodoRow()],
+            'glossaryRows' => [$this->emptyGlossaryRow()],
             'contentText' => '',
         ]);
     }
@@ -551,6 +552,7 @@ final class AdminController
             'linkRows' => $this->gridLinkRows($grid),
             'fileRows' => $this->gridFileRows($grid),
             'todoRows' => $this->gridTodoRows($grid),
+            'glossaryRows' => $this->gridGlossaryRows($grid),
             'contentText' => $this->gridContentText($grid),
         ]);
     }
@@ -1399,7 +1401,7 @@ final class AdminController
         $registrationType = $lockedRegistrationType ?? trim($_POST['registration_type'] ?? 'links');
         $scopeType = $this->normalizeGridScopeType(trim($_POST['scope_type'] ?? 'all'));
         $scopeTarget = in_array($scopeType, ['company', 'store'], true) ? trim($_POST['scope_target'] ?? '') : '';
-        $displayType = in_array($registrationType, ['manual', 'todo'], true)
+        $displayType = in_array($registrationType, ['manual', 'todo', 'glossary'], true)
             ? 'list'
             : trim($_POST['display_type'] ?? 'list');
         if (!in_array($displayType, ['list', 'grouped'], true)) {
@@ -1448,6 +1450,10 @@ final class AdminController
 
         if ($registrationType === 'todo') {
             return $this->parseTodoRows();
+        }
+
+        if ($registrationType === 'glossary') {
+            return $this->parseGlossaryRows();
         }
 
         return $this->parseGridContent((string) ($_POST['content'] ?? ''));
@@ -1650,6 +1656,65 @@ final class AdminController
             }
 
             if ($field1 === '' && $field2 === '' && !isset($entry['file_id'])) {
+                continue;
+            }
+
+            $entries[] = $entry;
+        }
+
+        if ($entries === []) {
+            return [];
+        }
+
+        return [[
+            'label' => '',
+            'entries' => $entries,
+        ]];
+    }
+
+    private function parseGlossaryRows(): array
+    {
+        $entries = [];
+        $termValues = $_POST['glossary_term'] ?? [];
+        $descriptionValues = $_POST['glossary_description'] ?? [];
+        $existingIds = $_POST['existing_glossary_file_id'] ?? [];
+        $existingOriginalNames = $_POST['existing_glossary_original_name'] ?? [];
+        $existingStoragePaths = $_POST['existing_glossary_storage_path'] ?? [];
+        $existingMimeTypes = $_POST['existing_glossary_mime_type'] ?? [];
+        $existingFileSizes = $_POST['existing_glossary_file_size'] ?? [];
+        $createdAtValues = $_POST['glossary_created_at'] ?? [];
+        $uploads = $this->normalizeUploadedFiles($_FILES['glossary_images'] ?? []);
+        $now = date('Y-m-d H:i:s');
+
+        foreach ($termValues as $index => $rawTerm) {
+            $term = trim((string) $rawTerm);
+            $description = trim((string) ($descriptionValues[$index] ?? ''));
+
+            $entry = [
+                'label' => $term,
+                'url' => '#',
+                'description' => $description,
+                'created_at' => trim((string) ($createdAtValues[$index] ?? '')) ?: $now,
+            ];
+
+            $upload = $uploads[$index] ?? null;
+            $hasUpload = $upload !== null && ($upload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE;
+            if ($hasUpload) {
+                $entry = array_merge($entry, $this->saveGridImage($upload));
+            } else {
+                $storagePath = trim((string) ($existingStoragePaths[$index] ?? ''));
+                if ($storagePath !== '') {
+                    $entry = array_merge($entry, [
+                        'file_id' => (string) ($existingIds[$index] ?? ''),
+                        'original_name' => (string) ($existingOriginalNames[$index] ?? ''),
+                        'storage_path' => $storagePath,
+                        'mime_type' => (string) ($existingMimeTypes[$index] ?? 'application/octet-stream'),
+                        'file_size' => (int) ($existingFileSizes[$index] ?? 0),
+                    ]);
+                }
+            }
+
+            if ($term === '' && $description === '' && !isset($entry['file_id'])) {
                 continue;
             }
 
@@ -1883,6 +1948,45 @@ final class AdminController
         ];
     }
 
+    private function gridGlossaryRows(?array $grid): array
+    {
+        if ($grid === null) {
+            return [$this->emptyGlossaryRow()];
+        }
+
+        $rows = [];
+        foreach (($grid['groups'] ?? []) as $group) {
+            foreach (($group['entries'] ?? []) as $entry) {
+                $rows[] = [
+                    'term' => (string) ($entry['label'] ?? ''),
+                    'description' => (string) ($entry['description'] ?? ''),
+                    'file_id' => (string) ($entry['file_id'] ?? ''),
+                    'original_name' => (string) ($entry['original_name'] ?? ''),
+                    'storage_path' => (string) ($entry['storage_path'] ?? ''),
+                    'mime_type' => (string) ($entry['mime_type'] ?? ''),
+                    'file_size' => (int) ($entry['file_size'] ?? 0),
+                    'created_at' => (string) ($entry['created_at'] ?? ''),
+                ];
+            }
+        }
+
+        return $rows !== [] ? $rows : [$this->emptyGlossaryRow()];
+    }
+
+    private function emptyGlossaryRow(): array
+    {
+        return [
+            'term' => '',
+            'description' => '',
+            'file_id' => '',
+            'original_name' => '',
+            'storage_path' => '',
+            'mime_type' => '',
+            'file_size' => 0,
+            'created_at' => '',
+        ];
+    }
+
     private function gridContentText(array $grid): string
     {
         $lines = [];
@@ -1925,6 +2029,7 @@ final class AdminController
             'files' => 'ファイル登録',
             'manual' => '手入力',
             'todo' => 'TO DO',
+            'glossary' => '業界用語集',
         ];
     }
 

@@ -721,6 +721,80 @@ h2 {
     background: #dcebe3;
 }
 
+.portal-glossary {
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+}
+
+.portal-glossary-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.portal-glossary-index button {
+    min-width: 28px;
+    border: 1px solid var(--portal-line);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--text);
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+.portal-glossary-index button.is-active {
+    border-color: var(--accent-dark);
+    background: var(--accent-dark);
+    color: #fff;
+}
+
+.portal-glossary-index button:disabled {
+    opacity: 0.32;
+    cursor: default;
+}
+
+.portal-glossary-list {
+    display: grid;
+    gap: 8px;
+}
+
+.portal-glossary-term {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 8px;
+    align-items: center;
+    min-height: 42px;
+    border: 1px solid var(--portal-line);
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--text);
+    padding: 9px 10px;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+}
+
+.portal-glossary-term span:first-child {
+    overflow-wrap: anywhere;
+}
+
+.portal-glossary-photo {
+    width: 24px;
+    height: 24px;
+    background: transparent url("../img/image-icon.png") center / contain no-repeat;
+}
+
+.portal-glossary-detail p {
+    margin: 0;
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.8;
+    white-space: normal;
+}
+
 .portal-todo-list {
     display: grid;
     gap: 10px;
@@ -1693,6 +1767,11 @@ a.list-row:hover {
     gap: 10px;
 }
 
+.glossary-rows {
+    display: grid;
+    gap: 10px;
+}
+
 .todo-row {
     display: grid;
     grid-template-columns: minmax(160px, 0.8fr) minmax(220px, 1.2fr) minmax(120px, 0.6fr) minmax(180px, 0.9fr) auto;
@@ -1704,12 +1783,25 @@ a.list-row:hover {
     padding: 10px;
 }
 
-.todo-editor label {
+.glossary-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.8fr) minmax(260px, 1.4fr) minmax(180px, 0.8fr) auto;
+    gap: 8px;
+    align-items: start;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface-soft);
+    padding: 10px;
+}
+
+.todo-editor label,
+.glossary-editor label {
     display: grid;
     gap: 6px;
 }
 
-.todo-editor label span {
+.todo-editor label span,
+.glossary-editor label span {
     color: var(--muted);
     font-size: 13px;
     font-weight: 700;
@@ -2077,7 +2169,8 @@ a.list-row:hover {
 
     .link-row,
     .file-row,
-    .todo-row {
+    .todo-row,
+    .glossary-row {
         grid-template-columns: 1fr;
     }
 
