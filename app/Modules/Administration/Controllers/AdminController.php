@@ -1676,6 +1676,7 @@ final class AdminController
     {
         $entries = [];
         $termValues = $_POST['glossary_term'] ?? [];
+        $readingValues = $_POST['glossary_reading'] ?? [];
         $descriptionValues = $_POST['glossary_description'] ?? [];
         $existingIds = $_POST['existing_glossary_file_id'] ?? [];
         $existingOriginalNames = $_POST['existing_glossary_original_name'] ?? [];
@@ -1688,11 +1689,13 @@ final class AdminController
 
         foreach ($termValues as $index => $rawTerm) {
             $term = trim((string) $rawTerm);
+            $reading = trim((string) ($readingValues[$index] ?? ''));
             $description = trim((string) ($descriptionValues[$index] ?? ''));
 
             $entry = [
                 'label' => $term,
                 'url' => '#',
+                'reading' => $reading,
                 'description' => $description,
                 'created_at' => trim((string) ($createdAtValues[$index] ?? '')) ?: $now,
             ];
@@ -1959,6 +1962,7 @@ final class AdminController
             foreach (($group['entries'] ?? []) as $entry) {
                 $rows[] = [
                     'term' => (string) ($entry['label'] ?? ''),
+                    'reading' => (string) ($entry['reading'] ?? ''),
                     'description' => (string) ($entry['description'] ?? ''),
                     'file_id' => (string) ($entry['file_id'] ?? ''),
                     'original_name' => (string) ($entry['original_name'] ?? ''),
@@ -1977,6 +1981,7 @@ final class AdminController
     {
         return [
             'term' => '',
+            'reading' => '',
             'description' => '',
             'file_id' => '',
             'original_name' => '',

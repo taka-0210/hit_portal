@@ -761,9 +761,17 @@ h2 {
     gap: 8px;
 }
 
+.portal-glossary-modal {
+    width: min(860px, calc(100vw - 32px));
+}
+
+.portal-glossary-browser {
+    min-height: min(560px, calc(100vh - 170px));
+}
+
 .portal-glossary-term {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
     gap: 8px;
     align-items: center;
     min-height: 42px;
@@ -781,6 +789,12 @@ h2 {
     overflow-wrap: anywhere;
 }
 
+.portal-glossary-term small,
+.portal-glossary-detail small {
+    color: var(--muted);
+    font-size: 11px;
+}
+
 .portal-glossary-photo {
     width: 24px;
     height: 24px;
@@ -793,6 +807,28 @@ h2 {
     font-size: 15px;
     line-height: 1.8;
     white-space: normal;
+}
+
+.portal-glossary-detail {
+    display: grid;
+    gap: 14px;
+}
+
+.portal-glossary-detail[hidden] {
+    display: none;
+}
+
+.portal-glossary-detail-head {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.portal-glossary-detail h4 {
+    margin: 0;
+    color: var(--text);
+    font-size: 22px;
+    line-height: 1.4;
 }
 
 .portal-todo-list {
@@ -1785,7 +1821,7 @@ a.list-row:hover {
 
 .glossary-row {
     display: grid;
-    grid-template-columns: minmax(180px, 0.8fr) minmax(260px, 1.4fr) minmax(180px, 0.8fr) auto;
+    grid-template-columns: minmax(160px, 0.75fr) minmax(150px, 0.7fr) minmax(260px, 1.35fr) minmax(180px, 0.8fr) auto;
     gap: 8px;
     align-items: start;
     border: 1px solid var(--line);

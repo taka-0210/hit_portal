@@ -198,6 +198,10 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
                             <input name="glossary_term[]" value="<?= e($row['term'] ?? '') ?>" placeholder="例: 先入れ先出し">
                         </label>
                         <label>
+                            <span>読み</span>
+                            <input name="glossary_reading[]" value="<?= e($row['reading'] ?? '') ?>" placeholder="例: さきいれさきだし">
+                        </label>
+                        <label>
                             <span>説明</span>
                             <textarea name="glossary_description[]" rows="4" placeholder="用語の意味、使い方、注意点など"><?= e($row['description'] ?? '') ?></textarea>
                         </label>
@@ -304,6 +308,10 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
         <label>
             <span>用語</span>
             <input name="glossary_term[]" placeholder="例: 先入れ先出し">
+        </label>
+        <label>
+            <span>読み</span>
+            <input name="glossary_reading[]" placeholder="例: さきいれさきだし">
         </label>
         <label>
             <span>説明</span>

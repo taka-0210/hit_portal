@@ -194,6 +194,54 @@ final class DashboardController
         exit('TO DO not found.');
     }
 
+    public function glossaryUpdate(): void
+    {
+        verify_csrf();
+
+        $gridId = (int) ($_POST['grid_id'] ?? 0);
+        $groupIndex = (int) ($_POST['group_index'] ?? -1);
+        $entryIndex = (int) ($_POST['entry_index'] ?? -1);
+        $store = new JsonStore();
+        $user = (new AuthService())->user();
+        $departments = $store->all('departments');
+        $grids = $store->all('grid_sections');
+
+        foreach ($grids as $gridIndex => $grid) {
+            if ((int) ($grid['id'] ?? 0) !== $gridId || ($grid['registration_type'] ?? '') !== 'glossary') {
+                continue;
+            }
+
+            if (($grid['status'] ?? 'published') !== 'published' || !$this->canSeeGrid($grid, $user, $this->departmentNames($departments)) || !$this->canPostToGrid($grid, $user)) {
+                http_response_code(403);
+                exit('Forbidden.');
+            }
+
+            if (!isset($grids[$gridIndex]['groups'][$groupIndex]['entries'][$entryIndex])) {
+                http_response_code(404);
+                exit('Glossary entry not found.');
+            }
+
+            $entry = $grids[$gridIndex]['groups'][$groupIndex]['entries'][$entryIndex];
+            $entry['label'] = trim((string) ($_POST['glossary_term'] ?? $entry['label'] ?? ''));
+            $entry['reading'] = trim((string) ($_POST['glossary_reading'] ?? $entry['reading'] ?? ''));
+            $entry['description'] = trim((string) ($_POST['glossary_description'] ?? $entry['description'] ?? ''));
+            $entry['url'] = '#';
+            $entry['updated_at'] = date('Y-m-d H:i:s');
+
+            $upload = $_FILES['glossary_image'] ?? [];
+            if (($upload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+                $entry = array_merge($entry, $this->saveGridImage($upload));
+            }
+
+            $grids[$gridIndex]['groups'][$groupIndex]['entries'][$entryIndex] = $entry;
+            $this->writeGridSections($grids);
+            redirect('dashboard');
+        }
+
+        http_response_code(404);
+        exit('Grid not found.');
+    }
+
     private function gridAreas(array $grids, ?array $user, array $departments, array $layouts = []): array
     {
         $areas = [
@@ -435,10 +483,12 @@ final class DashboardController
 
         if ($registrationType === 'glossary') {
             $term = trim((string) ($_POST['glossary_term'] ?? ''));
+            $reading = trim((string) ($_POST['glossary_reading'] ?? ''));
             $description = trim((string) ($_POST['glossary_description'] ?? ''));
             $entry = [
                 'label' => $term,
                 'url' => '#',
+                'reading' => $reading,
                 'description' => $description,
             ];
 
