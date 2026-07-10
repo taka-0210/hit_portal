@@ -25,6 +25,7 @@ final class AdminController
 
         View::render('admin/users', [
             'users' => $this->store->all('users'),
+            'companyLevel' => $this->departmentsByType($departments, 'company'),
             'departmentLevel2' => $this->departmentsByType($departments, 'store'),
             'departmentNames' => $this->departmentNames($departments),
             'roles' => $this->store->all('roles'),
@@ -38,6 +39,7 @@ final class AdminController
         View::render('admin/user-form', [
             'mode' => 'create',
             'user' => null,
+            'companyLevel' => $this->departmentsByType($departments, 'company'),
             'departmentLevel2' => $this->departmentsByType($departments, 'store'),
             'roles' => $this->store->all('roles'),
         ]);
@@ -69,6 +71,7 @@ final class AdminController
         View::render('admin/user-form', [
             'mode' => 'edit',
             'user' => $user,
+            'companyLevel' => $this->departmentsByType($departments, 'company'),
             'departmentLevel2' => $this->departmentsByType($departments, 'store'),
             'roles' => $this->store->all('roles'),
         ]);
@@ -101,7 +104,10 @@ final class AdminController
 
         View::render('admin/departments', [
             'mode' => 'store',
+            'editItem' => null,
             'items' => $this->departmentsByType($departments, 'store', false),
+            'companies' => $this->departmentsByType($departments, 'company'),
+            'companyNames' => $this->departmentNames($departments),
         ]);
     }
 
@@ -112,6 +118,188 @@ final class AdminController
         $this->store->save('departments', $this->affiliationPayload('store'));
 
         redirect('admin.stores');
+    }
+
+    public function editStore(): void
+    {
+        $departments = $this->store->all('departments');
+        $store = $this->store->find('departments', (int) ($_GET['id'] ?? 0));
+        if ($store === null || $this->normalizeAffiliationType((string) ($store['level'] ?? '')) !== 'store') {
+            http_response_code(404);
+            exit('Store not found.');
+        }
+
+        View::render('admin/departments', [
+            'mode' => 'store',
+            'editItem' => $store,
+            'items' => $this->departmentsByType($departments, 'store', false),
+            'companies' => $this->departmentsByType($departments, 'company'),
+            'companyNames' => $this->departmentNames($departments),
+        ]);
+    }
+
+    public function updateStore(): void
+    {
+        verify_csrf();
+
+        $current = $this->store->find('departments', (int) ($_POST['id'] ?? 0));
+        if ($current === null || $this->normalizeAffiliationType((string) ($current['level'] ?? '')) !== 'store') {
+            http_response_code(404);
+            exit('Store not found.');
+        }
+
+        $payload = array_merge($current, $this->affiliationPayload('store'));
+        $payload['id'] = (int) ($current['id'] ?? 0);
+
+        $this->store->save('departments', $payload);
+
+        redirect('admin.stores');
+    }
+
+    public function companies(): void
+    {
+        $departments = $this->store->all('departments');
+
+        View::render('admin/departments', [
+            'mode' => 'company',
+            'editItem' => null,
+            'items' => $this->departmentsByType($departments, 'company', false),
+            'companies' => [],
+            'companyNames' => $this->departmentNames($departments),
+        ]);
+    }
+
+    public function storeCompany(): void
+    {
+        verify_csrf();
+
+        $payload = $this->affiliationPayload('company');
+        if (!empty($_FILES['logo']['name'])) {
+            $payload['logo_path'] = $this->saveCompanyLogo($_FILES['logo']);
+        }
+
+        $this->store->save('departments', $payload);
+
+        redirect('admin.companies');
+    }
+
+    public function showCompany(): void
+    {
+        $departments = $this->store->all('departments');
+        $company = $this->store->find('departments', (int) ($_GET['id'] ?? 0));
+        if ($company === null || $this->normalizeAffiliationType((string) ($company['level'] ?? '')) !== 'company') {
+            http_response_code(404);
+            exit('Company not found.');
+        }
+
+        $companyId = (int) ($company['id'] ?? 0);
+        $stores = array_values(array_filter(
+            $this->departmentsByType($departments, 'store', false),
+            static fn (array $store): bool => (int) ($store['parent_id'] ?? 0) === $companyId
+        ));
+        $accounts = array_values(array_filter(
+            $this->store->all('users'),
+            static fn (array $user): bool => (int) ($user['department1_id'] ?? 0) === $companyId
+        ));
+        $roles = array_values(array_filter(
+            $this->store->all('roles'),
+            static fn (array $role): bool => ($role['key'] ?? '') !== 'system_admin'
+        ));
+
+        View::render('admin/company-detail', [
+            'company' => $company,
+            'stores' => $stores,
+            'accounts' => $accounts,
+            'roles' => $roles,
+            'departmentNames' => $this->departmentNames($departments),
+        ]);
+    }
+
+    public function storeCompanyStore(): void
+    {
+        verify_csrf();
+
+        $company = $this->store->find('departments', (int) ($_POST['company_id'] ?? 0));
+        if ($company === null || $this->normalizeAffiliationType((string) ($company['level'] ?? '')) !== 'company') {
+            http_response_code(404);
+            exit('Company not found.');
+        }
+
+        $payload = $this->affiliationPayload('store');
+        $payload['parent_id'] = (int) ($company['id'] ?? 0);
+
+        $this->store->save('departments', $payload);
+
+        redirect('admin.companies.show', ['id' => (int) ($company['id'] ?? 0)]);
+    }
+
+    public function storeCompanyUser(): void
+    {
+        verify_csrf();
+
+        $company = $this->store->find('departments', (int) ($_POST['company_id'] ?? 0));
+        if ($company === null || $this->normalizeAffiliationType((string) ($company['level'] ?? '')) !== 'company') {
+            http_response_code(404);
+            exit('Company not found.');
+        }
+
+        $record = $this->userPayload();
+        $record['department1_id'] = (int) ($company['id'] ?? 0);
+        if ($record['role'] === 'company_admin') {
+            $record['department2_id'] = 0;
+        }
+        if ($record['role'] === 'system_admin') {
+            $record['role'] = 'store_user';
+        }
+
+        $password = trim($_POST['password'] ?? '');
+        $record['password_hash'] = password_hash($password !== '' ? $password : 'password', PASSWORD_DEFAULT);
+        $record['must_change_password'] = true;
+
+        $this->store->save('users', $record);
+
+        redirect('admin.companies.show', ['id' => (int) ($company['id'] ?? 0)]);
+    }
+
+    public function editCompany(): void
+    {
+        $departments = $this->store->all('departments');
+        $company = $this->store->find('departments', (int) ($_GET['id'] ?? 0));
+        if ($company === null || $this->normalizeAffiliationType((string) ($company['level'] ?? '')) !== 'company') {
+            http_response_code(404);
+            exit('Company not found.');
+        }
+
+        View::render('admin/departments', [
+            'mode' => 'company',
+            'editItem' => $company,
+            'items' => $this->departmentsByType($departments, 'company', false),
+            'companies' => [],
+            'companyNames' => $this->departmentNames($departments),
+        ]);
+    }
+
+    public function updateCompany(): void
+    {
+        verify_csrf();
+
+        $current = $this->store->find('departments', (int) ($_POST['id'] ?? 0));
+        if ($current === null || $this->normalizeAffiliationType((string) ($current['level'] ?? '')) !== 'company') {
+            http_response_code(404);
+            exit('Company not found.');
+        }
+
+        $payload = array_merge($current, $this->affiliationPayload('company'));
+        $payload['id'] = (int) ($current['id'] ?? 0);
+        if (!empty($_FILES['logo']['name'])) {
+            $payload['logo_path'] = $this->saveCompanyLogo($_FILES['logo']);
+        } elseif (!empty($current['logo_path'])) {
+            $payload['logo_path'] = (string) $current['logo_path'];
+        }
+
+        $this->store->save('departments', $payload);
+
+        redirect('admin.companies');
     }
 
     public function roles(): void
@@ -200,6 +388,13 @@ final class AdminController
                 $stores,
                 fn (array $store): bool => (int) ($store['id'] ?? 0) === $storeId
             ));
+        } elseif ($this->isCompanyAdmin()) {
+            $layoutScope = 'global';
+            $companyId = $this->currentCompanyId();
+            $stores = array_values(array_filter(
+                $stores,
+                fn (array $store): bool => (int) ($store['parent_id'] ?? 0) === $companyId
+            ));
         }
         if ($layoutScope === 'store' && $storeId === 0 && $stores !== []) {
             $storeId = (int) ($stores[0]['id'] ?? 0);
@@ -214,6 +409,9 @@ final class AdminController
         }
         if ($this->isStoreAdmin()) {
             $grids = $this->storeAdminManageableGrids($grids);
+        }
+        if ($this->isCompanyAdmin()) {
+            $grids = $this->companyAdminManageableGrids($grids);
         }
 
         usort($grids, fn (array $a, array $b): int => [
@@ -236,14 +434,19 @@ final class AdminController
             'registrationTypeLabels' => $this->registrationTypeLabels(),
             'displayTypeLabels' => $this->displayTypeLabels(),
             'expandTypeLabels' => $this->expandTypeLabels(),
-            'scopeTypeLabels' => $this->isStoreAdmin() ? ['store' => '店舗専用'] : ($layoutScope === 'store' ? $this->scopeTypeLabels() : $this->systemAdminScopeTypeLabels()),
+            'scopeTypeLabels' => $this->isStoreAdmin() ? ['store' => '店舗専用'] : ($this->isCompanyAdmin() ? ['company' => '会社共通'] : ($layoutScope === 'store' ? $this->scopeTypeLabels() : $this->systemAdminScopeTypeLabels())),
         ]);
     }
 
     public function createGrid(): void
     {
         $grid = null;
-        if ($this->isStoreAdmin()) {
+        if ($this->isCompanyAdmin()) {
+            $grid = [
+                'scope_type' => 'company',
+                'scope_target' => $this->currentCompanyName(),
+            ];
+        } elseif ($this->isStoreAdmin()) {
             $grid = [
                 'scope_type' => 'store',
                 'scope_target' => $this->currentStoreName(),
@@ -257,7 +460,7 @@ final class AdminController
             'registrationTypeLabels' => $this->registrationTypeLabels(),
             'displayTypeLabels' => $this->displayTypeLabels(),
             'expandTypeLabels' => $this->expandTypeLabels(),
-            'scopeTypeLabels' => $this->isStoreAdmin() ? ['store' => '店舗専用'] : $this->systemAdminScopeTypeLabels(),
+            'scopeTypeLabels' => $this->limitedScopeTypeLabels(),
             'linkRows' => [['group' => '', 'label' => '', 'url' => '', 'created_at' => '']],
             'fileRows' => [['group' => '', 'label' => '', 'file_id' => '', 'original_name' => '', 'storage_path' => '', 'mime_type' => '', 'file_size' => 0, 'created_at' => '']],
             'todoRows' => [$this->emptyTodoRow()],
@@ -271,6 +474,7 @@ final class AdminController
 
         $grids = $this->store->all('grid_sections');
         $payload = $this->gridPayload();
+        $payload = $this->forceCompanyAdminGridScope($payload);
         $payload = $this->forceStoreAdminGridScope($payload);
         $payload['column'] = 3;
         $payload['sort_order'] = $this->firstGridSortOrder($grids, 3, $payload);
@@ -295,7 +499,7 @@ final class AdminController
             'registrationTypeLabels' => $this->registrationTypeLabels(),
             'displayTypeLabels' => $this->displayTypeLabels(),
             'expandTypeLabels' => $this->expandTypeLabels(),
-            'scopeTypeLabels' => $this->isStoreAdmin() ? ['store' => '店舗専用'] : $this->systemAdminScopeTypeLabels($grid),
+            'scopeTypeLabels' => $this->limitedScopeTypeLabels($grid),
             'linkRows' => $this->gridLinkRows($grid),
             'fileRows' => $this->gridFileRows($grid),
             'todoRows' => $this->gridTodoRows($grid),
@@ -315,6 +519,7 @@ final class AdminController
         $this->assertCanManageGrid($current);
 
         $payload = $this->gridPayload((string) ($current['registration_type'] ?? 'links'));
+        $payload = $this->forceCompanyAdminGridScope($payload);
         $payload = $this->forceStoreAdminGridScope($payload);
         $payload['registration_type'] = $current['registration_type'] ?? 'links';
         $payload['column'] = (int) ($current['column'] ?? 1);
@@ -381,6 +586,9 @@ final class AdminController
         if ($this->isStoreAdmin()) {
             $layoutScope = 'store';
             $storeId = $this->currentStoreId();
+        } elseif ($this->isCompanyAdmin()) {
+            $layoutScope = 'global';
+            $storeId = 0;
         }
         $grids = $this->store->all('grid_sections');
 
@@ -390,6 +598,9 @@ final class AdminController
         }
         if ($this->isStoreAdmin()) {
             $grids = $this->storeAdminManageableGrids($grids);
+        }
+        if ($this->isCompanyAdmin()) {
+            $grids = $this->companyAdminManageableGrids($grids);
         }
 
         $currentIndex = $this->gridIndex($grids, $gridId);
@@ -480,6 +691,27 @@ final class AdminController
         return $this->auth->hasRole('store_admin');
     }
 
+    private function isCompanyAdmin(): bool
+    {
+        return $this->auth->hasRole('company_admin');
+    }
+
+    private function currentCompanyId(): int
+    {
+        $user = $this->auth->user();
+        return max(0, (int) ($user['department1_id'] ?? 0));
+    }
+
+    private function currentCompanyName(): string
+    {
+        $companyId = $this->currentCompanyId();
+        if ($companyId === 0) {
+            return '';
+        }
+
+        return $this->departmentNames($this->store->all('departments'))[$companyId] ?? '';
+    }
+
     private function currentStoreId(): int
     {
         $user = $this->auth->user();
@@ -499,6 +731,21 @@ final class AdminController
     private function assertCanManageGrid(array $grid): void
     {
         if ($this->isSystemAdmin()) {
+            return;
+        }
+
+        if ($this->isCompanyAdmin()) {
+            if (($grid['scope_type'] ?? '') !== 'company') {
+                http_response_code(403);
+                exit('Company admins can manage only company shared grids.');
+            }
+
+            $target = trim((string) ($grid['scope_target'] ?? ''));
+            if ($target !== '' && $target !== $this->currentCompanyName()) {
+                http_response_code(403);
+                exit('Company admins can manage only their own company grids.');
+            }
+
             return;
         }
 
@@ -530,9 +777,37 @@ final class AdminController
         return $payload;
     }
 
+    private function forceCompanyAdminGridScope(array $payload): array
+    {
+        if (!$this->isCompanyAdmin()) {
+            return $payload;
+        }
+
+        $payload['scope_type'] = 'company';
+        $payload['scope_target'] = $this->currentCompanyName();
+        return $payload;
+    }
+
     private function systemAdminManageableGrids(array $grids): array
     {
         return array_values(array_filter($grids, static fn (array $grid): bool => ($grid['scope_type'] ?? 'all') !== 'store'));
+    }
+
+    private function companyAdminManageableGrids(array $grids): array
+    {
+        if (!$this->isCompanyAdmin()) {
+            return $grids;
+        }
+
+        $companyName = $this->currentCompanyName();
+        return array_values(array_filter($grids, static function (array $grid) use ($companyName): bool {
+            if (($grid['scope_type'] ?? '') !== 'company') {
+                return false;
+            }
+
+            $target = trim((string) ($grid['scope_target'] ?? ''));
+            return $target === '' || $target === $companyName;
+        }));
     }
 
     private function systemAdminScopeTypeLabels(?array $grid = null): array
@@ -543,6 +818,18 @@ final class AdminController
         }
 
         return $labels;
+    }
+
+    private function limitedScopeTypeLabels(?array $grid = null): array
+    {
+        if ($this->isStoreAdmin()) {
+            return ['store' => '店舗専用'];
+        }
+        if ($this->isCompanyAdmin()) {
+            return ['company' => '会社共通'];
+        }
+
+        return $this->systemAdminScopeTypeLabels($grid);
     }
 
     private function storeAdminManageableGrids(array $grids): array
@@ -577,11 +864,16 @@ final class AdminController
     {
         $departmentNames = $this->departmentNames($departments);
         $storeName = $departmentNames[$storeId] ?? '';
+        $companyName = $departmentNames[$this->companyIdForStore($storeId, $departments)] ?? '';
 
-        return array_values(array_filter($grids, function (array $grid) use ($storeName): bool {
+        return array_values(array_filter($grids, function (array $grid) use ($storeName, $companyName): bool {
             $scope = (string) ($grid['scope_type'] ?? 'all');
             if ($scope === 'all') {
                 return true;
+            }
+            if ($scope === 'company') {
+                $target = trim((string) ($grid['scope_target'] ?? ''));
+                return $target === '' || $target === $companyName;
             }
             if ($scope === 'store_shared') {
                 return true;
@@ -833,6 +1125,9 @@ final class AdminController
     private function gridLayoutArea(array $grid): string
     {
         $scope = (string) ($grid['scope_type'] ?? 'all');
+        if ($scope === 'company') {
+            return 'company';
+        }
         if ($scope === 'store_shared') {
             return 'store_shared';
         }
@@ -849,11 +1144,14 @@ final class AdminController
         if ($area === 'common') {
             return 1;
         }
-        if ($area === 'store_shared') {
+        if ($area === 'company') {
             return 2;
         }
+        if ($area === 'store_shared') {
+            return 3;
+        }
 
-        return 3;
+        return 4;
     }
 
     private function writeGridSections(array $grids): void
@@ -905,16 +1203,33 @@ final class AdminController
         return $names;
     }
 
+    private function companyIdForStore(int $storeId, array $departments): int
+    {
+        foreach ($departments as $department) {
+            if ((int) ($department['id'] ?? 0) === $storeId) {
+                return max(0, (int) ($department['parent_id'] ?? 0));
+            }
+        }
+
+        return 0;
+    }
+
     private function userPayload(): array
     {
+        $storeId = (int) ($_POST['department2_id'] ?? 0);
+        $companyId = (int) ($_POST['department1_id'] ?? 0);
+        if ($companyId === 0 && $storeId > 0) {
+            $companyId = $this->companyIdForStore($storeId, $this->store->all('departments'));
+        }
+
         return [
             'id' => (int) ($_POST['id'] ?? 0),
             'name' => trim($_POST['name'] ?? ''),
             'email' => trim($_POST['email'] ?? ''),
             'phone' => trim($_POST['phone'] ?? ''),
             'role' => trim($_POST['role'] ?? 'store_user'),
-            'department1_id' => 0,
-            'department2_id' => (int) ($_POST['department2_id'] ?? 0),
+            'department1_id' => $companyId,
+            'department2_id' => $storeId,
             'status' => trim($_POST['status'] ?? 'active'),
         ];
     }
@@ -924,18 +1239,49 @@ final class AdminController
         return [
             'name' => trim($_POST['name'] ?? ''),
             'level' => $type,
-            'parent_id' => 0,
+            'parent_id' => $type === 'store' ? (int) ($_POST['parent_id'] ?? 0) : 0,
             'description' => trim($_POST['description'] ?? ''),
             'sort_order' => (int) ($_POST['sort_order'] ?? 0),
             'status' => trim($_POST['status'] ?? 'active'),
         ];
     }
 
+    private function saveCompanyLogo(array $file): string
+    {
+        if (($file['error'] ?? UPLOAD_ERR_OK) !== UPLOAD_ERR_OK) {
+            throw new \RuntimeException('会社ロゴのアップロードに失敗しました。');
+        }
+
+        if ((int) ($file['size'] ?? 0) > 5242880) {
+            throw new \RuntimeException('会社ロゴは 5MB までアップロードできます。');
+        }
+
+        $originalName = (string) ($file['name'] ?? '');
+        $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        if (!in_array($extension, $allowedExtensions, true)) {
+            throw new \RuntimeException('会社ロゴは jpg, png, gif, webp のみ対応しています。');
+        }
+
+        $directory = BASE_PATH . '/public_html/uploads/company-logos';
+        if (!is_dir($directory)) {
+            mkdir($directory, 0775, true);
+        }
+
+        $storedName = bin2hex(random_bytes(12)) . '.' . $extension;
+        $targetPath = $directory . '/' . $storedName;
+        if (!move_uploaded_file((string) ($file['tmp_name'] ?? ''), $targetPath)) {
+            throw new \RuntimeException('会社ロゴを保存できませんでした。');
+        }
+
+        return 'uploads/company-logos/' . $storedName;
+    }
+
     private function gridPayload(?string $lockedRegistrationType = null): array
     {
         $registrationType = $lockedRegistrationType ?? trim($_POST['registration_type'] ?? 'links');
         $scopeType = $this->normalizeGridScopeType(trim($_POST['scope_type'] ?? 'all'));
-        $scopeTarget = $scopeType === 'store' ? trim($_POST['scope_target'] ?? '') : '';
+        $scopeTarget = in_array($scopeType, ['company', 'store'], true) ? trim($_POST['scope_target'] ?? '') : '';
         $displayType = in_array($registrationType, ['manual', 'todo'], true)
             ? 'list'
             : trim($_POST['display_type'] ?? 'list');
@@ -965,7 +1311,7 @@ final class AdminController
 
     private function normalizeGridScopeType(string $scopeType): string
     {
-        return in_array($scopeType, ['all', 'store_shared', 'store'], true) ? $scopeType : 'all';
+        return in_array($scopeType, ['all', 'company', 'store_shared', 'store'], true) ? $scopeType : 'all';
     }
 
     private function parseGridGroups(string $registrationType): array
@@ -1480,6 +1826,7 @@ final class AdminController
     {
         return [
             'all' => '共通',
+            'company' => '会社共通',
             'store_shared' => '店舗共通',
             'store' => '店舗専用',
         ];
@@ -1487,6 +1834,10 @@ final class AdminController
 
     private function normalizeAffiliationType(string $level): string
     {
-        return in_array($level, ['store', 'level2'], true) ? 'store' : 'department';
+        if (in_array($level, ['company', 'level1', 'department'], true)) {
+            return 'company';
+        }
+
+        return in_array($level, ['store', 'level2'], true) ? 'store' : 'company';
     }
 }

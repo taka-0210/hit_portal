@@ -92,15 +92,17 @@ final class JsonStore
 
         $seedFiles = [
             'roles' => [
-                ['id' => 1, 'name' => '全体管理者', 'key' => 'system_admin', 'description' => '共通グリッド、店舗マスタ、アカウント、ポータル設定を管理します。'],
-                ['id' => 2, 'name' => '店舗管理者', 'key' => 'store_admin', 'description' => '自店舗の店舗専用グリッドと店舗別レイアウトを管理します。'],
-                ['id' => 3, 'name' => '店舗アカウント', 'key' => 'store_user', 'description' => 'ポータル閲覧、投稿、TO DOステータス変更を行います。'],
+                ['id' => 1, 'name' => '全体管理者', 'key' => 'system_admin', 'description' => '共通グリッド、会社マスタ、店舗マスタ、アカウント、ポータル設定を管理します。'],
+                ['id' => 2, 'name' => 'FC法人管理者', 'key' => 'company_admin', 'description' => '自社に紐づく会社共通グリッドと店舗運用を管理します。'],
+                ['id' => 3, 'name' => '店舗管理者', 'key' => 'store_admin', 'description' => '自店舗の店舗専用グリッドと店舗別レイアウトを管理します。'],
+                ['id' => 4, 'name' => '店舗アカウント', 'key' => 'store_user', 'description' => 'ポータル閲覧、投稿、TO DOステータス変更を行います。'],
             ],
             'departments' => [
-                ['id' => 1, 'name' => '商品センター', 'level' => 'store', 'parent_id' => 0, 'description' => '', 'sort_order' => 1, 'status' => 'active'],
-                ['id' => 2, 'name' => '播磨店', 'level' => 'store', 'parent_id' => 0, 'description' => '', 'sort_order' => 2, 'status' => 'active'],
-                ['id' => 3, 'name' => '姫路店', 'level' => 'store', 'parent_id' => 0, 'description' => '', 'sort_order' => 3, 'status' => 'active'],
-                ['id' => 4, 'name' => '高松店', 'level' => 'store', 'parent_id' => 0, 'description' => '', 'sort_order' => 4, 'status' => 'active'],
+                ['id' => 100, 'name' => '直営', 'level' => 'company', 'parent_id' => 0, 'description' => 'RISE UP直営店舗', 'logo_path' => 'assets/img/rise-up-logo.png', 'sort_order' => 1, 'status' => 'active'],
+                ['id' => 1, 'name' => '商品センター', 'level' => 'store', 'parent_id' => 100, 'description' => '', 'sort_order' => 1, 'status' => 'active'],
+                ['id' => 2, 'name' => '播磨店', 'level' => 'store', 'parent_id' => 100, 'description' => '', 'sort_order' => 2, 'status' => 'active'],
+                ['id' => 3, 'name' => '姫路店', 'level' => 'store', 'parent_id' => 100, 'description' => '', 'sort_order' => 3, 'status' => 'active'],
+                ['id' => 4, 'name' => '高松店', 'level' => 'store', 'parent_id' => 100, 'description' => '', 'sort_order' => 4, 'status' => 'active'],
             ],
             'users' => [
                 [

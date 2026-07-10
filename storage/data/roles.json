@@ -3,16 +3,22 @@
         "id": 1,
         "name": "全体管理者",
         "key": "system_admin",
-        "description": "共通グリッド、店舗マスタ、アカウント、ポータル設定を管理します。"
+        "description": "共通グリッド、会社マスタ、店舗マスタ、アカウント、ポータル設定を管理します。"
     },
     {
         "id": 2,
+        "name": "FC法人管理者",
+        "key": "company_admin",
+        "description": "自社に紐づく会社共通グリッドと店舗運用を管理します。"
+    },
+    {
+        "id": 3,
         "name": "店舗管理者",
         "key": "store_admin",
         "description": "自店舗の店舗専用グリッドと店舗別レイアウトを管理します。"
     },
     {
-        "id": 3,
+        "id": 4,
         "name": "店舗アカウント",
         "key": "store_user",
         "description": "ポータル閲覧、投稿、TO DOステータス変更を行います。"

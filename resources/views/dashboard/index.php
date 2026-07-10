@@ -23,6 +23,7 @@ $isNewEntry = static function (array $entry) use ($newEntryDays): bool {
 $portalAreas = $gridAreas ?? ['common' => $gridColumns];
 $portalAreaTitles = [
     'common' => '共通グリッド',
+    'company' => '会社共通グリッド',
     'store_shared' => '店舗共通グリッド',
     'store' => '店舗専用グリッド',
 ];

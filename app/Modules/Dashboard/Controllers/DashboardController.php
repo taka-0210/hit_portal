@@ -192,6 +192,7 @@ final class DashboardController
     {
         $areas = [
             'common' => [1 => [], 2 => [], 3 => []],
+            'company' => [1 => [], 2 => [], 3 => []],
             'store_shared' => [1 => [], 2 => [], 3 => []],
             'store' => [1 => [], 2 => [], 3 => []],
         ];
@@ -227,6 +228,7 @@ final class DashboardController
 
         return [
             'common' => array_values($areas['common']),
+            'company' => array_values($areas['company']),
             'store_shared' => array_values($areas['store_shared']),
             'store' => array_values($areas['store']),
         ];
@@ -264,7 +266,7 @@ final class DashboardController
     private function mergeGridAreaColumns(array $areas): array
     {
         $columns = [[], [], []];
-        foreach (['common', 'store_shared', 'store'] as $area) {
+        foreach (['common', 'company', 'store_shared', 'store'] as $area) {
             foreach (($areas[$area] ?? []) as $index => $column) {
                 $columns[$index] = array_merge($columns[$index] ?? [], $column);
             }
@@ -448,6 +450,9 @@ final class DashboardController
     private function gridArea(array $grid): string
     {
         $scope = (string) ($grid['scope_type'] ?? 'all');
+        if ($scope === 'company') {
+            return 'company';
+        }
         if ($scope === 'store_shared') {
             return 'store_shared';
         }
@@ -649,6 +654,15 @@ final class DashboardController
         }
         if ($scope === 'store_shared') {
             return (int) ($user['department2_id'] ?? 0) > 0;
+        }
+        if ($scope === 'company') {
+            $target = trim((string) ($grid['scope_target'] ?? ''));
+            if ($target === '') {
+                return (int) ($user['department1_id'] ?? 0) > 0;
+            }
+
+            $userCompanyName = $departmentNames[(int) ($user['department1_id'] ?? 0)] ?? '';
+            return $target === $userCompanyName;
         }
 
         $target = trim((string) ($grid['scope_target'] ?? ''));

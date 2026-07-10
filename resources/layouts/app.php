@@ -3,8 +3,18 @@ $app = config('app');
 $auth = new App\Platform\Auth\AuthService();
 $currentUser = $auth->user();
 $isSystemAdmin = $auth->hasRole('system_admin');
+$isCompanyAdmin = $auth->hasRole('company_admin');
 $isStoreAdmin = $auth->hasRole('store_admin');
-$showsSidebar = $isSystemAdmin || $isStoreAdmin;
+$showsSidebar = $isSystemAdmin || $isCompanyAdmin || $isStoreAdmin;
+$logoPath = 'assets/img/rise-up-logo.png';
+$companyId = (int) ($currentUser['department1_id'] ?? 0);
+if ($companyId > 0) {
+    $store = new App\Platform\Storage\JsonStore();
+    $company = $store->find('departments', $companyId);
+    if (!empty($company['logo_path'])) {
+        $logoPath = (string) $company['logo_path'];
+    }
+}
 ?>
 <!doctype html>
 <html lang="ja">
@@ -19,7 +29,7 @@ $showsSidebar = $isSystemAdmin || $isStoreAdmin;
     <?php if ($showsSidebar): ?>
         <aside class="sidebar">
             <a class="brand" href="<?= route_url('dashboard') ?>">
-                <img class="brand-logo" src="<?= e(asset_url('assets/img/rise-up-logo.png')) ?>" alt="RISE UP">
+                <img class="brand-logo" src="<?= e(asset_url($logoPath)) ?>" alt="HIT Portal">
             </a>
             <nav class="nav">
                 <a href="<?= route_url('dashboard') ?>">ポータルTOP</a>
@@ -29,6 +39,7 @@ $showsSidebar = $isSystemAdmin || $isStoreAdmin;
                     <a href="<?= route_url('admin.portalSettings') ?>">ポータル設定</a>
                     <a href="<?= route_url('admin.guide') ?>">取扱説明管理</a>
                     <a href="<?= route_url('admin.users') ?>">アカウント管理</a>
+                    <a href="<?= route_url('admin.companies') ?>">会社マスタ管理</a>
                     <a href="<?= route_url('admin.stores') ?>">店舗マスタ管理</a>
                     <a href="<?= route_url('admin.roles') ?>">権限管理</a>
                     <a href="<?= route_url('improvements') ?>">改善ログ</a>
@@ -42,7 +53,7 @@ $showsSidebar = $isSystemAdmin || $isStoreAdmin;
             <div class="topbar-left">
                 <?php if (!$showsSidebar): ?>
                     <a class="topbar-logo" href="<?= route_url('dashboard') ?>" aria-label="ポータルTOPに戻る">
-                        <img src="<?= e(asset_url('assets/img/rise-up-logo.png')) ?>" alt="RISE UP">
+                        <img src="<?= e(asset_url($logoPath)) ?>" alt="HIT Portal">
                     </a>
                 <?php endif; ?>
                 <div class="top-portal-title">

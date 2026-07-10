@@ -7,13 +7,16 @@ $emptyColumns = [1 => [], 2 => [], 3 => []];
 $splitColumns = static function (array $items) use ($emptyColumns): array {
     $areas = [
         'common' => $emptyColumns,
+        'company' => $emptyColumns,
         'store_shared' => $emptyColumns,
         'store' => $emptyColumns,
     ];
 
     foreach ($items as $grid) {
         $scope = (string) ($grid['scope_type'] ?? 'all');
-        if ($scope === 'store_shared') {
+        if ($scope === 'company') {
+            $area = 'company';
+        } elseif ($scope === 'store_shared') {
             $area = 'store_shared';
         } elseif ($scope === 'store') {
             $area = 'store';
@@ -34,12 +37,14 @@ $privateAreas = $splitColumns($privateGrids);
 
 $areaTitles = [
     'common' => '共通グリッド',
+    'company' => '会社共通グリッド',
     'store_shared' => '店舗共通グリッド',
     'store' => '店舗専用グリッド',
 ];
 
 $areaDescriptions = [
     'common' => 'すべての店舗に表示されるグリッドです。このエリア内だけで上下左右に移動できます。',
+    'company' => '指定した会社またはFC法人に所属する店舗だけに表示されるグリッドです。',
     'store_shared' => 'すべての店舗に枠が表示され、投稿データは店舗ごとに分かれるグリッドです。',
     'store' => '特定店舗だけに表示されるグリッドです。店舗共通グリッドとは別のエリアで配置します。',
 ];
@@ -184,7 +189,7 @@ $renderArea = static function (string $areaKey, array $columns, string $stateCla
     <div>
         <p class="eyebrow">Administration</p>
         <h1>グリッド管理</h1>
-        <p class="lead">ポータルTOPに表示するグリッドを、共通グリッドと店舗専用グリッドに分けて管理します。</p>
+        <p class="lead">ポータルTOPに表示するグリッドを、共通・会社共通・店舗共通・店舗専用に分けて管理します。</p>
     </div>
     <a class="button primary" href="<?= route_url('admin.grids.create') ?>">グリッド新規作成</a>
 </section>
@@ -238,6 +243,7 @@ $renderArea = static function (string $areaKey, array $columns, string $stateCla
 </section>
 
 <?php $renderArea('common', $publishedAreas['common']); ?>
+<?php $renderArea('company', $publishedAreas['company']); ?>
 <?php $renderArea('store_shared', $publishedAreas['store_shared']); ?>
 <?php $renderArea('store', $publishedAreas['store']); ?>
 
@@ -251,6 +257,7 @@ $renderArea = static function (string $areaKey, array $columns, string $stateCla
     </div>
 
     <?php $renderArea('common', $privateAreas['common'], 'is-private'); ?>
+    <?php $renderArea('company', $privateAreas['company'], 'is-private'); ?>
     <?php $renderArea('store_shared', $privateAreas['store_shared'], 'is-private'); ?>
     <?php $renderArea('store', $privateAreas['store'], 'is-private'); ?>
 </section>

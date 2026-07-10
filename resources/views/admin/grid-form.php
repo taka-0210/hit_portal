@@ -38,7 +38,7 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
                     <?php endforeach; ?>
                 </select>
             </label>
-            <label data-scope-target-field><span>対象名</span><input name="scope_target" value="<?= e($grid['scope_target'] ?? '') ?>" placeholder="例: 播磨店"></label>
+            <label data-scope-target-field><span>対象名</span><input name="scope_target" value="<?= e($grid['scope_target'] ?? '') ?>" placeholder="例: 直営 / 播磨店"></label>
             <label>
                 <span>登録方法</span>
                 <?php if ($isEdit): ?>
@@ -287,7 +287,7 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
             return;
         }
 
-        scopeTargetField.hidden = scopeTypeSelect.value !== 'store';
+        scopeTargetField.hidden = !['company', 'store'].includes(scopeTypeSelect.value);
     };
 
     addButton?.addEventListener('click', () => {

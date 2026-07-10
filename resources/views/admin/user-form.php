@@ -5,7 +5,7 @@ $action = $isEdit ? route_url('admin.users.update') : route_url('admin.users.sto
 <section class="page-header">
     <p class="eyebrow">Administration</p>
     <h1><?= $isEdit ? 'アカウント編集' : 'アカウント追加' ?></h1>
-    <p class="lead">ログイン情報、店舗、権限を設定します。全体管理者は店舗を未設定にできます。</p>
+    <p class="lead">ログイン情報、会社、店舗、権限を設定します。全体管理者は会社・店舗を未設定にできます。</p>
 </section>
 
 <form class="panel staff-form" method="post" action="<?= $action ?>">
@@ -31,6 +31,17 @@ $action = $isEdit ? route_url('admin.users.update') : route_url('admin.users.sto
     <div class="form-section">
         <h2>店舗・権限</h2>
         <div class="form-grid">
+            <label>
+                <span>会社</span>
+                <select name="department1_id">
+                    <option value="0">未設定</option>
+                    <?php foreach ($companyLevel as $company): ?>
+                        <option value="<?= (int) $company['id'] ?>" <?= (int) ($user['department1_id'] ?? 0) === (int) $company['id'] ? 'selected' : '' ?>>
+                            <?= e($company['name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
             <label>
                 <span>店舗</span>
                 <select name="department2_id">

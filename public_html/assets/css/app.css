@@ -148,6 +148,21 @@ th {
     height: auto;
 }
 
+.company-logo-preview {
+    display: block;
+    max-width: 120px;
+    max-height: 42px;
+    object-fit: contain;
+}
+
+.company-detail-logo {
+    display: block;
+    max-width: 220px;
+    max-height: 78px;
+    object-fit: contain;
+    margin-bottom: 16px;
+}
+
 .brand-mark {
     display: grid;
     place-items: center;

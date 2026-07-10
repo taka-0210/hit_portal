@@ -1,7 +1,7 @@
 <section class="page-header">
     <p class="eyebrow">Administration</p>
     <h1>権限管理</h1>
-    <p class="lead">HIT Portal の権限は、全体管理者・店舗管理者・店舗アカウントの3種類です。</p>
+    <p class="lead">HIT Portal の権限は、全体管理者・FC法人管理者・店舗管理者・店舗アカウントの4種類です。</p>
 </section>
 
 <section class="panel">
