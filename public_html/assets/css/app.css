@@ -652,11 +652,12 @@ h2 {
     justify-content: center;
     width: fit-content;
     border-radius: 999px;
+    border: 1px solid #e2533f;
     background: #e2533f;
     color: #fff;
-    padding: 2px 7px;
-    font-size: 10px;
-    font-weight: 800;
+    padding: 1px 6px;
+    font-size: 9px;
+    font-weight: 700;
     line-height: 1.2;
     letter-spacing: 0;
 }
@@ -820,11 +821,28 @@ h2 {
 .portal-todo-image-button {
     display: grid;
     place-items: center;
+    width: 56px;
+    height: 42px;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: #fff;
     padding: 0;
+    color: var(--muted);
     cursor: zoom-in;
+}
+
+.portal-todo-image-icon::before {
+    content: "";
+    display: block;
+    width: 25px;
+    height: 20px;
+    border: 2px solid currentColor;
+    border-radius: 5px;
+    background:
+        radial-gradient(circle at 72% 30%, currentColor 0 2px, transparent 2.5px),
+        linear-gradient(135deg, transparent 47%, currentColor 48% 54%, transparent 55%),
+        linear-gradient(45deg, transparent 45%, currentColor 46% 53%, transparent 54%);
+    opacity: 0.9;
 }
 
 .portal-expanded-image {
@@ -832,6 +850,13 @@ h2 {
     max-height: calc(100vh - 180px);
     border-radius: var(--radius);
     object-fit: contain;
+}
+
+.portal-photo-image {
+    width: min(84vw, 920px);
+    height: auto;
+    max-height: calc(100vh - 150px);
+    background: #fff;
 }
 
 .portal-todo-card strong {

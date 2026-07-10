@@ -101,9 +101,7 @@ $portalAreaTitles = [
                                         <p><?= nl2br(e($todoEntry['description'])) ?></p>
                                     <?php endif; ?>
                                     <?php if ($todoImageUrl !== ''): ?>
-                                        <button class="portal-todo-image-button" type="button" data-open-dialog="<?= e($imageDialogId) ?>">
-                                            <img class="portal-todo-image" src="<?= e($todoImageUrl) ?>" alt="">
-                                        </button>
+                                        <button class="portal-todo-image-button portal-todo-image-icon" type="button" data-open-dialog="<?= e($imageDialogId) ?>" aria-label="Image preview"></button>
                                         <dialog class="portal-modal portal-image-modal" id="<?= e($imageDialogId) ?>">
                                             <div class="portal-modal-panel">
                                                 <div class="portal-modal-heading section-<?= e($grid['tone'] ?? 'green') ?>">
@@ -111,7 +109,7 @@ $portalAreaTitles = [
                                                     <button type="button" aria-label="閉じる" data-close-dialog>×</button>
                                                 </div>
                                                 <div class="portal-modal-body">
-                                                    <img class="portal-expanded-image" src="<?= e($todoImageUrl) ?>" alt="">
+                                                    <img class="portal-expanded-image portal-photo-image" src="<?= e($todoImageUrl) ?>" alt="">
                                                 </div>
                                             </div>
                                         </dialog>
