@@ -15,7 +15,7 @@ $action = $isEdit ? route_url('admin.qrCodes.update') : route_url('admin.qrCodes
     <?php unset($_SESSION['flash']); ?>
 <?php endif; ?>
 
-<section class="admin-grid">
+<section class="qr-admin-stack">
     <form class="panel form-stack" method="post" action="<?= $action ?>" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
         <?php if ($isEdit): ?>
@@ -89,7 +89,9 @@ $action = $isEdit ? route_url('admin.qrCodes.update') : route_url('admin.qrCodes
                         <td><strong><?= e($item['title'] ?? '') ?></strong></td>
                         <td>
                             <?php if (!empty($item['generated_url'])): ?>
-                                <img class="qr-code-thumb" src="<?= e($item['generated_url']) ?>" alt="<?= e($item['title'] ?? '') ?>">
+                                <button class="qr-code-thumb-button" type="button" data-qr-preview-url="<?= e($item['generated_url']) ?>" data-qr-preview-title="<?= e($item['title'] ?? '') ?>">
+                                    <img class="qr-code-thumb" src="<?= e($item['generated_url']) ?>" alt="<?= e($item['title'] ?? '') ?>">
+                                </button>
                             <?php endif; ?>
                         </td>
                         <td>
@@ -114,3 +116,47 @@ $action = $isEdit ? route_url('admin.qrCodes.update') : route_url('admin.qrCodes
         </div>
     </section>
 </section>
+
+<dialog class="portal-modal portal-image-modal" id="admin-qr-preview-dialog">
+    <div class="portal-modal-panel">
+        <div class="portal-modal-heading section-blue">
+            <h3 data-admin-qr-preview-title>QR</h3>
+            <button type="button" aria-label="Close" data-admin-qr-preview-close>×</button>
+        </div>
+        <div class="portal-modal-body portal-qr-modal-body">
+            <img class="portal-expanded-image portal-qr-image" src="" alt="" data-admin-qr-preview-image>
+        </div>
+    </div>
+</dialog>
+
+<script>
+(() => {
+    document.addEventListener('click', (event) => {
+        const previewButton = event.target.closest('[data-qr-preview-url]');
+        if (previewButton) {
+            const dialog = document.getElementById('admin-qr-preview-dialog');
+            const image = dialog?.querySelector('[data-admin-qr-preview-image]');
+            const title = dialog?.querySelector('[data-admin-qr-preview-title]');
+            if (image) {
+                image.src = previewButton.dataset.qrPreviewUrl || '';
+                image.alt = previewButton.dataset.qrPreviewTitle || 'QR';
+            }
+            if (title) {
+                title.textContent = previewButton.dataset.qrPreviewTitle || 'QR';
+            }
+            dialog?.showModal();
+            return;
+        }
+
+        const closeButton = event.target.closest('[data-admin-qr-preview-close]');
+        if (closeButton) {
+            closeButton.closest('dialog')?.close();
+            return;
+        }
+
+        if (event.target instanceof HTMLDialogElement) {
+            event.target.close();
+        }
+    });
+})();
+</script>

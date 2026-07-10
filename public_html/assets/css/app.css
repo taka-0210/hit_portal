@@ -283,7 +283,8 @@ th {
 .module-grid,
 .detail-layout,
 .editor-layout,
-.admin-grid {
+.admin-grid,
+.qr-admin-stack {
     margin: 24px 28px;
 }
 
@@ -616,6 +617,24 @@ h2 {
     content: "FILE";
 }
 
+.portal-link-card.is-qr {
+    padding-left: 48px;
+}
+
+.portal-link-card.is-qr::before {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 18px;
+    border: 1px solid rgba(47, 102, 80, 0.22);
+    border-radius: 5px;
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+    font-size: 10px;
+    letter-spacing: 0;
+    content: "QR";
+}
+
 .portal-link-card:hover {
     border-color: rgba(47, 102, 80, 0.32);
     box-shadow: 0 6px 14px rgba(31, 41, 55, 0.06);
@@ -944,6 +963,27 @@ h2 {
     padding: 6px;
 }
 
+.qr-code-thumb-button {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+
+.portal-qr-modal-body {
+    justify-items: center;
+}
+
+.portal-qr-image {
+    width: min(72vw, 420px);
+    height: auto;
+    max-height: 72vh;
+    object-fit: contain;
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+}
+
 .delete-warning {
     margin: 0;
     border: 1px solid #e2a3a3;
@@ -1023,6 +1063,11 @@ h2 {
     grid-template-columns: minmax(0, 1fr) 360px;
     gap: 18px;
     align-items: start;
+}
+
+.qr-admin-stack {
+    display: grid;
+    gap: 18px;
 }
 
 .admin-table-panel {
@@ -1942,6 +1987,7 @@ a.list-row:hover {
     .detail-layout,
     .editor-layout,
     .admin-grid,
+    .qr-admin-stack,
     .portal-hero,
     .portal-board {
         margin-right: 10px;

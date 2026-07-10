@@ -901,5 +901,32 @@
         ],
         "created_at": "2026-07-08 23:14:46",
         "updated_at": "2026-07-08 23:15:10"
+    },
+    {
+        "id": 22,
+        "title": "リンク集",
+        "tone": "green",
+        "column": 3,
+        "sort_order": 0,
+        "scope_type": "all",
+        "scope_target": "",
+        "registration_type": "links",
+        "display_type": "list",
+        "expand_type": "open",
+        "status": "published",
+        "groups": [
+            {
+                "label": "",
+                "entries": [
+                    {
+                        "label": "厨房君 for SP",
+                        "url": "\/hit_portal\/public_html\/uploads\/qr-codes\/f1ec4186c8179edebd6671f1.png",
+                        "created_at": "2026-07-10 09:13:12"
+                    }
+                ]
+            }
+        ],
+        "created_at": "2026-07-10 09:13:12",
+        "updated_at": "2026-07-10 09:13:12"
     }
 ]

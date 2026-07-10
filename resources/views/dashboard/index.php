@@ -200,8 +200,12 @@ $portalAreaTitles = [
                                     <?php endif; ?>
                                     <div class="portal-link-grid">
                                         <?php foreach (($group['entries'] ?? []) as $entry): ?>
-                                            <?php $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : (($qrCodeUrlMap[(int) ($entry['qr_code_id'] ?? 0)] ?? null) ?: ($entry['url'] ?? '#')); ?>
-                                            <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : 'is-link' ?>" href="<?= e($entryUrl) ?>">
+                                            <?php
+                                            $qrCodeId = (int) ($entry['qr_code_id'] ?? 0);
+                                            $isQrEntry = !isset($entry['file_id']) && $qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]);
+                                            $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : (($qrCodeUrlMap[$qrCodeId] ?? null) ?: ($entry['url'] ?? '#'));
+                                            ?>
+                                            <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '"' : '' ?>>
                                                 <span><?= e($entry['label'] ?? '') ?></span>
                                                 <?php if ($isNewEntry($entry)): ?>
                                                     <span class="portal-new-badge">NEW</span>
@@ -216,8 +220,12 @@ $portalAreaTitles = [
                         <div class="portal-link-list">
                             <?php foreach (($grid['groups'] ?? []) as $group): ?>
                                 <?php foreach (($group['entries'] ?? []) as $entry): ?>
-                                    <?php $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : (($qrCodeUrlMap[(int) ($entry['qr_code_id'] ?? 0)] ?? null) ?: ($entry['url'] ?? '#')); ?>
-                                    <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : 'is-link' ?>" href="<?= e($entryUrl) ?>">
+                                    <?php
+                                    $qrCodeId = (int) ($entry['qr_code_id'] ?? 0);
+                                    $isQrEntry = !isset($entry['file_id']) && $qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]);
+                                    $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : (($qrCodeUrlMap[$qrCodeId] ?? null) ?: ($entry['url'] ?? '#'));
+                                    ?>
+                                    <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '"' : '' ?>>
                                         <span><?= e($entry['label'] ?? '') ?></span>
                                         <?php if ($isNewEntry($entry)): ?>
                                             <span class="portal-new-badge">NEW</span>
@@ -323,6 +331,18 @@ $portalAreaTitles = [
     </section>
 <?php endforeach; ?>
 
+<dialog class="portal-modal portal-image-modal" id="portal-qr-dialog">
+    <div class="portal-modal-panel">
+        <div class="portal-modal-heading section-blue">
+            <h3 data-qr-modal-title>QRコード</h3>
+            <button type="button" aria-label="閉じる" data-close-dialog>×</button>
+        </div>
+        <div class="portal-modal-body portal-qr-modal-body">
+            <img class="portal-expanded-image portal-qr-image" src="" alt="" data-qr-modal-image>
+        </div>
+    </div>
+</dialog>
+
 <script>
 (() => {
     document.addEventListener('click', (event) => {
@@ -337,6 +357,23 @@ $portalAreaTitles = [
             section?.classList.toggle('is-collapsed', !isOpening);
             toggleButton.setAttribute('aria-expanded', isOpening ? 'true' : 'false');
             toggleButton.textContent = isOpening ? '▲' : '▼';
+            return;
+        }
+
+        const qrLink = event.target.closest('[data-qr-image-url]');
+        if (qrLink) {
+            event.preventDefault();
+            const dialog = document.getElementById('portal-qr-dialog');
+            const image = dialog?.querySelector('[data-qr-modal-image]');
+            const title = dialog?.querySelector('[data-qr-modal-title]');
+            if (image) {
+                image.src = qrLink.dataset.qrImageUrl || '';
+                image.alt = qrLink.dataset.qrTitle || 'QR';
+            }
+            if (title) {
+                title.textContent = qrLink.dataset.qrTitle || 'QR';
+            }
+            dialog?.showModal();
             return;
         }
 

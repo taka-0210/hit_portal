@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "id": 1,
+        "title": "厨房君 for SP",
+        "description": "",
+        "status": "active",
+        "image_path": "uploads\/qr-codes\/f1ec4186c8179edebd6671f1.png",
+        "url": "\/hit_portal\/public_html\/uploads\/qr-codes\/f1ec4186c8179edebd6671f1.png",
+        "created_at": "2026-07-10 09:12:07",
+        "updated_at": "2026-07-10 09:12:07"
+    }
+]
