@@ -307,7 +307,16 @@ $portalAreaTitles = [
                                             </label>
                                             <label>
                                                 <span>写真</span>
-                                                <input type="file" name="glossary_image" accept="image/*">
+                                                <?php if ($glossaryImageUrl !== ''): ?>
+                                                    <img class="portal-upload-preview" src="<?= e($glossaryImageUrl) ?>" alt="" data-upload-preview>
+                                                    <div class="portal-check-row">
+                                                        <input type="checkbox" name="delete_glossary_image" value="1">
+                                                        <span>登録済み写真を削除</span>
+                                                    </div>
+                                                <?php else: ?>
+                                                    <img class="portal-upload-preview" src="" alt="" data-upload-preview hidden>
+                                                <?php endif; ?>
+                                                <input type="file" name="glossary_image" accept="image/*" data-preview-upload>
                                             </label>
                                             <div class="form-actions">
                                                 <button class="button primary" type="submit">更新</button>
@@ -586,7 +595,8 @@ $portalAreaTitles = [
                                         </label>
                                         <label>
                                             <span>写真</span>
-                                            <input type="file" name="glossary_image" accept="image/*">
+                                            <img class="portal-upload-preview" src="" alt="" data-upload-preview hidden>
+                                            <input type="file" name="glossary_image" accept="image/*" data-preview-upload>
                                         </label>
                                     <?php elseif (($grid['registration_type'] ?? '') === 'manufacturer_links'): ?>
                                         <label>
@@ -767,6 +777,32 @@ $portalAreaTitles = [
     });
 
     document.addEventListener('change', (event) => {
+        const previewUpload = event.target.closest('[data-preview-upload]');
+        if (previewUpload) {
+            const form = previewUpload.closest('form');
+            const preview = form?.querySelector('[data-upload-preview]');
+            const deleteCheckbox = form?.querySelector('[name="delete_glossary_image"]');
+            const file = previewUpload.files?.[0];
+            if (file && preview) {
+                preview.src = URL.createObjectURL(file);
+                preview.hidden = false;
+                if (deleteCheckbox) {
+                    deleteCheckbox.checked = false;
+                }
+            }
+            return;
+        }
+
+        const deleteGlossaryImage = event.target.closest('[name="delete_glossary_image"]');
+        if (deleteGlossaryImage) {
+            const form = deleteGlossaryImage.closest('form');
+            const preview = form?.querySelector('[data-upload-preview]');
+            if (preview) {
+                preview.hidden = deleteGlossaryImage.checked;
+            }
+            return;
+        }
+
         const qrSelect = event.target.closest('[data-qr-code-select]');
         if (qrSelect) {
             const form = qrSelect.closest('form');

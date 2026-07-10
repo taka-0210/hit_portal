@@ -235,7 +235,15 @@ final class DashboardController
             $entry['updated_at'] = date('Y-m-d H:i:s');
 
             $upload = $_FILES['glossary_image'] ?? [];
+            if (($grid['registration_type'] ?? '') === 'glossary' && !empty($_POST['delete_glossary_image'])) {
+                $this->deleteGridFile($entry);
+                unset($entry['file_id'], $entry['original_name'], $entry['storage_path'], $entry['mime_type'], $entry['file_size']);
+            }
+
             if (($upload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+                if (!empty($entry['storage_path'])) {
+                    $this->deleteGridFile($entry);
+                }
                 $entry = array_merge($entry, $this->saveGridImage($upload));
             }
 
@@ -813,6 +821,27 @@ final class DashboardController
             'mime_type' => 'image/webp',
             'file_size' => is_file($targetPath) ? filesize($targetPath) : 0,
         ];
+    }
+
+    private function deleteGridFile(array $entry): void
+    {
+        $storagePath = trim((string) ($entry['storage_path'] ?? ''));
+        if ($storagePath === '') {
+            return;
+        }
+
+        $baseDirectory = realpath(BASE_PATH . '/storage/private/grids');
+        $path = realpath(BASE_PATH . '/' . ltrim($storagePath, '/\\'));
+        if ($baseDirectory === false || $path === false || !is_file($path)) {
+            return;
+        }
+
+        $prefix = $baseDirectory . DIRECTORY_SEPARATOR;
+        if ($path === $baseDirectory || substr($path, 0, strlen($prefix)) !== $prefix) {
+            return;
+        }
+
+        unlink($path);
     }
 
     private function canSeeGrid(array $grid, ?array $user, array $departmentNames): bool
