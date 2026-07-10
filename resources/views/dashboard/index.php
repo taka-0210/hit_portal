@@ -43,6 +43,7 @@ $portalAreaTitles = [
                 <?php
                 $isCollapsed = ($grid['expand_type'] ?? 'open') === 'collapsed';
                 $bodyId = 'portal-grid-body-' . (int) ($grid['id'] ?? 0);
+                $canPostToGrid = $user !== null && (($grid['scope_type'] ?? 'all') !== 'all' || ($grid['post_permission'] ?? 'allowed') !== 'denied');
                 ?>
                 <article class="portal-section section-<?= e($grid['tone'] ?? 'green') ?> <?= $isCollapsed ? 'is-collapsible is-collapsed' : '' ?>">
                     <?php $entryDialogId = 'portal-entry-dialog-' . (int) ($grid['id'] ?? 0); ?>
@@ -51,7 +52,7 @@ $portalAreaTitles = [
                             <button class="portal-expand-button" type="button" data-toggle-grid="<?= e($bodyId) ?>" aria-expanded="false" aria-controls="<?= e($bodyId) ?>">▼</button>
                         <?php endif; ?>
                         <span><?= e($grid['title'] ?? '') ?></span>
-                        <?php if ($user !== null): ?>
+                        <?php if ($canPostToGrid): ?>
                             <button class="portal-add-button" type="button" data-open-dialog="<?= e($entryDialogId) ?>" aria-label="<?= e($grid['title'] ?? 'グリッド') ?>へ投稿">＋</button>
                         <?php endif; ?>
                     </h2>
@@ -235,7 +236,7 @@ $portalAreaTitles = [
                     <?php endif; ?>
                     </div>
 
-                    <?php if ($user !== null): ?>
+                    <?php if ($canPostToGrid): ?>
                         <dialog class="portal-modal" id="<?= e($entryDialogId) ?>">
                             <div class="portal-modal-panel">
                                 <div class="portal-modal-heading section-<?= e($grid['tone'] ?? 'green') ?>">

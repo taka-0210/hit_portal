@@ -91,6 +91,9 @@ $renderGridCard = static function (array $grid, int $columnNumber, int $gridInde
                 <span><?= e($scopeTypeLabels[$grid['scope_type'] ?? 'all'] ?? ($grid['scope_type'] ?? '')) ?></span>
                 <span><?= e($registrationTypeLabels[$grid['registration_type'] ?? 'links'] ?? '') ?></span>
                 <span><?= e($displayTypeLabels[$grid['display_type'] ?? 'list'] ?? '') ?></span>
+                <?php if (($grid['scope_type'] ?? 'all') === 'all'): ?>
+                    <span><?= ($grid['post_permission'] ?? 'allowed') === 'denied' ? '投稿不可' : '投稿可' ?></span>
+                <?php endif; ?>
                 <span><?= e($expandTypeLabels[$grid['expand_type'] ?? 'open'] ?? '通常表示') ?></span>
             </div>
 

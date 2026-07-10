@@ -1409,6 +1409,10 @@ final class AdminController
         if (!in_array($expandType, ['open', 'collapsed'], true)) {
             $expandType = 'open';
         }
+        $postPermission = trim($_POST['post_permission'] ?? 'allowed');
+        if (!in_array($postPermission, ['allowed', 'denied'], true)) {
+            $postPermission = 'allowed';
+        }
 
         return [
             'id' => (int) ($_POST['id'] ?? 0),
@@ -1421,6 +1425,7 @@ final class AdminController
             'registration_type' => $registrationType,
             'display_type' => $displayType,
             'expand_type' => $expandType,
+            'post_permission' => $postPermission,
             'status' => trim($_POST['status'] ?? 'draft'),
             'groups' => $this->parseGridGroups($registrationType),
         ];

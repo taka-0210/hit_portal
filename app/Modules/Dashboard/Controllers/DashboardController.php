@@ -105,6 +105,10 @@ final class DashboardController
                 http_response_code(403);
                 exit('Forbidden.');
             }
+            if (!$this->canPostToGrid($grid, $user)) {
+                http_response_code(403);
+                exit('Posting is disabled.');
+            }
 
             $registrationType = (string) ($grid['registration_type'] ?? 'links');
             $entry = $this->entryPayload($registrationType, $store);
@@ -600,6 +604,16 @@ final class DashboardController
         }
 
         return (int) ($entry['store_id'] ?? 0) === (int) ($user['department2_id'] ?? 0);
+    }
+
+    private function canPostToGrid(array $grid, ?array $user): bool
+    {
+        if ($user === null) {
+            return false;
+        }
+
+        return ($grid['scope_type'] ?? 'all') !== 'all'
+            || ($grid['post_permission'] ?? 'allowed') !== 'denied';
     }
 
     private function saveGridFile(array $file): array

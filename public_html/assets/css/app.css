@@ -196,7 +196,7 @@ th {
 .nav-disabled {
     border-radius: var(--radius);
     color: var(--text);
-    padding: 10px 12px;
+    padding: 10px 6px 10px 12px;
 }
 
 .nav a:hover {
@@ -729,7 +729,7 @@ h2 {
 
 .portal-todo-card {
     display: grid;
-    grid-template-columns: auto minmax(96px, 0.55fr) minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(96px, 0.55fr) minmax(0, 1fr) minmax(56px, auto);
     gap: 10px;
     align-items: center;
     min-height: 58px;
@@ -821,11 +821,12 @@ h2 {
 .portal-todo-image-button {
     display: grid;
     place-items: center;
+    justify-self: end;
     width: 56px;
     height: 42px;
-    border: 1px solid var(--line);
+    border: 0;
     border-radius: var(--radius);
-    background: #fff url("../img/image-icon.png") center / 25px auto no-repeat;
+    background: transparent url("../img/image-icon.png") center / 25px auto no-repeat;
     padding: 0;
     color: var(--muted);
     cursor: zoom-in;

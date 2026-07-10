@@ -69,6 +69,14 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
                     <?php endforeach; ?>
                 </select>
             </label>
+            <label data-post-permission-field>
+                <span>投稿許可</span>
+                <select name="post_permission">
+                    <option value="allowed" <?= ($grid['post_permission'] ?? 'allowed') !== 'denied' ? 'selected' : '' ?>>許可</option>
+                    <option value="denied" <?= ($grid['post_permission'] ?? 'allowed') === 'denied' ? 'selected' : '' ?>>不許可</option>
+                </select>
+                <small class="field-hint">共通グリッドで不許可にすると、ポータルTOPの投稿ボタンを非表示にします。</small>
+            </label>
             <label>
                 <span>公開設定</span>
                 <select name="status">
@@ -264,6 +272,7 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
     const displayTypeSelect = document.querySelector('[data-display-type-select]');
     const scopeTypeSelect = document.querySelector('[data-scope-type-select]');
     const scopeTargetField = document.querySelector('[data-scope-target-field]');
+    const postPermissionField = document.querySelector('[data-post-permission-field]');
     const panels = document.querySelectorAll('[data-registration-panel]');
     const linkRows = document.querySelector('[data-link-rows]');
     const linkTemplate = document.querySelector('#link-row-template');
@@ -296,6 +305,9 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
         }
 
         scopeTargetField.hidden = !['company', 'store'].includes(scopeTypeSelect.value);
+        if (postPermissionField) {
+            postPermissionField.hidden = scopeTypeSelect.value !== 'all';
+        }
     };
 
     addButton?.addEventListener('click', () => {
