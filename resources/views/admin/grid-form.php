@@ -95,7 +95,11 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
                         <input name="link_label[]" value="<?= e($row['label']) ?>" placeholder="例: 厨房君PRO">
                         <input name="link_url[]" value="<?= e($row['url']) ?>" placeholder="https://example.com">
                         <input type="hidden" name="link_created_at[]" value="<?= e($row['created_at'] ?? '') ?>">
-                        <button class="button ghost" type="button" data-remove-link-row>削除</button>
+                        <div class="row-actions">
+                            <button class="button ghost icon-button" type="button" data-move-link-row="up" aria-label="上へ移動">&uarr;</button>
+                            <button class="button ghost icon-button" type="button" data-move-link-row="down" aria-label="下へ移動">&darr;</button>
+                            <button class="button ghost" type="button" data-remove-link-row>削除</button>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -196,7 +200,11 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
         <input name="link_label[]" placeholder="例: 厨房君PRO">
         <input name="link_url[]" placeholder="https://example.com">
         <input type="hidden" name="link_created_at[]">
-        <button class="button ghost" type="button" data-remove-link-row>削除</button>
+        <div class="row-actions">
+            <button class="button ghost icon-button" type="button" data-move-link-row="up" aria-label="上へ移動">&uarr;</button>
+            <button class="button ghost icon-button" type="button" data-move-link-row="down" aria-label="下へ移動">&darr;</button>
+            <button class="button ghost" type="button" data-remove-link-row>削除</button>
+        </div>
     </div>
 </template>
 
@@ -315,6 +323,22 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
     });
 
     linkRows?.addEventListener('click', (event) => {
+        const moveButton = event.target.closest('[data-move-link-row]');
+        if (moveButton) {
+            const row = moveButton.closest('.link-row');
+            if (!row) {
+                return;
+            }
+
+            if (moveButton.dataset.moveLinkRow === 'up' && row.previousElementSibling) {
+                linkRows.insertBefore(row, row.previousElementSibling);
+            }
+            if (moveButton.dataset.moveLinkRow === 'down' && row.nextElementSibling) {
+                linkRows.insertBefore(row.nextElementSibling, row);
+            }
+            return;
+        }
+
         const button = event.target.closest('[data-remove-link-row]');
         if (!button) {
             return;

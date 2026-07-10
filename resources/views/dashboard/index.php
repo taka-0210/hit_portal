@@ -202,8 +202,8 @@ $portalAreaTitles = [
                                         <?php foreach (($group['entries'] ?? []) as $entry): ?>
                                             <?php
                                             $qrCodeId = (int) ($entry['qr_code_id'] ?? 0);
-                                            $isQrEntry = !isset($entry['file_id']) && $qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]);
                                             $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : (($qrCodeUrlMap[$qrCodeId] ?? null) ?: ($entry['url'] ?? '#'));
+                                            $isQrEntry = !isset($entry['file_id']) && ($qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]) || strpos((string) $entryUrl, '/uploads/qr-codes/') !== false);
                                             ?>
                                             <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '"' : '' ?>>
                                                 <span><?= e($entry['label'] ?? '') ?></span>
@@ -222,8 +222,8 @@ $portalAreaTitles = [
                                 <?php foreach (($group['entries'] ?? []) as $entry): ?>
                                     <?php
                                     $qrCodeId = (int) ($entry['qr_code_id'] ?? 0);
-                                    $isQrEntry = !isset($entry['file_id']) && $qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]);
                                     $entryUrl = isset($entry['file_id']) ? route_url('grid.file', ['grid_id' => (int) $grid['id'], 'file_id' => $entry['file_id']]) : (($qrCodeUrlMap[$qrCodeId] ?? null) ?: ($entry['url'] ?? '#'));
+                                    $isQrEntry = !isset($entry['file_id']) && ($qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]) || strpos((string) $entryUrl, '/uploads/qr-codes/') !== false);
                                     ?>
                                     <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '"' : '' ?>>
                                         <span><?= e($entry['label'] ?? '') ?></span>
