@@ -1931,6 +1931,31 @@ a.list-row:hover {
     gap: 6px;
 }
 
+.manufacturer-name-line {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.manufacturer-name-line .field-title-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.manufacturer-name-line .inline-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.manufacturer-name-line .inline-check input {
+    width: auto;
+    min-height: 0;
+}
+
 .todo-editor label span,
 .glossary-editor label span {
     color: var(--muted);

@@ -8,7 +8,7 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
     <p class="lead">色、対象範囲、登録方法、表示方法を設定します。表示位置はグリッド管理画面の矢印で調整します。</p>
 </section>
 
-<form class="panel staff-form grid-editor-form" method="post" action="<?= $action ?>" enctype="multipart/form-data">
+<form class="panel staff-form grid-editor-form" method="post" action="<?= $action ?>" enctype="multipart/form-data" data-grid-editor-form>
     <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
     <?php if ($isEdit): ?>
         <input type="hidden" name="id" value="<?= (int) $grid['id'] ?>">
@@ -41,10 +41,8 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
             <label data-scope-target-field><span>対象名</span><input name="scope_target" value="<?= e($grid['scope_target'] ?? '') ?>" placeholder="例: 直営 / 播磨店"></label>
             <label>
                 <span>登録方法</span>
-                <?php if ($isEdit): ?>
-                    <input type="hidden" name="registration_type" value="<?= e($grid['registration_type'] ?? 'links') ?>">
-                <?php endif; ?>
-                <select name="registration_type" <?= $isEdit ? 'disabled' : '' ?>>
+                <input type="hidden" name="registration_type" value="<?= e($grid['registration_type'] ?? 'links') ?>" data-registration-type-hidden>
+                <select name="registration_type_select" data-registration-type-select <?= $isEdit ? 'disabled' : '' ?>>
                     <?php foreach ($registrationTypeLabels as $key => $label): ?>
                         <option value="<?= e($key) ?>" <?= ($grid['registration_type'] ?? 'links') === $key ? 'selected' : '' ?>><?= e($label) ?></option>
                     <?php endforeach; ?>
@@ -228,14 +226,20 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
 
         <div class="grid-content-editor glossary-editor" data-registration-panel="manufacturer_links">
             <div class="glossary-rows" data-manufacturer-rows>
-                <?php foreach (($manufacturerRows ?? []) as $row): ?>
+                <?php foreach (($manufacturerRows ?? []) as $rowIndex => $row): ?>
                     <div class="manufacturer-row glossary-row">
-                        <label>
-                            <span>メーカー名</span>
+                        <label class="manufacturer-name-line">
+                            <span class="field-title-line">
+                                <span>メーカー名</span>
+                                <span class="inline-check">
+                                    <input type="checkbox" name="manufacturer_use_name_index[<?= (int) $rowIndex ?>]" value="1" <?= !empty($row['use_name_index']) ? 'checked' : '' ?>>
+                                    <span>検索で使用</span>
+                                </span>
+                            </span>
                             <input name="manufacturer_name[]" value="<?= e($row['name'] ?? '') ?>" placeholder="例: フクシマガリレイ">
                         </label>
                         <label>
-                            <span>読み</span>
+                            <span>読み（検索用）</span>
                             <input name="manufacturer_reading[]" value="<?= e($row['reading'] ?? '') ?>" placeholder="例: フクシマガリレイ">
                         </label>
                         <label>
@@ -358,12 +362,18 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
 
 <template id="manufacturer-row-template">
     <div class="manufacturer-row glossary-row">
-        <label>
-            <span>メーカー名</span>
+        <label class="manufacturer-name-line">
+            <span class="field-title-line">
+                <span>メーカー名</span>
+                <span class="inline-check">
+                    <input type="checkbox" name="manufacturer_use_name_index[]" value="1">
+                    <span>検索で使用</span>
+                </span>
+            </span>
             <input name="manufacturer_name[]" placeholder="例: フクシマガリレイ">
         </label>
         <label>
-            <span>読み</span>
+            <span>読み（検索用）</span>
             <input name="manufacturer_reading[]" placeholder="例: フクシマガリレイ">
         </label>
         <label>
@@ -377,7 +387,9 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
 
 <script>
 (() => {
-    const registrationSelect = document.querySelector('[name="registration_type"]');
+    const form = document.querySelector('[data-grid-editor-form]');
+    const registrationHidden = document.querySelector('[data-registration-type-hidden]');
+    const registrationSelect = document.querySelector('[data-registration-type-select]') || document.querySelector('[name="registration_type"]');
     const displayTypeSelect = document.querySelector('[data-display-type-select]');
     const scopeTypeSelect = document.querySelector('[data-scope-type-select]');
     const scopeTargetField = document.querySelector('[data-scope-target-field]');
@@ -400,10 +412,19 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
     const addManufacturerButton = document.querySelector('[data-add-manufacturer-row]');
 
     const syncPanels = () => {
-        const value = registrationSelect?.value || 'links';
+        if (registrationHidden && registrationSelect && !registrationSelect.disabled) {
+            registrationHidden.value = registrationSelect.value;
+        }
+        const value = registrationHidden?.value || registrationSelect?.value || 'links';
         panels.forEach((panel) => {
             const isActive = panel.dataset.registrationPanel === value;
             panel.hidden = !isActive;
+            panel.querySelectorAll('input, select, textarea').forEach((field) => {
+                if (field.type === 'hidden') {
+                    return;
+                }
+                field.disabled = !isActive;
+            });
         });
         if (displayTypeSelect) {
             const isListOnly = ['manual', 'todo', 'glossary', 'manufacturer_links'].includes(value);
@@ -567,6 +588,22 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
 
     registrationSelect?.addEventListener('change', syncPanels);
     scopeTypeSelect?.addEventListener('change', syncScopeTarget);
+    form?.addEventListener('submit', () => {
+        const value = registrationHidden?.value || registrationSelect?.value || 'links';
+        panels.forEach((panel) => {
+            const isActive = panel.dataset.registrationPanel === value;
+            panel.querySelectorAll('input, select, textarea').forEach((field) => {
+                if (field.type === 'hidden') {
+                    field.disabled = !isActive;
+                    return;
+                }
+                field.disabled = !isActive;
+            });
+        });
+        if (displayTypeSelect) {
+            displayTypeSelect.disabled = false;
+        }
+    });
     syncPanels();
     syncScopeTarget();
 })();

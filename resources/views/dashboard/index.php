@@ -64,6 +64,54 @@ $glossaryIndexKey = static function (string $term): string {
 
     return in_array($first, $kana, true) ? $first : 'その他';
 };
+$kanaIndexKey = static function (string $term): string {
+    $term = trim($term);
+    if ($term === '') {
+        return 'その他';
+    }
+
+    $first = function_exists('mb_substr') ? mb_substr($term, 0, 1, 'UTF-8') : substr($term, 0, 1);
+    if (function_exists('mb_convert_kana')) {
+        $first = mb_convert_kana($first, 'KVc', 'UTF-8');
+    }
+
+    $map = [
+        'ア' => 'あ', 'イ' => 'い', 'ウ' => 'う', 'エ' => 'え', 'オ' => 'お',
+        'カ' => 'か', 'キ' => 'き', 'ク' => 'く', 'ケ' => 'け', 'コ' => 'こ',
+        'サ' => 'さ', 'シ' => 'し', 'ス' => 'す', 'セ' => 'せ', 'ソ' => 'そ',
+        'タ' => 'た', 'チ' => 'ち', 'ツ' => 'つ', 'テ' => 'て', 'ト' => 'と',
+        'ナ' => 'な', 'ニ' => 'に', 'ヌ' => 'ぬ', 'ネ' => 'ね', 'ノ' => 'の',
+        'ハ' => 'は', 'ヒ' => 'ひ', 'フ' => 'ふ', 'ヘ' => 'へ', 'ホ' => 'ほ',
+        'マ' => 'ま', 'ミ' => 'み', 'ム' => 'む', 'メ' => 'め', 'モ' => 'も',
+        'ヤ' => 'や', 'ユ' => 'ゆ', 'ヨ' => 'よ',
+        'ラ' => 'ら', 'リ' => 'り', 'ル' => 'る', 'レ' => 'れ', 'ロ' => 'ろ',
+        'ワ' => 'わ', 'ヲ' => 'を', 'ン' => 'ん',
+        'ガ' => 'か', 'ギ' => 'き', 'グ' => 'く', 'ゲ' => 'け', 'ゴ' => 'こ',
+        'ザ' => 'さ', 'ジ' => 'し', 'ズ' => 'す', 'ゼ' => 'せ', 'ゾ' => 'そ',
+        'ダ' => 'た', 'ヂ' => 'ち', 'ヅ' => 'つ', 'デ' => 'て', 'ド' => 'と',
+        'バ' => 'は', 'ビ' => 'ひ', 'ブ' => 'ふ', 'ベ' => 'へ', 'ボ' => 'ほ',
+        'パ' => 'は', 'ピ' => 'ひ', 'プ' => 'ふ', 'ペ' => 'へ', 'ポ' => 'ほ',
+        'ぁ' => 'あ', 'ぃ' => 'い', 'ぅ' => 'う', 'ぇ' => 'え', 'ぉ' => 'お',
+        'ゃ' => 'や', 'ゅ' => 'ゆ', 'ょ' => 'よ', 'っ' => 'つ',
+        'が' => 'か', 'ぎ' => 'き', 'ぐ' => 'く', 'げ' => 'け', 'ご' => 'こ',
+        'ざ' => 'さ', 'じ' => 'し', 'ず' => 'す', 'ぜ' => 'せ', 'ぞ' => 'そ',
+        'だ' => 'た', 'ぢ' => 'ち', 'づ' => 'つ', 'で' => 'て', 'ど' => 'と',
+        'ば' => 'は', 'び' => 'ひ', 'ぶ' => 'ふ', 'べ' => 'へ', 'ぼ' => 'ほ',
+        'ぱ' => 'は', 'ぴ' => 'ひ', 'ぷ' => 'ふ', 'ぺ' => 'へ', 'ぽ' => 'ほ',
+    ];
+    $first = $map[$first] ?? $first;
+    $kana = ['あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し', 'す', 'せ', 'そ', 'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ', 'ま', 'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'り', 'る', 'れ', 'ろ', 'わ', 'を', 'ん'];
+
+    return in_array($first, $kana, true) ? $first : 'その他';
+};
+$manufacturerIndexKeys = static function (string $name, string $reading, bool $useNameIndex) use ($kanaIndexKey): array {
+    $keys = [$kanaIndexKey($reading !== '' ? $reading : $name)];
+    if ($useNameIndex && preg_match('/^[A-Za-z]/', $name) === 1) {
+        $keys[] = strtoupper(substr($name, 0, 1));
+    }
+
+    return array_values(array_unique($keys));
+};
 ?>
 <?php if (($portalSettings['hero_message'] ?? '') !== ''): ?>
     <section class="portal-hero">
@@ -120,7 +168,8 @@ $portalAreaTitles = [
                                     continue;
                                 }
                                 $reading = trim((string) ($entry['reading'] ?? ''));
-                                $entry['index_key'] = $glossaryIndexKey($reading !== '' ? $reading : $name);
+                                $entry['index_keys'] = $manufacturerIndexKeys($name, $reading, !empty($entry['use_name_index']));
+                                $entry['index_key'] = $entry['index_keys'][0] ?? 'その他';
                                 $entry['group_index'] = $groupIndex;
                                 $entry['entry_index'] = $entryIndex;
                                 $manufacturerEntries[] = $entry;
@@ -133,7 +182,9 @@ $portalAreaTitles = [
                         });
                         $availableManufacturerKeys = [];
                         foreach ($manufacturerEntries as $entry) {
-                            $availableManufacturerKeys[(string) ($entry['index_key'] ?? 'その他')] = true;
+                            foreach (($entry['index_keys'] ?? [$entry['index_key'] ?? 'その他']) as $indexKey) {
+                                $availableManufacturerKeys[(string) $indexKey] = true;
+                            }
                         }
                         $manufacturerGridId = (int) ($grid['id'] ?? 0);
                         $manufacturerBrowserId = 'portal-manufacturer-browser-' . $manufacturerGridId;
@@ -154,8 +205,11 @@ $portalAreaTitles = [
                                     <div class="portal-modal-body portal-glossary-browser">
                                         <div class="portal-glossary-list" data-glossary-list>
                                 <?php foreach ($manufacturerEntries as $manufacturerIndex => $entry): ?>
-                                    <?php $manufacturerDetailId = 'portal-manufacturer-detail-' . $manufacturerGridId . '-' . $manufacturerIndex; ?>
-                                    <button class="portal-glossary-term" type="button" data-glossary-key="<?= e($entry['index_key'] ?? 'その他') ?>" data-glossary-detail="<?= e($manufacturerDetailId) ?>">
+                                    <?php
+                                    $manufacturerDetailId = 'portal-manufacturer-detail-' . $manufacturerGridId . '-' . $manufacturerIndex;
+                                    $manufacturerKeys = $entry['index_keys'] ?? [$entry['index_key'] ?? 'その他'];
+                                    ?>
+                                    <button class="portal-glossary-term" type="button" data-glossary-key="<?= e($manufacturerKeys[0] ?? 'その他') ?>" data-glossary-keys="<?= e(implode(' ', $manufacturerKeys)) ?>" data-glossary-detail="<?= e($manufacturerDetailId) ?>">
                                         <span><?= e($entry['label'] ?? '') ?></span>
                                         <?php if (($entry['reading'] ?? '') !== ''): ?>
                                             <small><?= e($entry['reading']) ?></small>
@@ -183,12 +237,18 @@ $portalAreaTitles = [
                                             <input type="hidden" name="grid_id" value="<?= $manufacturerGridId ?>">
                                             <input type="hidden" name="group_index" value="<?= (int) ($entry['group_index'] ?? 0) ?>">
                                             <input type="hidden" name="entry_index" value="<?= (int) ($entry['entry_index'] ?? 0) ?>">
-                                            <label>
-                                                <span>メーカー名</span>
+                                            <label class="manufacturer-name-line">
+                                                <span class="field-title-line">
+                                                    <span>メーカー名</span>
+                                                    <span class="inline-check">
+                                                        <input type="checkbox" name="manufacturer_use_name_index" value="1" <?= !empty($entry['use_name_index']) ? 'checked' : '' ?>>
+                                                        <span>検索で使用</span>
+                                                    </span>
+                                                </span>
                                                 <input name="manufacturer_name" value="<?= e($entry['label'] ?? '') ?>" required>
                                             </label>
                                             <label>
-                                                <span>読み</span>
+                                                <span>読み（検索用）</span>
                                                 <input name="manufacturer_reading" value="<?= e($entry['reading'] ?? '') ?>" placeholder="例: フクシマガリレイ">
                                             </label>
                                             <label>
@@ -599,12 +659,18 @@ $portalAreaTitles = [
                                             <input type="file" name="glossary_image" accept="image/*" data-preview-upload>
                                         </label>
                                     <?php elseif (($grid['registration_type'] ?? '') === 'manufacturer_links'): ?>
-                                        <label>
-                                            <span>メーカー名</span>
+                                        <label class="manufacturer-name-line">
+                                            <span class="field-title-line">
+                                                <span>メーカー名</span>
+                                                <span class="inline-check">
+                                                    <input type="checkbox" name="manufacturer_use_name_index" value="1">
+                                                    <span>検索で使用</span>
+                                                </span>
+                                            </span>
                                             <input name="manufacturer_name" required>
                                         </label>
                                         <label>
-                                            <span>読み</span>
+                                            <span>読み（検索用）</span>
                                             <input name="manufacturer_reading" placeholder="例: フクシマガリレイ">
                                         </label>
                                         <label>
@@ -649,6 +715,14 @@ $portalAreaTitles = [
 <script>
 (() => {
     document.addEventListener('click', (event) => {
+        const glossaryItemHasKey = (item, key) => {
+            if (key === 'all') {
+                return true;
+            }
+            const keys = (item.dataset.glossaryKeys || item.dataset.glossaryKey || '').split(/\s+/).filter(Boolean);
+            return keys.includes(key);
+        };
+
         const toggleButton = event.target.closest('[data-toggle-grid]');
         if (toggleButton) {
             const body = document.getElementById(toggleButton.dataset.toggleGrid);
@@ -697,7 +771,7 @@ $portalAreaTitles = [
                 dialog.dataset.glossaryActiveKey = key;
             }
             dialog?.querySelectorAll('[data-glossary-key]').forEach((item) => {
-                item.hidden = key !== 'all' && item.dataset.glossaryKey !== key;
+                item.hidden = !glossaryItemHasKey(item, key);
                 item.classList.remove('is-selected');
             });
             dialog?.querySelectorAll('.portal-glossary-detail').forEach((detail) => {
@@ -734,7 +808,7 @@ $portalAreaTitles = [
                 detail.classList.remove('is-editing');
             });
             dialog?.querySelectorAll('[data-glossary-key]').forEach((item) => {
-                item.hidden = key !== 'all' && item.dataset.glossaryKey !== key;
+                item.hidden = !glossaryItemHasKey(item, key);
                 item.classList.remove('is-selected');
             });
             return;

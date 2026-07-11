@@ -226,6 +226,7 @@ final class DashboardController
                 $entry['label'] = trim((string) ($_POST['manufacturer_name'] ?? $entry['label'] ?? ''));
                 $entry['reading'] = trim((string) ($_POST['manufacturer_reading'] ?? $entry['reading'] ?? ''));
                 $entry['url'] = trim((string) ($_POST['manufacturer_url'] ?? $entry['url'] ?? '#')) ?: '#';
+                $entry['use_name_index'] = !empty($_POST['manufacturer_use_name_index']);
             } else {
                 $entry['label'] = trim((string) ($_POST['glossary_term'] ?? $entry['label'] ?? ''));
                 $entry['reading'] = trim((string) ($_POST['glossary_reading'] ?? $entry['reading'] ?? ''));
@@ -526,6 +527,7 @@ final class DashboardController
                 'label' => $name !== '' ? $name : $url,
                 'url' => $url !== '' ? $url : '#',
                 'reading' => $reading,
+                'use_name_index' => !empty($_POST['manufacturer_use_name_index']),
             ];
         }
 

@@ -1800,6 +1800,7 @@ final class AdminController
         $nameValues = $_POST['manufacturer_name'] ?? [];
         $readingValues = $_POST['manufacturer_reading'] ?? [];
         $urlValues = $_POST['manufacturer_url'] ?? [];
+        $useNameIndexValues = $_POST['manufacturer_use_name_index'] ?? [];
         $createdAtValues = $_POST['manufacturer_created_at'] ?? [];
         $now = date('Y-m-d H:i:s');
 
@@ -1815,6 +1816,7 @@ final class AdminController
                 'label' => $name !== '' ? $name : $url,
                 'url' => $url !== '' ? $url : '#',
                 'reading' => $reading,
+                'use_name_index' => !empty($useNameIndexValues[$index]),
                 'created_at' => trim((string) ($createdAtValues[$index] ?? '')) ?: $now,
             ];
         }
@@ -2100,6 +2102,7 @@ final class AdminController
                     'name' => (string) ($entry['label'] ?? ''),
                     'reading' => (string) ($entry['reading'] ?? ''),
                     'url' => (string) ($entry['url'] ?? ''),
+                    'use_name_index' => !empty($entry['use_name_index']),
                     'created_at' => (string) ($entry['created_at'] ?? ''),
                 ];
             }
@@ -2114,6 +2117,7 @@ final class AdminController
             'name' => '',
             'reading' => '',
             'url' => '',
+            'use_name_index' => false,
             'created_at' => '',
         ];
     }
