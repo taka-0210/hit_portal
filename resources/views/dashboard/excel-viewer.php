@@ -12,7 +12,10 @@
         <a class="button primary" href="<?= e($fileUrl) ?>" download>ダウンロード</a>
     </header>
 
-    <div class="excel-viewer-status" data-excel-status>読み込み中...</div>
+    <div class="excel-viewer-meta">
+        <div class="excel-viewer-status" data-excel-status>読み込み中...</div>
+        <button class="button ghost" type="button" data-excel-load-more hidden>さらに表示</button>
+    </div>
     <div class="excel-viewer-table-wrap" data-excel-table-wrap></div>
 </section>
 
@@ -23,9 +26,13 @@
     const sheetSelect = document.querySelector('[data-excel-sheet-select]');
     const status = document.querySelector('[data-excel-status]');
     const tableWrap = document.querySelector('[data-excel-table-wrap]');
+    const loadMoreButton = document.querySelector('[data-excel-load-more]');
     let workbook = null;
+    let activeRows = [];
+    let visibleRowCount = 300;
+    const pageSize = 300;
 
-    if (!viewer || !sheetSelect || !status || !tableWrap) {
+    if (!viewer || !sheetSelect || !status || !tableWrap || !loadMoreButton) {
         return;
     }
 
@@ -36,26 +43,25 @@
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 
-    const renderSheet = (sheetName) => {
-        if (!workbook || !workbook.Sheets[sheetName]) {
-            return;
-        }
+    const resizeTable = () => {
+        const rect = tableWrap.getBoundingClientRect();
+        const bottomPadding = window.matchMedia('(max-width: 700px)').matches ? 12 : 24;
+        const minHeight = window.matchMedia('(max-width: 700px)').matches ? 300 : 360;
+        const nextHeight = Math.max(minHeight, window.innerHeight - rect.top - bottomPadding);
+        tableWrap.style.height = `${nextHeight}px`;
+    };
 
-        const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
-            header: 1,
-            blankrows: false,
-            defval: ''
-        });
-
-        if (rows.length === 0) {
+    const renderRows = () => {
+        if (activeRows.length === 0) {
             status.textContent = '表示できるデータがありません。';
             tableWrap.innerHTML = '';
+            loadMoreButton.hidden = true;
             return;
         }
 
-        const limitedRows = rows.slice(0, 300);
-        const columnCount = limitedRows.reduce((max, row) => Math.max(max, row.length), 0);
-        const htmlRows = limitedRows.map((row, rowIndex) => {
+        const visibleRows = activeRows.slice(0, visibleRowCount);
+        const columnCount = visibleRows.reduce((max, row) => Math.max(max, row.length), 0);
+        const htmlRows = visibleRows.map((row, rowIndex) => {
             const cells = [];
             for (let columnIndex = 0; columnIndex < columnCount; columnIndex += 1) {
                 const tag = rowIndex === 0 ? 'th' : 'td';
@@ -64,10 +70,27 @@
             return `<tr>${cells.join('')}</tr>`;
         });
 
-        status.textContent = rows.length > limitedRows.length
-            ? `先頭${limitedRows.length}行を表示しています。`
-            : '';
+        const shown = Math.min(visibleRowCount, activeRows.length);
+        status.textContent = activeRows.length > shown
+            ? `${activeRows.length}行中 ${shown}行を表示しています。`
+            : `${activeRows.length}行を表示しています。`;
         tableWrap.innerHTML = `<table class="excel-viewer-table"><tbody>${htmlRows.join('')}</tbody></table>`;
+        loadMoreButton.hidden = shown >= activeRows.length;
+        resizeTable();
+    };
+
+    const renderSheet = (sheetName) => {
+        if (!workbook || !workbook.Sheets[sheetName]) {
+            return;
+        }
+
+        activeRows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+            header: 1,
+            blankrows: false,
+            defval: ''
+        });
+        visibleRowCount = pageSize;
+        renderRows();
     };
 
     if (typeof XLSX === 'undefined') {
@@ -100,5 +123,13 @@
     sheetSelect.addEventListener('change', (event) => {
         renderSheet(event.target.value);
     });
+
+    loadMoreButton.addEventListener('click', () => {
+        visibleRowCount += pageSize;
+        renderRows();
+    });
+
+    window.addEventListener('resize', resizeTable);
+    requestAnimationFrame(resizeTable);
 })();
 </script>

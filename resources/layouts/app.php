@@ -22,7 +22,7 @@ if ($companyId > 0) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= e($app['name']) ?></title>
-    <link rel="stylesheet" href="<?= e(asset_url('assets/css/app.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset_url('assets/css/app.css') . '?v=' . filemtime(BASE_PATH . '/public_html/assets/css/app.css')) ?>">
 </head>
 <body>
 <div class="app-shell <?= $showsSidebar ? '' : 'is-staff-shell' ?>" data-app-shell>
