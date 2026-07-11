@@ -115,7 +115,7 @@ final class DashboardController
             if ($entry === null) {
                 redirect('dashboard');
             }
-            if (($grid['scope_type'] ?? '') === 'store_shared') {
+            if ($this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) === 'store_shared') {
                 $entry['store_id'] = (int) ($user['department2_id'] ?? 0);
             }
 
@@ -620,7 +620,7 @@ final class DashboardController
 
     private function gridArea(array $grid): string
     {
-        $scope = (string) ($grid['scope_type'] ?? 'all');
+        $scope = $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all'));
         if ($scope === 'company') {
             return 'company';
         }
@@ -636,7 +636,7 @@ final class DashboardController
 
     private function filterGridEntriesForStore(array $grid, int $storeId, ?array $user): array
     {
-        if (($grid['scope_type'] ?? '') !== 'store_shared' || ($user['role'] ?? '') === 'system_admin') {
+        if ($this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) !== 'store_shared' || ($user['role'] ?? '') === 'system_admin') {
             return $grid;
         }
 
@@ -671,7 +671,7 @@ final class DashboardController
         $refs = [];
         foreach (($grid['groups'] ?? []) as $groupIndex => $group) {
             foreach (($group['entries'] ?? []) as $entryIndex => $entry) {
-                if (($grid['scope_type'] ?? '') === 'store_shared' && ($user['role'] ?? '') !== 'system_admin' && (int) ($entry['store_id'] ?? 0) !== $storeId) {
+                if ($this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) === 'store_shared' && ($user['role'] ?? '') !== 'system_admin' && (int) ($entry['store_id'] ?? 0) !== $storeId) {
                     continue;
                 }
 
@@ -695,7 +695,7 @@ final class DashboardController
 
     private function canUseGridEntry(array $grid, array $entry, ?array $user): bool
     {
-        if (($grid['scope_type'] ?? '') !== 'store_shared' || ($user['role'] ?? '') === 'system_admin') {
+        if ($this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) !== 'store_shared' || ($user['role'] ?? '') === 'system_admin') {
             return true;
         }
 
@@ -708,7 +708,7 @@ final class DashboardController
             return false;
         }
 
-        return ($grid['scope_type'] ?? 'all') !== 'all'
+        return $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) !== 'all'
             || ($grid['post_permission'] ?? 'allowed') !== 'denied';
     }
 
@@ -846,20 +846,27 @@ final class DashboardController
 
     private function canSeeGrid(array $grid, ?array $user, array $departmentNames): bool
     {
+        $scope = $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all'));
+
         if ($user === null) {
-            return ($grid['scope_type'] ?? 'all') === 'all';
+            return $scope === 'all';
         }
 
-        $scope = $grid['scope_type'] ?? 'all';
         if (($user['role'] ?? '') === 'system_admin') {
-            return $scope !== 'company';
+            return $scope === 'all';
         }
 
         if ($scope === 'all') {
             return true;
         }
         if ($scope === 'store_shared') {
-            return (int) ($user['department2_id'] ?? 0) > 0;
+            $target = trim((string) ($grid['scope_target'] ?? ''));
+            if ($target === '') {
+                return false;
+            }
+
+            $userCompanyName = $departmentNames[(int) ($user['department1_id'] ?? 0)] ?? '';
+            return $target === $userCompanyName && (int) ($user['department2_id'] ?? 0) > 0;
         }
         if ($scope === 'company') {
             $target = trim((string) ($grid['scope_target'] ?? ''));
@@ -873,9 +880,7 @@ final class DashboardController
 
         $target = trim((string) ($grid['scope_target'] ?? ''));
         if ($target === '') {
-            return $scope === 'store'
-                ? (int) ($user['department2_id'] ?? 0) > 0
-                : (int) ($user['department1_id'] ?? $user['department_id'] ?? 0) > 0;
+            return false;
         }
 
         $userDepartmentName = $departmentNames[(int) ($user['department1_id'] ?? $user['department_id'] ?? 0)] ?? '';
@@ -886,10 +891,23 @@ final class DashboardController
             : $target === $userDepartmentName;
     }
 
+    private function normalizeGridScopeType(string $scopeType): string
+    {
+        return in_array($scopeType, ['all', 'company', 'store_shared', 'store'], true) ? $scopeType : 'all';
+    }
+
     private function writeGridSections(array $grids): void
     {
         $path = BASE_PATH . '/storage/data/grid_sections.json';
-        file_put_contents($path, json_encode(array_values($grids), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        $json = json_encode(array_values($grids), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if ($json === false) {
+            throw new \RuntimeException('JSON data could not be encoded: grid_sections');
+        }
+
+        $result = file_put_contents($path, $json);
+        if ($result === false) {
+            throw new \RuntimeException('JSON data could not be written: ' . $path);
+        }
     }
 
     private function departmentNames(array $departments): array

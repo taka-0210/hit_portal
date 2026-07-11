@@ -419,7 +419,7 @@ $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.sto
             return;
         }
 
-        scopeTargetField.hidden = !['company', 'store'].includes(scopeTypeSelect.value);
+        scopeTargetField.hidden = !['company', 'store_shared', 'store'].includes(scopeTypeSelect.value);
         if (postPermissionField) {
             postPermissionField.hidden = scopeTypeSelect.value !== 'all';
         }

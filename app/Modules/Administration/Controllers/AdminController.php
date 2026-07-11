@@ -524,6 +524,7 @@ final class AdminController
 
         $grids = $this->store->all('grid_sections');
         $payload = $this->gridPayload();
+        $payload = $this->forceSystemAdminGridScope($payload);
         $payload = $this->forceCompanyAdminGridScope($payload);
         $payload = $this->forceStoreAdminGridScope($payload);
         $payload['column'] = 3;
@@ -571,6 +572,7 @@ final class AdminController
         $this->assertCanManageGrid($current);
 
         $payload = $this->gridPayload((string) ($current['registration_type'] ?? 'links'));
+        $payload = $this->forceSystemAdminGridScope($payload);
         $payload = $this->forceCompanyAdminGridScope($payload);
         $payload = $this->forceStoreAdminGridScope($payload);
         $payload['registration_type'] = $current['registration_type'] ?? 'links';
@@ -578,6 +580,7 @@ final class AdminController
         $payload['sort_order'] = (int) ($current['sort_order'] ?? 0);
 
         $this->store->save('grid_sections', array_merge($current, $payload));
+        $_SESSION['flash'] = 'グリッドを更新しました。';
         redirect('admin.grids');
     }
 
@@ -783,14 +786,21 @@ final class AdminController
 
     private function assertCanManageGrid(array $grid): void
     {
+        $scopeType = $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all'));
+
         if ($this->isSystemAdmin()) {
+            if ($scopeType !== 'all') {
+                http_response_code(403);
+                exit('System admins can manage only common grids here.');
+            }
+
             return;
         }
 
         if ($this->isCompanyAdmin()) {
-            if (($grid['scope_type'] ?? '') !== 'company') {
+            if (!in_array($scopeType, ['company', 'store_shared'], true)) {
                 http_response_code(403);
-                exit('Company admins can manage only company shared grids.');
+                exit('Company admins can manage only their own company grids.');
             }
 
             $target = trim((string) ($grid['scope_target'] ?? ''));
@@ -807,7 +817,7 @@ final class AdminController
             exit('Forbidden.');
         }
 
-        if (($grid['scope_type'] ?? '') !== 'store') {
+        if ($scopeType !== 'store') {
             http_response_code(403);
             exit('Store admins can manage only store dedicated grids.');
         }
@@ -830,20 +840,33 @@ final class AdminController
         return $payload;
     }
 
+    private function forceSystemAdminGridScope(array $payload): array
+    {
+        if (!$this->isSystemAdmin()) {
+            return $payload;
+        }
+
+        $payload['scope_type'] = 'all';
+        $payload['scope_target'] = '';
+        return $payload;
+    }
+
     private function forceCompanyAdminGridScope(array $payload): array
     {
         if (!$this->isCompanyAdmin()) {
             return $payload;
         }
 
-        $payload['scope_type'] = 'company';
+        if (!in_array(($payload['scope_type'] ?? ''), ['company', 'store_shared'], true)) {
+            $payload['scope_type'] = 'company';
+        }
         $payload['scope_target'] = $this->currentCompanyName();
         return $payload;
     }
 
     private function systemAdminManageableGrids(array $grids): array
     {
-        return $grids;
+        return array_values(array_filter($grids, fn (array $grid): bool => $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) === 'all'));
     }
 
     private function companyAdminManageableGrids(array $grids): array
@@ -853,8 +876,9 @@ final class AdminController
         }
 
         $companyName = $this->currentCompanyName();
-        return array_values(array_filter($grids, static function (array $grid) use ($companyName): bool {
-            if (($grid['scope_type'] ?? '') !== 'company') {
+        return array_values(array_filter($grids, function (array $grid) use ($companyName): bool {
+            $scopeType = $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all'));
+            if (!in_array($scopeType, ['company', 'store_shared'], true)) {
                 return false;
             }
 
@@ -865,16 +889,19 @@ final class AdminController
 
     private function systemAdminScopeTypeLabels(?array $grid = null): array
     {
-        $labels = $this->scopeTypeLabels();
-        if (($grid['scope_type'] ?? '') !== 'store') {
-            unset($labels['store']);
-        }
-
-        return $labels;
+        return ['all' => $this->scopeTypeLabels()['all']];
     }
 
     private function limitedScopeTypeLabels(?array $grid = null): array
     {
+        if ($this->isCompanyAdmin()) {
+            $labels = $this->scopeTypeLabels();
+            return [
+                'company' => $labels['company'],
+                'store_shared' => $labels['store_shared'],
+            ];
+        }
+
         if ($this->isStoreAdmin()) {
             return ['store' => '店舗専用'];
         }
@@ -892,13 +919,13 @@ final class AdminController
         }
 
         $storeName = $this->currentStoreName();
-        return array_values(array_filter($grids, static function (array $grid) use ($storeName): bool {
-            if (($grid['scope_type'] ?? '') !== 'store') {
+        return array_values(array_filter($grids, function (array $grid) use ($storeName): bool {
+            if ($this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) !== 'store') {
                 return false;
             }
 
             $target = trim((string) ($grid['scope_target'] ?? ''));
-            return $target === '' || $target === $storeName;
+            return $target !== '' && $target === $storeName;
         }));
     }
 
@@ -920,7 +947,7 @@ final class AdminController
         $companyName = $departmentNames[$this->companyIdForStore($storeId, $departments)] ?? '';
 
         return array_values(array_filter($grids, function (array $grid) use ($storeName, $companyName): bool {
-            $scope = (string) ($grid['scope_type'] ?? 'all');
+            $scope = $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all'));
             if ($scope === 'all') {
                 return true;
             }
@@ -929,7 +956,8 @@ final class AdminController
                 return $target !== '' && $target === $companyName;
             }
             if ($scope === 'store_shared') {
-                return true;
+                $target = trim((string) ($grid['scope_target'] ?? ''));
+                return $target !== '' && $target === $companyName;
             }
 
             if ($scope !== 'store') {
@@ -937,7 +965,7 @@ final class AdminController
             }
 
             $target = trim((string) ($grid['scope_target'] ?? ''));
-            return $target === '' || $target === $storeName;
+            return $target !== '' && $target === $storeName;
         }));
     }
 
@@ -1194,7 +1222,7 @@ final class AdminController
 
     private function gridLayoutArea(array $grid): string
     {
-        $scope = (string) ($grid['scope_type'] ?? 'all');
+        $scope = $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all'));
         if ($scope === 'company') {
             return 'company';
         }
@@ -1232,7 +1260,15 @@ final class AdminController
     private function writeDataFile(string $name, array $records): void
     {
         $path = BASE_PATH . '/storage/data/' . $name . '.json';
-        file_put_contents($path, json_encode(array_values($records), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        $json = json_encode(array_values($records), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if ($json === false) {
+            throw new \RuntimeException('JSON data could not be encoded: ' . $name);
+        }
+
+        $result = file_put_contents($path, $json);
+        if ($result === false) {
+            throw new \RuntimeException('JSON data could not be written: ' . $path);
+        }
     }
 
     private function deleteGridFiles(array $grid): void
@@ -1420,7 +1456,7 @@ final class AdminController
     {
         $registrationType = $lockedRegistrationType ?? trim($_POST['registration_type'] ?? 'links');
         $scopeType = $this->normalizeGridScopeType(trim($_POST['scope_type'] ?? 'all'));
-        $scopeTarget = in_array($scopeType, ['company', 'store'], true) ? trim($_POST['scope_target'] ?? '') : '';
+        $scopeTarget = in_array($scopeType, ['company', 'store_shared', 'store'], true) ? trim($_POST['scope_target'] ?? '') : '';
         $displayType = in_array($registrationType, ['manual', 'todo', 'glossary', 'manufacturer_links'], true)
             ? 'list'
             : trim($_POST['display_type'] ?? 'list');

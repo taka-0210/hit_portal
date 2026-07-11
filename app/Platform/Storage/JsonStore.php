@@ -67,10 +67,16 @@ final class JsonStore
 
     private function write(string $name, array $records): void
     {
-        file_put_contents(
-            $this->path($name),
-            json_encode(array_values($records), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
-        );
+        $json = json_encode(array_values($records), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if ($json === false) {
+            throw new \RuntimeException('JSON data could not be encoded: ' . $name);
+        }
+
+        $path = $this->path($name);
+        $result = file_put_contents($path, $json);
+        if ($result === false) {
+            throw new \RuntimeException('JSON data could not be written: ' . $path);
+        }
     }
 
     private function path(string $name): string
