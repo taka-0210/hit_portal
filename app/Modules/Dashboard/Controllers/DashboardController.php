@@ -850,11 +850,11 @@ final class DashboardController
             return ($grid['scope_type'] ?? 'all') === 'all';
         }
 
+        $scope = $grid['scope_type'] ?? 'all';
         if (($user['role'] ?? '') === 'system_admin') {
-            return true;
+            return $scope !== 'company';
         }
 
-        $scope = $grid['scope_type'] ?? 'all';
         if ($scope === 'all') {
             return true;
         }
@@ -864,7 +864,7 @@ final class DashboardController
         if ($scope === 'company') {
             $target = trim((string) ($grid['scope_target'] ?? ''));
             if ($target === '') {
-                return (int) ($user['department1_id'] ?? 0) > 0;
+                return false;
             }
 
             $userCompanyName = $departmentNames[(int) ($user['department1_id'] ?? 0)] ?? '';

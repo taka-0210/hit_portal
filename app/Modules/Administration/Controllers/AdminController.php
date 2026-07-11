@@ -642,7 +642,8 @@ final class AdminController
             $layoutScope = 'global';
             $storeId = 0;
         }
-        $grids = $this->store->all('grid_sections');
+        $allGrids = $this->store->all('grid_sections');
+        $grids = $allGrids;
 
         if ($layoutScope === 'store') {
             $grids = $this->gridsForStoreLayout($grids, $storeId, $this->store->all('departments'));
@@ -667,7 +668,7 @@ final class AdminController
             if ($layoutScope === 'store') {
                 $this->writeGridLayoutsForStore($grids, $storeId);
             } else {
-                $this->writeGridSections($grids);
+                $this->writeGridSections($this->mergeGridSubset($allGrids, $grids));
             }
         }
 
@@ -793,7 +794,7 @@ final class AdminController
             }
 
             $target = trim((string) ($grid['scope_target'] ?? ''));
-            if ($target !== '' && $target !== $this->currentCompanyName()) {
+            if ($target === '' || $target !== $this->currentCompanyName()) {
                 http_response_code(403);
                 exit('Company admins can manage only their own company grids.');
             }
@@ -842,7 +843,7 @@ final class AdminController
 
     private function systemAdminManageableGrids(array $grids): array
     {
-        return array_values(array_filter($grids, static fn (array $grid): bool => ($grid['scope_type'] ?? 'all') !== 'store'));
+        return $grids;
     }
 
     private function companyAdminManageableGrids(array $grids): array
@@ -858,7 +859,7 @@ final class AdminController
             }
 
             $target = trim((string) ($grid['scope_target'] ?? ''));
-            return $target === '' || $target === $companyName;
+            return $target !== '' && $target === $companyName;
         }));
     }
 
@@ -925,7 +926,7 @@ final class AdminController
             }
             if ($scope === 'company') {
                 $target = trim((string) ($grid['scope_target'] ?? ''));
-                return $target === '' || $target === $companyName;
+                return $target !== '' && $target === $companyName;
             }
             if ($scope === 'store_shared') {
                 return true;
@@ -1109,6 +1110,23 @@ final class AdminController
         $columns[$targetColumn][$currentPosition] = $currentIndex;
 
         return $this->applyGridColumnOrder($grids, $columns, [$currentColumn, $targetColumn]);
+    }
+
+    private function mergeGridSubset(array $allGrids, array $changedGrids): array
+    {
+        $changedById = [];
+        foreach ($changedGrids as $grid) {
+            $changedById[(int) ($grid['id'] ?? 0)] = $grid;
+        }
+
+        foreach ($allGrids as $index => $grid) {
+            $id = (int) ($grid['id'] ?? 0);
+            if (isset($changedById[$id])) {
+                $allGrids[$index] = array_merge($grid, $changedById[$id]);
+            }
+        }
+
+        return $allGrids;
     }
 
     private function applyGridColumnOrder(array $grids, array $columns, array $targetColumns): array

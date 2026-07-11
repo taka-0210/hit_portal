@@ -127,16 +127,30 @@
     },
     {
         "id": 10,
-        "name": "okinawa-admin",
-        "email": "okinawa88",
+        "name": "沖縄管理者",
+        "email": "okinawa-admin",
         "phone": "",
         "role": "company_admin",
         "department1_id": 101,
-        "department2_id": 0,
+        "department2_id": 102,
         "status": "active",
-        "password_hash": "$2y$10$ABrasnWoDyfjQFJMNx4g0Oa0Ug2jYtfi9e21HKF52G0sUh4CpwdHy",
+        "password_hash": "$2y$10$oOIAa046p05mCTtmER.Yf.8xemSwrB5mQI6R0xhhmLAU8Mk0x.Wiy",
         "must_change_password": true,
         "created_at": "2026-07-10 02:05:26",
-        "updated_at": "2026-07-10 02:05:26"
+        "updated_at": "2026-07-11 09:38:45"
+    },
+    {
+        "id": 11,
+        "name": "沖縄営業所",
+        "email": "okinawa",
+        "phone": "",
+        "role": "store_user",
+        "department1_id": 101,
+        "department2_id": 102,
+        "status": "active",
+        "password_hash": "$2y$10$p.dFqLDhZOVFqdV5IkeN9ON8y\/trxouHus068ZvX6PlppJFPim0N.",
+        "must_change_password": true,
+        "created_at": "2026-07-11 09:33:24",
+        "updated_at": "2026-07-11 09:36:11"
     }
 ]

@@ -10,36 +10,6 @@
         "updated_at": "2026-07-09 02:09:12"
     },
     {
-        "id": 2,
-        "scope_type": "store",
-        "scope_target_id": 4,
-        "grid_id": 2,
-        "column": 1,
-        "sort_order": 20,
-        "created_at": "2026-07-09 02:09:12",
-        "updated_at": "2026-07-09 02:09:12"
-    },
-    {
-        "id": 3,
-        "scope_type": "store",
-        "scope_target_id": 4,
-        "grid_id": 3,
-        "column": 1,
-        "sort_order": 30,
-        "created_at": "2026-07-09 02:09:12",
-        "updated_at": "2026-07-09 02:09:12"
-    },
-    {
-        "id": 4,
-        "scope_type": "store",
-        "scope_target_id": 4,
-        "grid_id": 4,
-        "column": 1,
-        "sort_order": 40,
-        "created_at": "2026-07-09 02:09:12",
-        "updated_at": "2026-07-09 02:09:12"
-    },
-    {
         "id": 5,
         "scope_type": "store",
         "scope_target_id": 4,
@@ -70,16 +40,6 @@
         "updated_at": "2026-07-09 02:09:12"
     },
     {
-        "id": 8,
-        "scope_type": "store",
-        "scope_target_id": 4,
-        "grid_id": 8,
-        "column": 2,
-        "sort_order": 40,
-        "created_at": "2026-07-09 02:09:12",
-        "updated_at": "2026-07-09 02:09:12"
-    },
-    {
         "id": 9,
         "scope_type": "store",
         "scope_target_id": 4,
@@ -96,16 +56,6 @@
         "grid_id": 10,
         "column": 3,
         "sort_order": 60,
-        "created_at": "2026-07-09 02:09:12",
-        "updated_at": "2026-07-09 02:09:12"
-    },
-    {
-        "id": 11,
-        "scope_type": "store",
-        "scope_target_id": 4,
-        "grid_id": 11,
-        "column": 3,
-        "sort_order": 10,
         "created_at": "2026-07-09 02:09:12",
         "updated_at": "2026-07-09 02:09:12"
     },
@@ -150,16 +100,6 @@
         "updated_at": "2026-07-09 02:09:12"
     },
     {
-        "id": 17,
-        "scope_type": "store",
-        "scope_target_id": 4,
-        "grid_id": 17,
-        "column": 2,
-        "sort_order": 10,
-        "created_at": "2026-07-09 02:09:12",
-        "updated_at": "2026-07-09 02:09:12"
-    },
-    {
         "id": 18,
         "scope_type": "store",
         "scope_target_id": 4,
@@ -186,36 +126,6 @@
         "grid_id": 1,
         "column": 1,
         "sort_order": 10,
-        "created_at": "2026-07-09 02:41:05",
-        "updated_at": "2026-07-09 02:41:05"
-    },
-    {
-        "id": 21,
-        "scope_type": "store",
-        "scope_target_id": 1,
-        "grid_id": 2,
-        "column": 1,
-        "sort_order": 20,
-        "created_at": "2026-07-09 02:41:05",
-        "updated_at": "2026-07-09 02:41:05"
-    },
-    {
-        "id": 22,
-        "scope_type": "store",
-        "scope_target_id": 1,
-        "grid_id": 3,
-        "column": 1,
-        "sort_order": 30,
-        "created_at": "2026-07-09 02:41:05",
-        "updated_at": "2026-07-09 02:41:05"
-    },
-    {
-        "id": 23,
-        "scope_type": "store",
-        "scope_target_id": 1,
-        "grid_id": 4,
-        "column": 1,
-        "sort_order": 40,
         "created_at": "2026-07-09 02:41:05",
         "updated_at": "2026-07-09 02:41:05"
     },
@@ -250,16 +160,6 @@
         "updated_at": "2026-07-09 02:41:05"
     },
     {
-        "id": 27,
-        "scope_type": "store",
-        "scope_target_id": 1,
-        "grid_id": 8,
-        "column": 2,
-        "sort_order": 40,
-        "created_at": "2026-07-09 02:41:05",
-        "updated_at": "2026-07-09 02:41:05"
-    },
-    {
         "id": 28,
         "scope_type": "store",
         "scope_target_id": 1,
@@ -276,16 +176,6 @@
         "grid_id": 10,
         "column": 3,
         "sort_order": 60,
-        "created_at": "2026-07-09 02:41:05",
-        "updated_at": "2026-07-09 02:41:05"
-    },
-    {
-        "id": 30,
-        "scope_type": "store",
-        "scope_target_id": 1,
-        "grid_id": 11,
-        "column": 3,
-        "sort_order": 10,
         "created_at": "2026-07-09 02:41:05",
         "updated_at": "2026-07-09 02:41:05"
     },
@@ -326,16 +216,6 @@
         "grid_id": 16,
         "column": 3,
         "sort_order": 20,
-        "created_at": "2026-07-09 02:41:05",
-        "updated_at": "2026-07-09 02:41:05"
-    },
-    {
-        "id": 35,
-        "scope_type": "store",
-        "scope_target_id": 1,
-        "grid_id": 17,
-        "column": 2,
-        "sort_order": 10,
         "created_at": "2026-07-09 02:41:05",
         "updated_at": "2026-07-09 02:41:05"
     },

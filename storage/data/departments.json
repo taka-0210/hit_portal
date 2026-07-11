@@ -1,7 +1,7 @@
 [
     {
         "id": 100,
-        "name": "直営",
+        "name": "プロ厨房ヒット本部",
         "level": "company",
         "parent_id": 0,
         "description": "RISE UP直営店舗",
@@ -9,7 +9,7 @@
         "sort_order": 1,
         "status": "active",
         "created_at": "2026-07-10 00:00:00",
-        "updated_at": "2026-07-10 00:00:00"
+        "updated_at": "2026-07-10 14:44:57"
     },
     {
         "id": 1,

@@ -2,11 +2,11 @@
     {
         "id": 1,
         "title": "厨房君 for SP",
-        "description": "",
+        "description": "厨房君を店舗作業で使用するためのもの",
         "status": "active",
-        "image_path": "uploads\/qr-codes\/f1ec4186c8179edebd6671f1.png",
-        "url": "\/hit_portal\/public_html\/uploads\/qr-codes\/f1ec4186c8179edebd6671f1.png",
-        "created_at": "2026-07-10 09:12:07",
-        "updated_at": "2026-07-10 09:12:07"
+        "image_path": "uploads\/qr-codes\/5ff677baf2c033823e88aecb.png",
+        "url": "\/hit-portal\/public_html\/uploads\/qr-codes\/5ff677baf2c033823e88aecb.png",
+        "created_at": "2026-07-10 15:51:50",
+        "updated_at": "2026-07-10 16:38:37"
     }
 ]
