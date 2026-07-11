@@ -47,42 +47,43 @@ final class DashboardController
     {
         $gridId = (int) ($_GET['grid_id'] ?? 0);
         $fileId = (string) ($_GET['file_id'] ?? '');
-        $store = new JsonStore();
-        $user = (new AuthService())->user();
-        $departments = $store->all('departments');
 
-        foreach ($store->all('grid_sections') as $grid) {
-            if ((int) ($grid['id'] ?? 0) !== $gridId || !$this->canSeeGrid($grid, $user, $this->departmentNames($departments))) {
-                continue;
-            }
-
-            foreach (($grid['groups'] ?? []) as $group) {
-                foreach (($group['entries'] ?? []) as $entry) {
-                    if (!$this->canUseGridEntry($grid, $entry, $user)) {
-                        continue;
-                    }
-
-                    if (($entry['file_id'] ?? '') !== $fileId) {
-                        continue;
-                    }
-
-                    $path = BASE_PATH . '/' . ltrim((string) ($entry['storage_path'] ?? ''), '/\\');
-                    if (!is_file($path)) {
-                        http_response_code(404);
-                        exit('File not found.');
-                    }
-
-                    header('Content-Type: ' . ($entry['mime_type'] ?? 'application/octet-stream'));
-                    header('Content-Length: ' . filesize($path));
-                    header('Content-Disposition: inline; filename="' . rawurlencode((string) ($entry['original_name'] ?? $entry['label'] ?? 'file')) . '"');
-                    readfile($path);
-                    exit;
-                }
-            }
+        $file = $this->findGridFile($gridId, $fileId);
+        if ($file === null) {
+            http_response_code(404);
+            exit('File not found.');
         }
 
-        http_response_code(404);
-        exit('File not found.');
+        header('Content-Type: ' . ($file['entry']['mime_type'] ?? 'application/octet-stream'));
+        header('Content-Length: ' . filesize((string) $file['path']));
+        header('Content-Disposition: inline; filename="' . rawurlencode((string) ($file['entry']['original_name'] ?? $file['entry']['label'] ?? 'file')) . '"');
+        readfile((string) $file['path']);
+        exit;
+    }
+
+    public function excelViewer(): void
+    {
+        $gridId = (int) ($_GET['grid_id'] ?? 0);
+        $fileId = (string) ($_GET['file_id'] ?? '');
+        $file = $this->findGridFile($gridId, $fileId);
+
+        if ($file === null) {
+            http_response_code(404);
+            exit('File not found.');
+        }
+
+        $fileName = (string) ($file['entry']['original_name'] ?? $file['entry']['label'] ?? '');
+        if (!preg_match('/\.(xlsx|xls)$/i', $fileName)) {
+            redirect('grid.file', ['grid_id' => $gridId, 'file_id' => $fileId]);
+        }
+
+        View::render('dashboard/excel-viewer', [
+            'grid' => $file['grid'],
+            'entry' => $file['entry'],
+            'fileUrl' => route_url('grid.file', ['grid_id' => $gridId, 'file_id' => $fileId]),
+            'backUrl' => route_url('dashboard'),
+            'fileName' => $fileName,
+        ]);
     }
 
     public function entryStore(): void
@@ -712,6 +713,45 @@ final class DashboardController
 
         return $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) !== 'all'
             || ($grid['post_permission'] ?? 'allowed') !== 'denied';
+    }
+
+    private function findGridFile(int $gridId, string $fileId): ?array
+    {
+        $store = new JsonStore();
+        $user = (new AuthService())->user();
+        $departments = $store->all('departments');
+        $departmentNames = $this->departmentNames($departments);
+
+        foreach ($store->all('grid_sections') as $grid) {
+            if ((int) ($grid['id'] ?? 0) !== $gridId || !$this->canSeeGrid($grid, $user, $departmentNames)) {
+                continue;
+            }
+
+            foreach (($grid['groups'] ?? []) as $group) {
+                foreach (($group['entries'] ?? []) as $entry) {
+                    if (!$this->canUseGridEntry($grid, $entry, $user)) {
+                        continue;
+                    }
+
+                    if (($entry['file_id'] ?? '') !== $fileId) {
+                        continue;
+                    }
+
+                    $path = BASE_PATH . '/' . ltrim((string) ($entry['storage_path'] ?? ''), '/\\');
+                    if (!is_file($path)) {
+                        return null;
+                    }
+
+                    return [
+                        'grid' => $grid,
+                        'entry' => $entry,
+                        'path' => $path,
+                    ];
+                }
+            }
+        }
+
+        return null;
     }
 
     private function saveGridFile(array $file): array

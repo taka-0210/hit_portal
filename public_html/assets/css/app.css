@@ -1212,6 +1212,129 @@ h2 {
     border-radius: 8px;
 }
 
+.excel-viewer-page {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: calc(100vh - 96px);
+    min-width: 0;
+}
+
+.excel-viewer-bar {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    display: grid;
+    grid-template-columns: auto minmax(180px, 1fr) auto auto;
+    gap: 12px;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    padding: 12px;
+}
+
+.excel-viewer-title {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+}
+
+.excel-viewer-title span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.excel-viewer-title strong {
+    overflow: hidden;
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.excel-viewer-sheet {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.excel-viewer-sheet span {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.excel-viewer-sheet select {
+    min-width: 180px;
+}
+
+.excel-viewer-status {
+    min-height: 20px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.excel-viewer-table-wrap {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+}
+
+.excel-viewer-table {
+    width: max-content;
+    min-width: max-content;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.excel-viewer-table th,
+.excel-viewer-table td {
+    min-width: 96px;
+    max-width: 320px;
+    border: 1px solid #d7dde5;
+    padding: 7px 9px;
+    color: var(--text);
+    text-align: left;
+    vertical-align: top;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.excel-viewer-table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #eef3f7;
+    font-weight: 700;
+}
+
+@media (max-width: 700px) {
+    .excel-viewer-page {
+        height: calc(100vh - 128px);
+    }
+
+    .excel-viewer-bar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .excel-viewer-title,
+    .excel-viewer-sheet {
+        grid-column: 1 / -1;
+    }
+
+    .excel-viewer-sheet select {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
 .delete-warning {
     margin: 0;
     border: 1px solid #e2a3a3;

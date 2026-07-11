@@ -20,6 +20,7 @@ $router->get('logout', [AuthController::class, 'logout']);
 
 $router->get('dashboard', [DashboardController::class, 'index'], true);
 $router->get('grid.file', [DashboardController::class, 'file'], true);
+$router->get('grid.excelViewer', [DashboardController::class, 'excelViewer'], true);
 $router->post('grid.entryStore', [DashboardController::class, 'entryStore'], true);
 $router->post('grid.todoProgress', [DashboardController::class, 'todoProgress'], true);
 $router->post('grid.glossaryUpdate', [DashboardController::class, 'glossaryUpdate'], true);
