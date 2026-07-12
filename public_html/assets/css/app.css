@@ -284,6 +284,7 @@ th {
 .detail-layout,
 .editor-layout,
 .admin-grid,
+.department-admin-stack,
 .qr-admin-stack {
     margin: 24px 28px;
 }
@@ -1464,6 +1465,15 @@ h2 {
     align-items: start;
 }
 
+.department-admin-stack {
+    display: grid;
+    gap: 18px;
+}
+
+.department-admin-stack > .form-stack {
+    max-width: 720px;
+}
+
 .qr-admin-stack {
     display: grid;
     gap: 18px;
@@ -2442,6 +2452,7 @@ a.list-row:hover {
     .detail-layout,
     .editor-layout,
     .admin-grid,
+    .department-admin-stack,
     .qr-admin-stack,
     .portal-hero,
     .portal-board {

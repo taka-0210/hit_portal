@@ -2,8 +2,6 @@
 $isEdit = $mode === 'edit';
 $action = $isEdit ? route_url('admin.grids.update') : route_url('admin.grids.store');
 $currentRegistrationType = (string) ($grid['registration_type'] ?? 'links');
-$specialRegistrationTypeLabels = $specialRegistrationTypeLabels ?? [];
-$canSelectSpecialGrid = !empty($canSelectSpecialGrid);
 ?>
 <section class="page-header">
     <p class="eyebrow">Administration</p>
@@ -54,18 +52,6 @@ $canSelectSpecialGrid = !empty($canSelectSpecialGrid);
                     <small class="field-hint">登録方法は作成後に変更できません。データの持ち方が変わるため、新しい登録方法が必要な場合は別グリッドを作成します。</small>
                 <?php endif; ?>
             </label>
-            <?php if ($canSelectSpecialGrid): ?>
-                <label>
-                    <span>特別グリッド</span>
-                    <select name="special_registration_type_select" data-special-registration-type-select <?= $isEdit ? 'disabled' : '' ?>>
-                        <option value="">使用しない</option>
-                        <?php foreach ($specialRegistrationTypeLabels as $key => $label): ?>
-                            <option value="<?= e($key) ?>" <?= $currentRegistrationType === $key ? 'selected' : '' ?>><?= e($label) ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <small class="field-hint">システム管理者のみ選択できます。業界用語集、メーカーURLリンク集など専用表示のグリッドです。</small>
-                </label>
-            <?php endif; ?>
             <label>
                 <span>表示方法</span>
                 <select name="display_type" data-display-type-select>
@@ -405,7 +391,6 @@ $canSelectSpecialGrid = !empty($canSelectSpecialGrid);
     const form = document.querySelector('[data-grid-editor-form]');
     const registrationHidden = document.querySelector('[data-registration-type-hidden]');
     const registrationSelect = document.querySelector('[data-registration-type-select]') || document.querySelector('[name="registration_type"]');
-    const specialRegistrationSelect = document.querySelector('[data-special-registration-type-select]');
     const displayTypeSelect = document.querySelector('[data-display-type-select]');
     const scopeTypeSelect = document.querySelector('[data-scope-type-select]');
     const scopeTargetField = document.querySelector('[data-scope-target-field]');
@@ -427,19 +412,11 @@ $canSelectSpecialGrid = !empty($canSelectSpecialGrid);
     const manufacturerTemplate = document.querySelector('#manufacturer-row-template');
     const addManufacturerButton = document.querySelector('[data-add-manufacturer-row]');
 
-    const registrationValue = () => {
-        if (specialRegistrationSelect && !specialRegistrationSelect.disabled && specialRegistrationSelect.value) {
-            return specialRegistrationSelect.value;
-        }
-
-        return registrationSelect?.value || registrationHidden?.value || 'links';
-    };
-
     const syncPanels = () => {
         if (registrationHidden && registrationSelect && !registrationSelect.disabled) {
-            registrationHidden.value = registrationValue();
+            registrationHidden.value = registrationSelect.value;
         }
-        const value = registrationHidden?.value || registrationValue();
+        const value = registrationHidden?.value || registrationSelect?.value || 'links';
         panels.forEach((panel) => {
             const isActive = panel.dataset.registrationPanel === value;
             panel.hidden = !isActive;
@@ -610,13 +587,7 @@ $canSelectSpecialGrid = !empty($canSelectSpecialGrid);
         button.closest('.manufacturer-row')?.remove();
     });
 
-    registrationSelect?.addEventListener('change', () => {
-        if (specialRegistrationSelect && !specialRegistrationSelect.disabled) {
-            specialRegistrationSelect.value = '';
-        }
-        syncPanels();
-    });
-    specialRegistrationSelect?.addEventListener('change', syncPanels);
+    registrationSelect?.addEventListener('change', syncPanels);
     scopeTypeSelect?.addEventListener('change', syncScopeTarget);
     form?.addEventListener('submit', () => {
         const value = registrationHidden?.value || registrationSelect?.value || 'links';

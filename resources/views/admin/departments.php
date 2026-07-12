@@ -15,7 +15,7 @@ $action = $isCompanyMode
     </div>
 </section>
 
-<section class="admin-grid">
+<section class="department-admin-stack">
     <form class="panel form-stack" method="post" action="<?= $action ?>" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
         <?php if ($isEdit): ?>
