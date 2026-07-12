@@ -13,8 +13,20 @@ $isNewEntry = static function (array $entry) use ($newEntryDays): bool {
     return $createdAt >= strtotime('-' . $newEntryDays . ' days');
 };
 $glossaryIndexLabels = ['あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し', 'す', 'せ', 'そ', 'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ', 'ま', 'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'り', 'る', 'れ', 'ろ', 'わ', 'を', 'ん', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'その他'];
-$glossaryIndexKey = static function (string $term): string {
+$firstCharacter = static function (string $value): string {
+    if (function_exists('mb_substr')) {
+        return mb_substr($value, 0, 1, 'UTF-8');
+    }
+
+    if (preg_match('/^./u', $value, $matches) === 1) {
+        return $matches[0];
+    }
+
+    return substr($value, 0, 1);
+};
+$glossaryIndexKey = static function (string $term) use ($firstCharacter): string {
     $term = trim($term);
+    $term = preg_replace('/^[\s\x{3000}]+|[\s\x{3000}]+$/u', '', $term) ?? $term;
     if ($term === '') {
         return 'その他';
     }
@@ -31,7 +43,7 @@ $glossaryIndexKey = static function (string $term): string {
         'おー' => 'O', 'ぴー' => 'P', 'きゅー' => 'Q',
         'あーる' => 'R', 'えす' => 'S',
         'てぃー' => 'T', 'てぃ' => 'T', 'てー' => 'T',
-        'ゆー' => 'U', 'ぶい' => 'V', 'ヴぃー' => 'V',
+        'ゆー' => 'U', 'ぶい' => 'V', 'ヴぃー' => 'V', 'ゔぃー' => 'V', 'ゔい' => 'V',
         'だぶりゅー' => 'W', 'だぶる' => 'W',
         'えっくす' => 'X', 'わい' => 'Y', 'ぜっと' => 'Z',
     ];
@@ -43,9 +55,14 @@ $glossaryIndexKey = static function (string $term): string {
         }
     }
 
-    $first = function_exists('mb_substr') ? mb_substr($term, 0, 1, 'UTF-8') : substr($term, 0, 1);
+    $first = $firstCharacter($term);
     if (preg_match('/^[A-Za-z]/', $first) === 1) {
         return strtoupper($first);
+    }
+
+    $normalizedTerm = function_exists('mb_convert_kana') ? mb_convert_kana($term, 'KVc', 'UTF-8') : $term;
+    if (preg_match('/^(ヴ|ゔ|ウ゛|う゛|ｳﾞ)/u', $normalizedTerm) === 1) {
+        return 'う';
     }
 
     if (function_exists('mb_convert_kana')) {
@@ -58,19 +75,25 @@ $glossaryIndexKey = static function (string $term): string {
         'だ' => 'た', 'ぢ' => 'ち', 'づ' => 'つ', 'で' => 'て', 'ど' => 'と',
         'ば' => 'は', 'び' => 'ひ', 'ぶ' => 'ふ', 'べ' => 'へ', 'ぼ' => 'ほ',
         'ぱ' => 'は', 'ぴ' => 'ひ', 'ぷ' => 'ふ', 'ぺ' => 'へ', 'ぽ' => 'ほ',
+        'ヴ' => 'う', 'ゔ' => 'う', 'ヵ' => 'か', 'ヶ' => 'け', 'ゕ' => 'か', 'ゖ' => 'け', 'ゎ' => 'わ',
+        'ヷ' => 'わ', 'ヸ' => 'い', 'ヹ' => 'え', 'ヺ' => 'を',
     ];
     $first = $map[$first] ?? $first;
     $kana = ['あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し', 'す', 'せ', 'そ', 'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ', 'ま', 'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'り', 'る', 'れ', 'ろ', 'わ', 'を', 'ん'];
 
     return in_array($first, $kana, true) ? $first : 'その他';
 };
-$kanaIndexKey = static function (string $term): string {
+$kanaIndexKey = static function (string $term) use ($firstCharacter): string {
     $term = trim($term);
+    $term = preg_replace('/^[\s\x{3000}]+|[\s\x{3000}]+$/u', '', $term) ?? $term;
     if ($term === '') {
         return 'その他';
     }
 
-    $first = function_exists('mb_substr') ? mb_substr($term, 0, 1, 'UTF-8') : substr($term, 0, 1);
+    $normalizedTerm = function_exists('mb_convert_kana') ? mb_convert_kana($term, 'KVc', 'UTF-8') : $term;
+    $normalizedTerm = str_replace(['ヴ', 'ゔ', 'ウ゛', 'う゛', 'ｳﾞ'], 'う', $normalizedTerm);
+
+    $first = $firstCharacter($normalizedTerm);
     if (function_exists('mb_convert_kana')) {
         $first = mb_convert_kana($first, 'KVc', 'UTF-8');
     }
@@ -86,6 +109,8 @@ $kanaIndexKey = static function (string $term): string {
         'ヤ' => 'や', 'ユ' => 'ゆ', 'ヨ' => 'よ',
         'ラ' => 'ら', 'リ' => 'り', 'ル' => 'る', 'レ' => 'れ', 'ロ' => 'ろ',
         'ワ' => 'わ', 'ヲ' => 'を', 'ン' => 'ん',
+        'ヴ' => 'う', 'ヵ' => 'か', 'ヶ' => 'け',
+        'ヷ' => 'わ', 'ヸ' => 'い', 'ヹ' => 'え', 'ヺ' => 'を',
         'ガ' => 'か', 'ギ' => 'き', 'グ' => 'く', 'ゲ' => 'け', 'ゴ' => 'こ',
         'ザ' => 'さ', 'ジ' => 'し', 'ズ' => 'す', 'ゼ' => 'せ', 'ゾ' => 'そ',
         'ダ' => 'た', 'ヂ' => 'ち', 'ヅ' => 'つ', 'デ' => 'て', 'ド' => 'と',
@@ -93,6 +118,7 @@ $kanaIndexKey = static function (string $term): string {
         'パ' => 'は', 'ピ' => 'ひ', 'プ' => 'ふ', 'ペ' => 'へ', 'ポ' => 'ほ',
         'ぁ' => 'あ', 'ぃ' => 'い', 'ぅ' => 'う', 'ぇ' => 'え', 'ぉ' => 'お',
         'ゃ' => 'や', 'ゅ' => 'ゆ', 'ょ' => 'よ', 'っ' => 'つ',
+        'ゔ' => 'う', 'ゕ' => 'か', 'ゖ' => 'け', 'ゎ' => 'わ',
         'が' => 'か', 'ぎ' => 'き', 'ぐ' => 'く', 'げ' => 'け', 'ご' => 'こ',
         'ざ' => 'さ', 'じ' => 'し', 'ず' => 'す', 'ぜ' => 'せ', 'ぞ' => 'そ',
         'だ' => 'た', 'ぢ' => 'ち', 'づ' => 'つ', 'で' => 'て', 'ど' => 'と',
@@ -113,6 +139,7 @@ $manufacturerIndexKeys = static function (string $name, string $reading, bool $u
     return array_values(array_unique($keys));
 };
 ?>
+<!-- dashboard-index-version: kana-normalize-20260712-2 -->
 <?php if (($portalSettings['hero_message'] ?? '') !== ''): ?>
     <section class="portal-hero">
         <p class="portal-message"><?= e($portalSettings['hero_message']) ?></p>
