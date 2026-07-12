@@ -2194,6 +2194,22 @@ a.list-row:hover {
     padding-left: 8px;
 }
 
+.department-move-actions {
+    display: inline-flex;
+    gap: 6px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.department-move-actions form {
+    margin: 0;
+}
+
+.department-move-actions .icon-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.35;
+}
+
 .article-body {
     min-height: 320px;
     white-space: normal;

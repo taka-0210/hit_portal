@@ -37,11 +37,13 @@ $router->get('admin.stores', [AdminController::class, 'stores'], true, 'system_a
 $router->post('admin.stores.store', [AdminController::class, 'storeStore'], true, 'system_admin');
 $router->get('admin.stores.edit', [AdminController::class, 'editStore'], true, 'system_admin');
 $router->post('admin.stores.update', [AdminController::class, 'updateStore'], true, 'system_admin');
+$router->post('admin.stores.move', [AdminController::class, 'moveStore'], true, 'system_admin');
 $router->get('admin.companies', [AdminController::class, 'companies'], true, 'system_admin');
 $router->post('admin.companies.store', [AdminController::class, 'storeCompany'], true, 'system_admin');
 $router->get('admin.companies.show', [AdminController::class, 'showCompany'], true, 'system_admin');
 $router->get('admin.companies.edit', [AdminController::class, 'editCompany'], true, 'system_admin');
 $router->post('admin.companies.update', [AdminController::class, 'updateCompany'], true, 'system_admin');
+$router->post('admin.companies.move', [AdminController::class, 'moveCompany'], true, 'system_admin');
 $router->post('admin.companies.stores.store', [AdminController::class, 'storeCompanyStore'], true, 'system_admin');
 $router->post('admin.companies.users.store', [AdminController::class, 'storeCompanyUser'], true, 'system_admin');
 $router->get('admin.roles', [AdminController::class, 'roles'], true, 'system_admin');

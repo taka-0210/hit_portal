@@ -156,6 +156,14 @@ final class AdminController
         redirect('admin.stores');
     }
 
+    public function moveStore(): void
+    {
+        verify_csrf();
+
+        $this->moveDepartment('store');
+        redirect('admin.stores');
+    }
+
     public function companies(): void
     {
         $departments = $this->store->all('departments');
@@ -180,6 +188,14 @@ final class AdminController
 
         $this->store->save('departments', $payload);
 
+        redirect('admin.companies');
+    }
+
+    public function moveCompany(): void
+    {
+        verify_csrf();
+
+        $this->moveDepartment('company');
         redirect('admin.companies');
     }
 
@@ -703,8 +719,49 @@ final class AdminController
             return $departmentType === $type && (!$activeOnly || $isActive);
         }));
 
-        usort($items, fn (array $a, array $b): int => ((int) ($a['sort_order'] ?? 0)) <=> ((int) ($b['sort_order'] ?? 0)));
+        usort($items, fn (array $a, array $b): int => [
+            (int) ($a['sort_order'] ?? 0),
+            (int) ($a['id'] ?? 0),
+        ] <=> [
+            (int) ($b['sort_order'] ?? 0),
+            (int) ($b['id'] ?? 0),
+        ]);
         return $items;
+    }
+
+    private function moveDepartment(string $type): void
+    {
+        $id = (int) ($_POST['id'] ?? 0);
+        $direction = (string) ($_POST['direction'] ?? '');
+        if (!in_array($direction, ['up', 'down'], true)) {
+            return;
+        }
+
+        $departments = $this->store->all('departments');
+        $items = $this->departmentsByType($departments, $type, false);
+        $currentIndex = null;
+        foreach ($items as $index => $item) {
+            if ((int) ($item['id'] ?? 0) === $id) {
+                $currentIndex = $index;
+                break;
+            }
+        }
+
+        if ($currentIndex === null) {
+            return;
+        }
+
+        $targetIndex = $direction === 'up' ? $currentIndex - 1 : $currentIndex + 1;
+        if ($targetIndex < 0 || $targetIndex >= count($items)) {
+            return;
+        }
+
+        $moving = array_splice($items, $currentIndex, 1);
+        array_splice($items, $targetIndex, 0, $moving);
+        foreach ($items as $index => $item) {
+            $item['sort_order'] = ($index + 1) * 10;
+            $this->store->save('departments', $item);
+        }
     }
 
     private function portalSettingsRecord(): array

@@ -84,7 +84,8 @@ $action = $isCompanyMode
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($items as $item): ?>
+                <?php $itemCount = count($items); ?>
+                <?php foreach ($items as $index => $item): ?>
                     <tr>
                         <td><strong><?= e($item['name']) ?></strong></td>
                         <?php if (!$isCompanyMode): ?>
@@ -100,6 +101,20 @@ $action = $isCompanyMode
                         <td><span class="badge"><?= e($item['status'] ?? 'active') ?></span></td>
                         <td><?= e($item['description'] ?? '') ?></td>
                         <td>
+                            <div class="department-move-actions">
+                                <form method="post" action="<?= route_url($isCompanyMode ? 'admin.companies.move' : 'admin.stores.move') ?>">
+                                    <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+                                    <input type="hidden" name="id" value="<?= (int) ($item['id'] ?? 0) ?>">
+                                    <input type="hidden" name="direction" value="up">
+                                    <button class="icon-button" type="submit" title="上へ移動" <?= $index === 0 ? 'disabled' : '' ?>>▲</button>
+                                </form>
+                                <form method="post" action="<?= route_url($isCompanyMode ? 'admin.companies.move' : 'admin.stores.move') ?>">
+                                    <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+                                    <input type="hidden" name="id" value="<?= (int) ($item['id'] ?? 0) ?>">
+                                    <input type="hidden" name="direction" value="down">
+                                    <button class="icon-button" type="submit" title="下へ移動" <?= $index === $itemCount - 1 ? 'disabled' : '' ?>>▼</button>
+                                </form>
+                            </div>
                             <?php if ($isCompanyMode): ?>
                                 <a class="button ghost" href="<?= route_url('admin.companies.show', ['id' => (int) ($item['id'] ?? 0)]) ?>">詳細</a>
                             <?php endif; ?>
