@@ -1,6 +1,9 @@
 <section class="excel-viewer-page" data-excel-viewer data-file-url="<?= e($fileUrl) ?>">
     <header class="excel-viewer-bar">
-        <a class="button ghost" href="<?= e($backUrl) ?>">戻る</a>
+        <div class="excel-viewer-nav-actions">
+            <a class="button ghost" href="<?= e($backUrl) ?>">戻る</a>
+            <a class="button primary" href="<?= e($fileUrl) ?>" download>ダウンロード</a>
+        </div>
         <div class="excel-viewer-title">
             <span><?= e((string) ($grid['title'] ?? 'Excelビューア')) ?></span>
             <strong><?= e($fileName) ?></strong>
@@ -9,7 +12,6 @@
             <span>シート</span>
             <select data-excel-sheet-select aria-label="シート選択"></select>
         </label>
-        <a class="button primary" href="<?= e($fileUrl) ?>" download>ダウンロード</a>
     </header>
 
     <div class="excel-viewer-meta">

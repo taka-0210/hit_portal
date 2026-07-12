@@ -505,7 +505,9 @@ final class AdminController
             'mode' => 'create',
             'grid' => $grid,
             'toneLabels' => $this->gridToneLabels(),
-            'registrationTypeLabels' => $this->registrationTypeLabels(),
+            'registrationTypeLabels' => $this->standardRegistrationTypeLabels(),
+            'specialRegistrationTypeLabels' => $this->isSystemAdmin() ? $this->specialRegistrationTypeLabels() : [],
+            'canSelectSpecialGrid' => $this->isSystemAdmin(),
             'displayTypeLabels' => $this->displayTypeLabels(),
             'expandTypeLabels' => $this->expandTypeLabels(),
             'scopeTypeLabels' => $this->limitedScopeTypeLabels(),
@@ -547,7 +549,9 @@ final class AdminController
             'mode' => 'edit',
             'grid' => $grid,
             'toneLabels' => $this->gridToneLabels(),
-            'registrationTypeLabels' => $this->registrationTypeLabels(),
+            'registrationTypeLabels' => $this->standardRegistrationTypeLabels(),
+            'specialRegistrationTypeLabels' => $this->isSystemAdmin() ? $this->specialRegistrationTypeLabels() : [],
+            'canSelectSpecialGrid' => $this->isSystemAdmin(),
             'displayTypeLabels' => $this->displayTypeLabels(),
             'expandTypeLabels' => $this->expandTypeLabels(),
             'scopeTypeLabels' => $this->limitedScopeTypeLabels($grid),
@@ -1455,6 +1459,9 @@ final class AdminController
     private function gridPayload(?string $lockedRegistrationType = null): array
     {
         $registrationType = $lockedRegistrationType ?? trim($_POST['registration_type'] ?? 'links');
+        if ($lockedRegistrationType === null && $this->isSpecialRegistrationType($registrationType) && !$this->isSystemAdmin()) {
+            $registrationType = 'links';
+        }
         $scopeType = $this->normalizeGridScopeType(trim($_POST['scope_type'] ?? 'all'));
         $scopeTarget = in_array($scopeType, ['company', 'store_shared', 'store'], true) ? trim($_POST['scope_target'] ?? '') : '';
         $displayType = in_array($registrationType, ['manual', 'todo', 'glossary', 'manufacturer_links'], true)
@@ -2167,6 +2174,26 @@ final class AdminController
             'glossary' => '業界用語集',
             'manufacturer_links' => 'メーカーURLリンク集',
         ];
+    }
+
+    private function standardRegistrationTypeLabels(): array
+    {
+        return array_diff_key($this->registrationTypeLabels(), array_flip($this->specialRegistrationTypes()));
+    }
+
+    private function specialRegistrationTypeLabels(): array
+    {
+        return array_intersect_key($this->registrationTypeLabels(), array_flip($this->specialRegistrationTypes()));
+    }
+
+    private function specialRegistrationTypes(): array
+    {
+        return ['glossary', 'manufacturer_links'];
+    }
+
+    private function isSpecialRegistrationType(string $registrationType): bool
+    {
+        return in_array($registrationType, $this->specialRegistrationTypes(), true);
     }
 
     private function displayTypeLabels(): array
