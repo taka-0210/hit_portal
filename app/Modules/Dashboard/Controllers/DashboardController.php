@@ -35,7 +35,7 @@ final class DashboardController
 
     public function guide(): void
     {
-        $settings = $this->portalSettings(new JsonStore());
+        $settings = $this->guideSettings(new JsonStore());
 
         View::render('guide/index', [
             'title' => (string) ($settings['guide_title'] ?? 'HIT Portal 取扱説明'),
@@ -351,8 +351,21 @@ final class DashboardController
             'hero_message' => '',
             'new_entry_days' => 5,
             'completed_todo_delete_days' => 5,
-            'guide_title' => 'HIT Portal 取扱説明',
-            'guide_body' => $this->defaultGuideBody(),
+        ];
+    }
+
+    private function guideSettings(JsonStore $store): array
+    {
+        $settings = $store->find('guide_settings', 1);
+        if ($settings !== null) {
+            return $settings;
+        }
+
+        $portalSettings = $this->portalSettings($store);
+        return [
+            'id' => 1,
+            'guide_title' => (string) ($portalSettings['guide_title'] ?? 'HIT Portal 取扱説明'),
+            'guide_body' => (string) ($portalSettings['guide_body'] ?? $this->defaultGuideBody()),
         ];
     }
 

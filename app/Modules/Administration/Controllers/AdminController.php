@@ -359,7 +359,7 @@ final class AdminController
 
     public function guideSettings(): void
     {
-        $settings = $this->portalSettingsRecord();
+        $settings = $this->guideSettingsRecord();
 
         View::render('admin/guide', [
             'settings' => $settings,
@@ -370,7 +370,7 @@ final class AdminController
     {
         verify_csrf();
 
-        $current = $this->portalSettingsRecord();
+        $current = $this->guideSettingsRecord();
         $record = array_merge($current, [
             'id' => 1,
             'guide_title' => trim((string) ($_POST['guide_title'] ?? '')),
@@ -385,7 +385,7 @@ final class AdminController
             $record['guide_body'] = $this->defaultGuideBody();
         }
 
-        $this->store->save('portal_settings', $record);
+        $this->store->save('guide_settings', $record);
 
         $_SESSION['flash'] = '取扱説明を更新しました。';
         redirect('admin.guide');
@@ -783,8 +783,21 @@ final class AdminController
             'new_entry_days' => 5,
             'completed_todo_delete_days' => 5,
             'grid_delete_password_hash' => '',
-            'guide_title' => 'HIT Portal 取扱説明',
-            'guide_body' => $this->defaultGuideBody(),
+        ];
+    }
+
+    private function guideSettingsRecord(): array
+    {
+        $settings = $this->store->find('guide_settings', 1);
+        if ($settings !== null) {
+            return $settings;
+        }
+
+        $portalSettings = $this->portalSettingsRecord();
+        return [
+            'id' => 1,
+            'guide_title' => (string) ($portalSettings['guide_title'] ?? 'HIT Portal 取扱説明'),
+            'guide_body' => (string) ($portalSettings['guide_body'] ?? $this->defaultGuideBody()),
         ];
     }
 
