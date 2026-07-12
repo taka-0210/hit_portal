@@ -1569,7 +1569,7 @@ final class AdminController
             'expand_type' => $expandType,
             'post_permission' => $postPermission,
             'status' => trim($_POST['status'] ?? 'draft'),
-            'groups' => $this->parseGridGroups($registrationType),
+            'groups' => $scopeType === 'store_shared' ? [] : $this->parseGridGroups($registrationType),
         ];
     }
 

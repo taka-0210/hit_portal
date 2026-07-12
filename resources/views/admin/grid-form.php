@@ -86,8 +86,11 @@ $currentRegistrationType = (string) ($grid['registration_type'] ?? 'links');
         </div>
     </div>
 
-    <div class="form-section">
+    <div class="form-section" data-grid-content-section>
         <h2>登録内容</h2>
+        <div class="empty-state" data-store-shared-content-notice hidden>
+            店舗共通グリッドの登録内容は、店舗ごとに投稿します。この画面では枠の設定だけ行います。
+        </div>
         <div class="grid-content-editor" data-registration-panel="links">
             <div class="link-row link-row-head">
                 <span>グループ名</span>
@@ -395,6 +398,8 @@ $currentRegistrationType = (string) ($grid['registration_type'] ?? 'links');
     const scopeTypeSelect = document.querySelector('[data-scope-type-select]');
     const scopeTargetField = document.querySelector('[data-scope-target-field]');
     const postPermissionField = document.querySelector('[data-post-permission-field]');
+    const gridContentSection = document.querySelector('[data-grid-content-section]');
+    const storeSharedContentNotice = document.querySelector('[data-store-shared-content-notice]');
     const panels = document.querySelectorAll('[data-registration-panel]');
     const linkRows = document.querySelector('[data-link-rows]');
     const linkTemplate = document.querySelector('#link-row-template');
@@ -417,16 +422,23 @@ $currentRegistrationType = (string) ($grid['registration_type'] ?? 'links');
             registrationHidden.value = registrationSelect.value;
         }
         const value = registrationHidden?.value || registrationSelect?.value || 'links';
+        const isStoreShared = scopeTypeSelect?.value === 'store_shared';
         panels.forEach((panel) => {
             const isActive = panel.dataset.registrationPanel === value;
-            panel.hidden = !isActive;
+            panel.hidden = !isActive || isStoreShared;
             panel.querySelectorAll('input, select, textarea').forEach((field) => {
                 if (field.type === 'hidden') {
                     return;
                 }
-                field.disabled = !isActive;
+                field.disabled = !isActive || isStoreShared;
             });
         });
+        if (gridContentSection) {
+            gridContentSection.classList.toggle('is-store-shared-content', isStoreShared);
+        }
+        if (storeSharedContentNotice) {
+            storeSharedContentNotice.hidden = !isStoreShared;
+        }
         if (displayTypeSelect) {
             const isListOnly = ['manual', 'todo', 'glossary', 'manufacturer_links'].includes(value);
             if (isListOnly) {
@@ -445,6 +457,7 @@ $currentRegistrationType = (string) ($grid['registration_type'] ?? 'links');
         if (postPermissionField) {
             postPermissionField.hidden = scopeTypeSelect.value !== 'all';
         }
+        syncPanels();
     };
 
     addButton?.addEventListener('click', () => {
@@ -591,14 +604,15 @@ $currentRegistrationType = (string) ($grid['registration_type'] ?? 'links');
     scopeTypeSelect?.addEventListener('change', syncScopeTarget);
     form?.addEventListener('submit', () => {
         const value = registrationHidden?.value || registrationSelect?.value || 'links';
+        const isStoreShared = scopeTypeSelect?.value === 'store_shared';
         panels.forEach((panel) => {
             const isActive = panel.dataset.registrationPanel === value;
             panel.querySelectorAll('input, select, textarea').forEach((field) => {
                 if (field.type === 'hidden') {
-                    field.disabled = !isActive;
+                    field.disabled = !isActive || isStoreShared;
                     return;
                 }
-                field.disabled = !isActive;
+                field.disabled = !isActive || isStoreShared;
             });
         });
         if (displayTypeSelect) {
