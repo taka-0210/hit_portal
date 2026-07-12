@@ -28,7 +28,7 @@ final class AdminController
             'companyLevel' => $this->departmentsByType($departments, 'company'),
             'departmentLevel2' => $this->departmentsByType($departments, 'store'),
             'departmentNames' => $this->departmentNames($departments),
-            'roles' => $this->store->all('roles'),
+            'roles' => $this->roleRecords(),
         ]);
     }
 
@@ -41,7 +41,7 @@ final class AdminController
             'user' => null,
             'companyLevel' => $this->departmentsByType($departments, 'company'),
             'departmentLevel2' => $this->departmentsByType($departments, 'store'),
-            'roles' => $this->store->all('roles'),
+            'roles' => $this->roleRecords(),
         ]);
     }
 
@@ -73,7 +73,7 @@ final class AdminController
             'user' => $user,
             'companyLevel' => $this->departmentsByType($departments, 'company'),
             'departmentLevel2' => $this->departmentsByType($departments, 'store'),
-            'roles' => $this->store->all('roles'),
+            'roles' => $this->roleRecords(),
         ]);
     }
 
@@ -218,7 +218,7 @@ final class AdminController
             static fn (array $user): bool => (int) ($user['department1_id'] ?? 0) === $companyId
         ));
         $roles = array_values(array_filter(
-            $this->store->all('roles'),
+            $this->roleRecords(),
             static fn (array $role): bool => ($role['key'] ?? '') !== 'system_admin'
         ));
 
@@ -321,7 +321,7 @@ final class AdminController
     public function roles(): void
     {
         View::render('admin/roles', [
-            'roles' => $this->store->all('roles'),
+            'roles' => $this->roleRecords(),
         ]);
     }
 
@@ -727,6 +727,17 @@ final class AdminController
             (int) ($b['id'] ?? 0),
         ]);
         return $items;
+    }
+
+    private function roleRecords(): array
+    {
+        return array_map(function (array $role): array {
+            if (($role['key'] ?? '') === 'company_admin') {
+                $role['name'] = '法人管理者';
+            }
+
+            return $role;
+        }, $this->store->all('roles'));
     }
 
     private function moveDepartment(string $type): void

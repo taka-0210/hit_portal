@@ -8,7 +8,7 @@ foreach ($roles as $role) {
     <div>
         <p class="eyebrow">Administration</p>
         <h1>アカウント管理</h1>
-        <p class="lead">全体管理者、FC法人管理者、店舗管理者、店舗アカウントを管理します。</p>
+        <p class="lead">全体管理者、法人管理者、店舗管理者、店舗アカウントを管理します。</p>
     </div>
     <a class="button primary" href="<?= route_url('admin.users.create') ?>">アカウント追加</a>
 </section>
