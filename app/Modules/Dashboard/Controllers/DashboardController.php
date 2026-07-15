@@ -724,8 +724,7 @@ final class DashboardController
             return false;
         }
 
-        return $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) !== 'all'
-            || ($grid['post_permission'] ?? 'allowed') !== 'denied';
+        return ($grid['post_permission'] ?? 'allowed') !== 'denied';
     }
 
     private function findGridFile(int $gridId, string $fileId): ?array

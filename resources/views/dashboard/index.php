@@ -170,7 +170,7 @@ $portalAreaTitles = [
                 <?php
                 $isCollapsed = ($grid['expand_type'] ?? 'open') === 'collapsed';
                 $bodyId = 'portal-grid-body-' . (int) ($grid['id'] ?? 0);
-                $canPostToGrid = $user !== null && (($grid['scope_type'] ?? 'all') !== 'all' || ($grid['post_permission'] ?? 'allowed') !== 'denied');
+                $canPostToGrid = $user !== null && ($grid['post_permission'] ?? 'allowed') !== 'denied';
                 ?>
                 <article class="portal-section section-<?= e($grid['tone'] ?? 'green') ?> <?= $isCollapsed ? 'is-collapsible is-collapsed' : '' ?>">
                     <?php $entryDialogId = 'portal-entry-dialog-' . (int) ($grid['id'] ?? 0); ?>

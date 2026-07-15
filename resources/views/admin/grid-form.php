@@ -74,7 +74,7 @@ $currentRegistrationType = (string) ($grid['registration_type'] ?? 'links');
                     <option value="allowed" <?= ($grid['post_permission'] ?? 'allowed') !== 'denied' ? 'selected' : '' ?>>許可</option>
                     <option value="denied" <?= ($grid['post_permission'] ?? 'allowed') === 'denied' ? 'selected' : '' ?>>不許可</option>
                 </select>
-                <small class="field-hint">共通グリッドで不許可にすると、ポータルTOPの投稿ボタンを非表示にします。</small>
+                <small class="field-hint">不許可にすると、ポータルTOPの投稿ボタンを非表示にします。</small>
             </label>
             <label>
                 <span>公開設定</span>
@@ -455,7 +455,7 @@ $currentRegistrationType = (string) ($grid['registration_type'] ?? 'links');
 
         scopeTargetField.hidden = !['company', 'store_shared', 'store'].includes(scopeTypeSelect.value);
         if (postPermissionField) {
-            postPermissionField.hidden = scopeTypeSelect.value !== 'all';
+            postPermissionField.hidden = false;
         }
         syncPanels();
     };
