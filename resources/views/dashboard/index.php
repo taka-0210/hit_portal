@@ -568,7 +568,7 @@ $portalAreaTitles = [
                                                 : (($qrCodeUrlMap[$qrCodeId] ?? null) ?: ($entry['url'] ?? '#'));
                                             $isQrEntry = !isset($entry['file_id']) && ($qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]) || strpos((string) $entryUrl, '/uploads/qr-codes/') !== false);
                                             ?>
-                                            <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '" data-qr-tone="' . e($grid['tone'] ?? 'green') . '"' : '' ?>>
+                                            <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= !$isQrEntry ? 'target="_blank" rel="noopener"' : '' ?> <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '" data-qr-tone="' . e($grid['tone'] ?? 'green') . '"' : '' ?>>
                                                 <span><?= e($entry['label'] ?? '') ?></span>
                                                 <?php if ($isNewEntry($entry)): ?>
                                                     <span class="portal-new-badge">NEW</span>
@@ -592,7 +592,7 @@ $portalAreaTitles = [
                                         : (($qrCodeUrlMap[$qrCodeId] ?? null) ?: ($entry['url'] ?? '#'));
                                     $isQrEntry = !isset($entry['file_id']) && ($qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]) || strpos((string) $entryUrl, '/uploads/qr-codes/') !== false);
                                     ?>
-                                    <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '" data-qr-tone="' . e($grid['tone'] ?? 'green') . '"' : '' ?>>
+                                    <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= !$isQrEntry ? 'target="_blank" rel="noopener"' : '' ?> <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '" data-qr-tone="' . e($grid['tone'] ?? 'green') . '"' : '' ?>>
                                         <span><?= e($entry['label'] ?? '') ?></span>
                                         <?php if ($isNewEntry($entry)): ?>
                                             <span class="portal-new-badge">NEW</span>
