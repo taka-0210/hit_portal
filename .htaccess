@@ -1,0 +1,4 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^(?:app|backup_data|config|database|docs|resources|storage)(?:/|$) - [F,L,NC]
+</IfModule>
