@@ -118,8 +118,9 @@ final class DashboardController
             }
             $entry['entry_id'] = bin2hex(random_bytes(12));
             $entry['created_by_account_id'] = (int) ($user['id'] ?? 0);
-            if ($this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) === 'store_shared') {
-                $entry['store_id'] = (int) ($user['department2_id'] ?? 0);
+            $storeId = (int) ($user['department2_id'] ?? 0);
+            if ($storeId > 0) {
+                $entry['store_id'] = $storeId;
             }
 
             $groupLabel = trim((string) ($_POST['entry_group'] ?? ''));
@@ -786,7 +787,29 @@ final class DashboardController
             return false;
         }
 
-        return in_array((string) ($user['role'] ?? ''), ['system_admin', 'company_admin', 'store_admin'], true);
+        $role = (string) ($user['role'] ?? '');
+        if (in_array($role, ['system_admin', 'company_admin', 'store_admin'], true)) {
+            return true;
+        }
+        if ($role !== 'store_user') {
+            return false;
+        }
+
+        $userStoreId = (int) ($user['department2_id'] ?? 0);
+        if ($userStoreId <= 0) {
+            return false;
+        }
+
+        $entryStoreId = (int) ($entry['store_id'] ?? 0);
+        if ($entryStoreId > 0) {
+            return $entryStoreId === $userStoreId;
+        }
+
+        if ((int) ($entry['created_by_account_id'] ?? 0) === (int) ($user['id'] ?? 0)) {
+            return true;
+        }
+
+        return $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) === 'store';
     }
 
     private function gridEntryIdentifier(array $entry): string
