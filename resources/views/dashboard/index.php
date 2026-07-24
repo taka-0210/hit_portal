@@ -12,8 +12,17 @@ $isNewEntry = static function (array $entry) use ($newEntryDays): bool {
 
     return $createdAt >= strtotime('-' . $newEntryDays . ' days');
 };
-$canDeleteEntry = static function (array $entry) use ($user): bool {
-    if ($user === null || empty($entry['entry_id'])) {
+$entryIdentifier = static function (array $entry): string {
+    if (!empty($entry['entry_id'])) {
+        return (string) $entry['entry_id'];
+    }
+
+    unset($entry['index_key'], $entry['index_keys'], $entry['group_index'], $entry['entry_index']);
+    $json = json_encode($entry, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    return hash('sha256', $json === false ? serialize($entry) : $json);
+};
+$canDeleteEntry = static function (array $grid, array $entry) use ($user): bool {
+    if ($user === null) {
         return false;
     }
 
@@ -21,18 +30,29 @@ $canDeleteEntry = static function (array $entry) use ($user): bool {
         return true;
     }
 
-    return (int) ($entry['created_by_account_id'] ?? 0) > 0
-        && (int) ($entry['created_by_account_id'] ?? 0) === (int) ($user['id'] ?? 0);
+    $createdByAccountId = (int) ($entry['created_by_account_id'] ?? 0);
+    if ($createdByAccountId > 0) {
+        return $createdByAccountId === (int) ($user['id'] ?? 0);
+    }
+
+    $scope = (string) ($grid['scope_type'] ?? 'all');
+    if ($scope === 'store') {
+        return true;
+    }
+
+    return $scope === 'store_shared'
+        && (int) ($entry['store_id'] ?? 0) > 0
+        && (int) ($entry['store_id'] ?? 0) === (int) ($user['department2_id'] ?? 0);
 };
-$renderEntryDeleteButton = static function (array $grid, array $entry, string $class = '') use ($canDeleteEntry): void {
-    if (!$canDeleteEntry($entry)) {
+$renderEntryDeleteButton = static function (array $grid, array $entry, string $class = '') use ($canDeleteEntry, $entryIdentifier): void {
+    if (!$canDeleteEntry($grid, $entry)) {
         return;
     }
     ?>
     <form class="portal-entry-delete-form <?= e($class) ?>" method="post" action="<?= route_url('grid.entryDelete') ?>" onsubmit="return confirm('この登録内容を削除しますか？');">
         <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
         <input type="hidden" name="grid_id" value="<?= (int) ($grid['id'] ?? 0) ?>">
-        <input type="hidden" name="entry_id" value="<?= e($entry['entry_id'] ?? '') ?>">
+        <input type="hidden" name="entry_id" value="<?= e($entryIdentifier($entry)) ?>">
         <button type="submit" aria-label="この登録内容を削除" title="削除">削除</button>
     </form>
     <?php

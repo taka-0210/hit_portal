@@ -160,11 +160,11 @@ final class DashboardController
 
             foreach (($grid['groups'] ?? []) as $groupIndex => $group) {
                 foreach (($group['entries'] ?? []) as $entryIndex => $entry) {
-                    if (!hash_equals((string) ($entry['entry_id'] ?? ''), $entryId)) {
+                    if (!hash_equals($this->gridEntryIdentifier($entry), $entryId)) {
                         continue;
                     }
 
-                    if (!$this->canUseGridEntry($grid, $entry, $user) || !$this->canDeleteGridEntry($entry, $user)) {
+                    if (!$this->canUseGridEntry($grid, $entry, $user) || !$this->canDeleteGridEntry($grid, $entry, $user)) {
                         http_response_code(403);
                         exit('Forbidden.');
                     }
@@ -776,7 +776,7 @@ final class DashboardController
         return (int) ($entry['store_id'] ?? 0) === (int) ($user['department2_id'] ?? 0);
     }
 
-    private function canDeleteGridEntry(array $entry, ?array $user): bool
+    private function canDeleteGridEntry(array $grid, array $entry, ?array $user): bool
     {
         if ($user === null) {
             return false;
@@ -787,7 +787,28 @@ final class DashboardController
         }
 
         $createdByAccountId = (int) ($entry['created_by_account_id'] ?? 0);
-        return $createdByAccountId > 0 && $createdByAccountId === (int) ($user['id'] ?? 0);
+        if ($createdByAccountId > 0) {
+            return $createdByAccountId === (int) ($user['id'] ?? 0);
+        }
+
+        $scope = $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all'));
+        if ($scope === 'store') {
+            return true;
+        }
+
+        return $scope === 'store_shared'
+            && (int) ($entry['store_id'] ?? 0) > 0
+            && (int) ($entry['store_id'] ?? 0) === (int) ($user['department2_id'] ?? 0);
+    }
+
+    private function gridEntryIdentifier(array $entry): string
+    {
+        if (!empty($entry['entry_id'])) {
+            return (string) $entry['entry_id'];
+        }
+
+        $json = json_encode($entry, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        return hash('sha256', $json === false ? serialize($entry) : $json);
     }
 
     private function canPostToGrid(array $grid, ?array $user): bool
