@@ -26,26 +26,10 @@ $canDeleteEntry = static function (array $grid, array $entry) use ($user): bool 
         return false;
     }
 
-    if (in_array((string) ($user['role'] ?? ''), ['system_admin', 'company_admin', 'store_admin'], true)) {
-        return true;
-    }
-
-    $createdByAccountId = (int) ($entry['created_by_account_id'] ?? 0);
-    if ($createdByAccountId > 0) {
-        return $createdByAccountId === (int) ($user['id'] ?? 0);
-    }
-
-    $scope = (string) ($grid['scope_type'] ?? 'all');
-    if ($scope === 'store') {
-        return true;
-    }
-
-    return $scope === 'store_shared'
-        && (int) ($entry['store_id'] ?? 0) > 0
-        && (int) ($entry['store_id'] ?? 0) === (int) ($user['department2_id'] ?? 0);
+    return in_array((string) ($user['role'] ?? ''), ['system_admin', 'company_admin', 'store_admin'], true);
 };
 $renderEntryDeleteButton = static function (array $grid, array $entry, string $class = '') use ($canDeleteEntry, $entryIdentifier): void {
-    if (!$canDeleteEntry($grid, $entry)) {
+    if (($grid['delete_permission'] ?? 'allowed') === 'denied' || !$canDeleteEntry($grid, $entry)) {
         return;
     }
     ?>

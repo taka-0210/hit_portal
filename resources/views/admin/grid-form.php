@@ -77,6 +77,14 @@ $currentRegistrationType = (string) ($grid['registration_type'] ?? 'links');
                 <small class="field-hint">不許可にすると、ポータルTOPの投稿ボタンを非表示にします。</small>
             </label>
             <label>
+                <span>登録内容の削除</span>
+                <select name="delete_permission">
+                    <option value="allowed" <?= ($grid['delete_permission'] ?? 'allowed') !== 'denied' ? 'selected' : '' ?>>許可</option>
+                    <option value="denied" <?= ($grid['delete_permission'] ?? 'allowed') === 'denied' ? 'selected' : '' ?>>不許可</option>
+                </select>
+                <small class="field-hint">不許可にすると、ポータルTOPの削除アイコンを非表示にします。</small>
+            </label>
+            <label>
                 <span>公開設定</span>
                 <select name="status">
                     <option value="published" <?= ($grid['status'] ?? 'draft') === 'published' ? 'selected' : '' ?>>公開</option>

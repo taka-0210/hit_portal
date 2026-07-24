@@ -157,6 +157,10 @@ final class DashboardController
                 http_response_code(403);
                 exit('Forbidden.');
             }
+            if (($grid['delete_permission'] ?? 'allowed') === 'denied') {
+                http_response_code(403);
+                exit('Deleting is disabled.');
+            }
 
             foreach (($grid['groups'] ?? []) as $groupIndex => $group) {
                 foreach (($group['entries'] ?? []) as $entryIndex => $entry) {
@@ -782,23 +786,7 @@ final class DashboardController
             return false;
         }
 
-        if (in_array((string) ($user['role'] ?? ''), ['system_admin', 'company_admin', 'store_admin'], true)) {
-            return true;
-        }
-
-        $createdByAccountId = (int) ($entry['created_by_account_id'] ?? 0);
-        if ($createdByAccountId > 0) {
-            return $createdByAccountId === (int) ($user['id'] ?? 0);
-        }
-
-        $scope = $this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all'));
-        if ($scope === 'store') {
-            return true;
-        }
-
-        return $scope === 'store_shared'
-            && (int) ($entry['store_id'] ?? 0) > 0
-            && (int) ($entry['store_id'] ?? 0) === (int) ($user['department2_id'] ?? 0);
+        return in_array((string) ($user['role'] ?? ''), ['system_admin', 'company_admin', 'store_admin'], true);
     }
 
     private function gridEntryIdentifier(array $entry): string

@@ -1555,6 +1555,10 @@ final class AdminController
         if (!in_array($postPermission, ['allowed', 'denied'], true)) {
             $postPermission = 'allowed';
         }
+        $deletePermission = trim($_POST['delete_permission'] ?? 'allowed');
+        if (!in_array($deletePermission, ['allowed', 'denied'], true)) {
+            $deletePermission = 'allowed';
+        }
 
         return [
             'id' => (int) ($_POST['id'] ?? 0),
@@ -1568,6 +1572,7 @@ final class AdminController
             'display_type' => $displayType,
             'expand_type' => $expandType,
             'post_permission' => $postPermission,
+            'delete_permission' => $deletePermission,
             'status' => trim($_POST['status'] ?? 'draft'),
             'groups' => $scopeType === 'store_shared' ? [] : $this->parseGridGroups($registrationType),
         ];
