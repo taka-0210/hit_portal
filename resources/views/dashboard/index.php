@@ -12,6 +12,31 @@ $isNewEntry = static function (array $entry) use ($newEntryDays): bool {
 
     return $createdAt >= strtotime('-' . $newEntryDays . ' days');
 };
+$canDeleteEntry = static function (array $entry) use ($user): bool {
+    if ($user === null || empty($entry['entry_id'])) {
+        return false;
+    }
+
+    if (in_array((string) ($user['role'] ?? ''), ['system_admin', 'company_admin', 'store_admin'], true)) {
+        return true;
+    }
+
+    return (int) ($entry['created_by_account_id'] ?? 0) > 0
+        && (int) ($entry['created_by_account_id'] ?? 0) === (int) ($user['id'] ?? 0);
+};
+$renderEntryDeleteButton = static function (array $grid, array $entry, string $class = '') use ($canDeleteEntry): void {
+    if (!$canDeleteEntry($entry)) {
+        return;
+    }
+    ?>
+    <form class="portal-entry-delete-form <?= e($class) ?>" method="post" action="<?= route_url('grid.entryDelete') ?>" onsubmit="return confirm('この登録内容を削除しますか？');">
+        <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
+        <input type="hidden" name="grid_id" value="<?= (int) ($grid['id'] ?? 0) ?>">
+        <input type="hidden" name="entry_id" value="<?= e($entry['entry_id'] ?? '') ?>">
+        <button type="submit" aria-label="この登録内容を削除" title="削除">削除</button>
+    </form>
+    <?php
+};
 $glossaryIndexLabels = ['あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し', 'す', 'せ', 'そ', 'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ', 'ま', 'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'り', 'る', 'れ', 'ろ', 'わ', 'を', 'ん', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'その他'];
 $firstCharacter = static function (string $value): string {
     if (function_exists('mb_substr')) {
@@ -248,6 +273,7 @@ $portalAreaTitles = [
                                     <div class="portal-glossary-detail" id="<?= e($manufacturerDetailId) ?>" hidden>
                                         <div class="portal-manufacturer-detail-view" data-glossary-detail-view>
                                             <div class="portal-glossary-detail-head">
+                                                <?php $renderEntryDeleteButton($grid, $entry); ?>
                                                 <?php if ($canPostToGrid): ?>
                                                     <button class="button ghost" type="button" data-glossary-edit>編集</button>
                                                 <?php endif; ?>
@@ -358,6 +384,7 @@ $portalAreaTitles = [
                                     <div class="portal-glossary-detail" id="<?= e($glossaryDialogId) ?>" hidden>
                                         <div data-glossary-detail-view>
                                             <div class="portal-glossary-detail-head">
+                                                <?php $renderEntryDeleteButton($grid, $entry); ?>
                                                 <?php if ($canPostToGrid): ?>
                                                     <button class="button ghost" type="button" data-glossary-edit>編集</button>
                                                 <?php endif; ?>
@@ -475,6 +502,7 @@ $portalAreaTitles = [
                                             </div>
                                         </dialog>
                                     <?php endif; ?>
+                                    <?php $renderEntryDeleteButton($grid, $todoEntry, 'is-card-action'); ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -492,6 +520,7 @@ $portalAreaTitles = [
                                     'group' => (string) ($group['label'] ?? ''),
                                     'label' => $label,
                                     'is_new' => $isNewEntry($entry),
+                                    'entry' => $entry,
                                 ];
                             }
                         }
@@ -519,6 +548,7 @@ $portalAreaTitles = [
                                     <?php if (!empty($item['is_new'])): ?>
                                         <span class="portal-new-badge">NEW</span>
                                     <?php endif; ?>
+                                    <?php $renderEntryDeleteButton($grid, $item['entry'], 'is-inline-action'); ?>
                                 </div>
                             <?php endforeach; ?>
 
@@ -544,6 +574,7 @@ $portalAreaTitles = [
                                                 <?php if (!empty($item['is_new'])): ?>
                                                     <span class="portal-new-badge">NEW</span>
                                                 <?php endif; ?>
+                                                <?php $renderEntryDeleteButton($grid, $item['entry'], 'is-inline-action'); ?>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
@@ -568,12 +599,15 @@ $portalAreaTitles = [
                                                 : (($qrCodeUrlMap[$qrCodeId] ?? null) ?: ($entry['url'] ?? '#'));
                                             $isQrEntry = !isset($entry['file_id']) && ($qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]) || strpos((string) $entryUrl, '/uploads/qr-codes/') !== false);
                                             ?>
-                                            <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= !$isQrEntry ? 'target="_blank" rel="noopener"' : '' ?> <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '" data-qr-tone="' . e($grid['tone'] ?? 'green') . '"' : '' ?>>
-                                                <span><?= e($entry['label'] ?? '') ?></span>
-                                                <?php if ($isNewEntry($entry)): ?>
-                                                    <span class="portal-new-badge">NEW</span>
-                                                <?php endif; ?>
-                                            </a>
+                                            <div class="portal-entry-item">
+                                                <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= !$isQrEntry ? 'target="_blank" rel="noopener"' : '' ?> <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '" data-qr-tone="' . e($grid['tone'] ?? 'green') . '"' : '' ?>>
+                                                    <span><?= e($entry['label'] ?? '') ?></span>
+                                                    <?php if ($isNewEntry($entry)): ?>
+                                                        <span class="portal-new-badge">NEW</span>
+                                                    <?php endif; ?>
+                                                </a>
+                                                <?php $renderEntryDeleteButton($grid, $entry, 'is-link-action'); ?>
+                                            </div>
                                         <?php endforeach; ?>
                                     </div>
                                 </div>
@@ -592,12 +626,15 @@ $portalAreaTitles = [
                                         : (($qrCodeUrlMap[$qrCodeId] ?? null) ?: ($entry['url'] ?? '#'));
                                     $isQrEntry = !isset($entry['file_id']) && ($qrCodeId > 0 && !empty($qrCodeUrlMap[$qrCodeId]) || strpos((string) $entryUrl, '/uploads/qr-codes/') !== false);
                                     ?>
-                                    <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= !$isQrEntry ? 'target="_blank" rel="noopener"' : '' ?> <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '" data-qr-tone="' . e($grid['tone'] ?? 'green') . '"' : '' ?>>
-                                        <span><?= e($entry['label'] ?? '') ?></span>
-                                        <?php if ($isNewEntry($entry)): ?>
-                                            <span class="portal-new-badge">NEW</span>
-                                        <?php endif; ?>
-                                    </a>
+                                    <div class="portal-entry-item">
+                                        <a class="portal-link-card <?= isset($entry['file_id']) ? 'is-file' : ($isQrEntry ? 'is-qr' : 'is-link') ?>" href="<?= e($entryUrl) ?>" <?= !$isQrEntry ? 'target="_blank" rel="noopener"' : '' ?> <?= $isQrEntry ? 'data-qr-image-url="' . e($entryUrl) . '" data-qr-title="' . e($entry['label'] ?? '') . '" data-qr-tone="' . e($grid['tone'] ?? 'green') . '"' : '' ?>>
+                                            <span><?= e($entry['label'] ?? '') ?></span>
+                                            <?php if ($isNewEntry($entry)): ?>
+                                                <span class="portal-new-badge">NEW</span>
+                                            <?php endif; ?>
+                                        </a>
+                                        <?php $renderEntryDeleteButton($grid, $entry, 'is-link-action'); ?>
+                                    </div>
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
                         </div>

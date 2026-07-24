@@ -642,6 +642,45 @@ h2 {
     color: var(--accent-dark);
 }
 
+.portal-entry-delete-form {
+    margin: 0;
+}
+
+.portal-entry-item {
+    display: grid;
+    min-width: 0;
+}
+
+.portal-entry-delete-form button {
+    min-height: 30px;
+    border: 1px solid #e2a3a3;
+    border-radius: 7px;
+    background: #fff5f5;
+    color: #9f2727;
+    padding: 4px 9px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.portal-entry-delete-form button:hover {
+    border-color: #c94a4a;
+    background: #ffe8e8;
+    color: #7f1d1d;
+}
+
+.portal-entry-delete-form.is-link-action {
+    margin: -4px 0 8px auto;
+}
+
+.portal-entry-delete-form.is-card-action {
+    margin-left: auto;
+}
+
+.portal-entry-delete-form.is-inline-action {
+    margin-left: auto;
+}
+
 .portal-link-card span {
     overflow-wrap: anywhere;
 }

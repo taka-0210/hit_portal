@@ -116,6 +116,8 @@ final class DashboardController
             if ($entry === null) {
                 redirect('dashboard');
             }
+            $entry['entry_id'] = bin2hex(random_bytes(12));
+            $entry['created_by_account_id'] = (int) ($user['id'] ?? 0);
             if ($this->normalizeGridScopeType((string) ($grid['scope_type'] ?? 'all')) === 'store_shared') {
                 $entry['store_id'] = (int) ($user['department2_id'] ?? 0);
             }
@@ -124,6 +126,62 @@ final class DashboardController
             $grids[$gridIndex] = $this->appendEntryToGrid($grid, $groupLabel, $entry);
             $this->writeGridSections($grids);
             redirect('dashboard');
+        }
+
+        http_response_code(404);
+        exit('Grid not found.');
+    }
+
+    public function entryDelete(): void
+    {
+        verify_csrf();
+
+        $gridId = (int) ($_POST['grid_id'] ?? 0);
+        $entryId = trim((string) ($_POST['entry_id'] ?? ''));
+        if ($gridId <= 0 || $entryId === '') {
+            http_response_code(404);
+            exit('Entry not found.');
+        }
+
+        $store = new JsonStore();
+        $user = (new AuthService())->user();
+        $departmentNames = $this->departmentNames($store->all('departments'));
+        $grids = $store->all('grid_sections');
+
+        foreach ($grids as $gridIndex => $grid) {
+            if ((int) ($grid['id'] ?? 0) !== $gridId) {
+                continue;
+            }
+
+            if (($grid['status'] ?? 'published') !== 'published' || !$this->canSeeGrid($grid, $user, $departmentNames)) {
+                http_response_code(403);
+                exit('Forbidden.');
+            }
+
+            foreach (($grid['groups'] ?? []) as $groupIndex => $group) {
+                foreach (($group['entries'] ?? []) as $entryIndex => $entry) {
+                    if (!hash_equals((string) ($entry['entry_id'] ?? ''), $entryId)) {
+                        continue;
+                    }
+
+                    if (!$this->canUseGridEntry($grid, $entry, $user) || !$this->canDeleteGridEntry($entry, $user)) {
+                        http_response_code(403);
+                        exit('Forbidden.');
+                    }
+
+                    $this->deleteGridFile($entry);
+                    array_splice($grids[$gridIndex]['groups'][$groupIndex]['entries'], $entryIndex, 1);
+                    if ($grids[$gridIndex]['groups'][$groupIndex]['entries'] === []) {
+                        array_splice($grids[$gridIndex]['groups'], $groupIndex, 1);
+                    }
+
+                    $this->writeGridSections($grids);
+                    redirect('dashboard');
+                }
+            }
+
+            http_response_code(404);
+            exit('Entry not found.');
         }
 
         http_response_code(404);
@@ -716,6 +774,20 @@ final class DashboardController
         }
 
         return (int) ($entry['store_id'] ?? 0) === (int) ($user['department2_id'] ?? 0);
+    }
+
+    private function canDeleteGridEntry(array $entry, ?array $user): bool
+    {
+        if ($user === null) {
+            return false;
+        }
+
+        if (in_array((string) ($user['role'] ?? ''), ['system_admin', 'company_admin', 'store_admin'], true)) {
+            return true;
+        }
+
+        $createdByAccountId = (int) ($entry['created_by_account_id'] ?? 0);
+        return $createdByAccountId > 0 && $createdByAccountId === (int) ($user['id'] ?? 0);
     }
 
     private function canPostToGrid(array $grid, ?array $user): bool
