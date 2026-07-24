@@ -53,7 +53,11 @@ $renderEntryDeleteButton = static function (array $grid, array $entry, string $c
         <input type="hidden" name="_csrf" value="<?= csrf_token() ?>">
         <input type="hidden" name="grid_id" value="<?= (int) ($grid['id'] ?? 0) ?>">
         <input type="hidden" name="entry_id" value="<?= e($entryIdentifier($entry)) ?>">
-        <button type="submit" aria-label="この登録内容を削除" title="削除">削除</button>
+        <button type="submit" aria-label="この登録内容を削除" title="削除">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"></path>
+            </svg>
+        </button>
     </form>
     <?php
 };
